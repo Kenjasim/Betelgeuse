@@ -62,11 +62,16 @@ class RadarImages extends Component {
       this.selectPrev()
     }
   }
+  focusDiv() {
+    ReactDOM.findDOMNode(this.refs.theDiv).focus();
+  }
 
   componentDidMount() {
     document.addEventListener("keydown", this.keySelect, false);
+    this.ele.focus();
+
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     document.removeEventListener("keydown", this.keySelect, false);
   }
 
@@ -92,7 +97,10 @@ class RadarImages extends Component {
                   onChange={this.handleChange}
                 />
               </div>
-              <div className="radar-images-list">
+              <div className="radar-images-list"
+                tabIndex="-1"
+                ref={(element) => { this.ele = element; }}
+              >
                 <div className="overflow-wrapper">
                 </div>
                 {this.state.data.map((radar_image, index) => {

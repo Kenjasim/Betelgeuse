@@ -15,7 +15,8 @@ class WeatherRaw extends Component {
     this.state = {
       startDate: d2,
       endDate: d1,
-      state_data: []
+      state_data: [],
+      datePickerDisabled: false
     };
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
@@ -40,7 +41,7 @@ class WeatherRaw extends Component {
     const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
     const request = fetch(url+query)
       .then(response=> response.json())
-      .then((data)=> {
+      .then((data) => {
         data.sort(function(a, b){
           return new Date(b.TimeLocal) - new Date(a.TimeLocal);
         });
@@ -50,8 +51,10 @@ class WeatherRaw extends Component {
       })
   }
    handleStartChange(date) {
-    this.setState({ startDate: date }, () => {
+    this.setState({datePickerDisabled: true})
+    this.setState({ startDate: date}, () => {
         this.fetchData()
+        this.setState({datePickerDisabled: false})
     });
   }
 
@@ -106,6 +109,7 @@ class WeatherRaw extends Component {
               timeIntervals={1}
               dateFormat="MMMM d, yyyy h:mm aa"
               timeCaption="time"
+              disabled={this.state.datePickerDisabled}
 
               maxDate={this.state.endDate}
               minDate={1}
@@ -123,6 +127,7 @@ class WeatherRaw extends Component {
               timeIntervals={1}
               dateFormat="MMMM d, yyyy h:mm aa"
               timeCaption="time"
+              disabled={this.state.datePickerDisabled}
 
               maxDate={new Date ()}
               minDate={this.state.startDate}

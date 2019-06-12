@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+
 class WeatherAnalytics extends Component {
 
   render() {
