@@ -1,0 +1,114 @@
+.radar-images-container {
+  height: 100%;
+  width: 100%;
+}
+.radar-image-section {
+  height: 100%;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.2)
+}
+.radar-selection-section {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+.radar-selection-search {
+  margin-bottom: 5px;
+}
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row.display-flex > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+.height-100 {
+  height: 100%;
+}
+.radar-image {
+  height: 520px;
+  width: 100%;
+  background-color: #616161;
+}
+.image-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  text-align: center;
+  p {
+    margin: 0;
+  }
+}
+.radar-image-btn {
+  min-width: 80px;
+  padding: 3px 0px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.radar-image-hover {
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.radar-btn-disabled {
+  opacity: 0.5;
+}
+
+.radar-images-list {
+  // flex-grow: 1;
+  height: 559px;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.2);
+  overflow: scroll;
+  border-radius: 2px;
+  // background-color: green;
+}
+.of-scroll {
+  overflow: scroll;
+}
+.radar-image-card {
+  width: 100%;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  p {
+    margin: 0px;
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.1)
+  }
+}
+.overflow-wrapper {
+  overflow: scroll;
+}
+.card-odd {
+  background-color: rgba(0,0,0,0.05)
+}
+.card-selected {
+  background-color: rgba(39, 169, 224, 0.2);
+  &:hover {
+    background-color: rgba(39, 169, 224, 0.2);
+    cursor: default;
+
+  }
+}
+.radar-btn-disabled {
+  opacity: rgba(0,0,0,0.05);
+  color: rgba(0,0,0,0.3);
+  &:hover {
+    cursor: default;
+    opacity: rgba(0,0,0,0.05);
+    color: rgba(0,0,0,0.3);
+  }
+}

@@ -1,0 +1,18 @@
+@import 'nav';
+@import 'cameras';
+@import 'tabs';
+@import 'tables';
+@import 'datepicker';
+@import 'radar';
+
+body {
+  font-family: Helvetica;
+  background-color: #EEEEEE;
+}
+
+#root {
+  // height: 100vh;
+  display: flex;
+  // align-items: center;
+  // justify-content: center;
+}
