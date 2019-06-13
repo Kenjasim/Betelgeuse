@@ -16,7 +16,8 @@ class WeatherRaw extends Component {
       startDate: d2,
       endDate: d1,
       state_data: [],
-      datePickerDisabled: false
+      datePickerDisabled: false,
+      loading: false
     };
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
@@ -32,10 +33,10 @@ class WeatherRaw extends Component {
 
   fetchData() {
     // console.log('eeeeeere')
-    // // console.log(this.state.startDate)
+    // console.log(this.state.startDate)
     // console.log(this.state.endDate)
-    // // console.log(this.convertDate(this.state.startDate))
-    console.log(this.convertDate(this.state.endDate))
+    // console.log(this.convertDate(this.state.startDate))
+    // console.log(this.convertDate(this.state.endDate))
     const url = "http://217.138.134.182:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
@@ -46,23 +47,32 @@ class WeatherRaw extends Component {
           return new Date(b.TimeLocal) - new Date(a.TimeLocal);
         });
         this.setState({
-          state_data: data
+          state_data: data,
+          datePickerDisabled: false
         })
       })
   }
    handleStartChange(date) {
-    this.setState({datePickerDisabled: true})
-    this.setState({ startDate: date}, () => {
+    this.setState({
+      state_data: [],
+      datePickerDisabled: true,
+      startDate: date
+    }, () => {
         this.fetchData()
-        this.setState({datePickerDisabled: false})
     });
+
   }
 
 
   handleEndChange(date) {
-    this.setState({ endDate: date }, () => {
+    this.setState({
+      state_data: [],
+      datePickerDisabled: true,
+      endDate: date
+    }, () => {
         this.fetchData()
     });
+
   }
 
   componentWillMount() {
@@ -96,54 +106,62 @@ class WeatherRaw extends Component {
         accessor: 'Altitude'
       },
     ]
+    const today = new Date ()
     return (
       <div className="table-wrapper">
         <div className="date-filter-wrapper">
           <div></div>
-          <div className="date-filter-section">
-            <DatePicker
-              selected={this.state.startDate}
-              onChange={this.handleStartChange}
-              showTimeSelect
-              timeFormat="HH:mm"
-              timeIntervals={1}
-              dateFormat="MMMM d, yyyy h:mm aa"
-              timeCaption="time"
-              disabled={this.state.datePickerDisabled}
-
-              maxDate={this.state.endDate}
-              minDate={1}
-              maxTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23,59)))}
-              minTime={new Date(new Date().setHours(0,0,0,0))}
-            />
-            <div className="date-to">
-            to
+          <div>
+            <div className="csv-btn-wrapper">
+              <button type="button" class="btn btn-default csv-btn">Export to CSV</button>
             </div>
-            <DatePicker
-              selected={this.state.endDate}
-              onChange={this.handleEndChange}
-              showTimeSelect
-              timeFormat="HH:mm"
-              timeIntervals={1}
-              dateFormat="MMMM d, yyyy h:mm aa"
-              timeCaption="time"
-              disabled={this.state.datePickerDisabled}
+            <div className="date-filter-section">
+              <DatePicker
+                selected={this.state.startDate}
+                onChange={this.handleStartChange}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={1}
+                dateFormat="MMMM d, yyyy h:mm aa"
+                timeCaption="time"
+                disabled={this.state.datePickerDisabled}
 
-              maxDate={new Date ()}
-              minDate={this.state.startDate}
-              maxTime={new Date ()}
-              minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0,0,0,0)))}
-            />
+                maxDate={this.state.endDate}
+                minDate={1}
+                maxTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23,59)))}
+                minTime={new Date(new Date().setHours(0,0,0,0))}
+              />
+              <div className="date-to">
+              to
+              </div>
+              <DatePicker
+                selected={this.state.endDate}
+                onChange={this.handleEndChange}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={1}
+                dateFormat="MMMM d, yyyy h:mm aa"
+                timeCaption="time"
+                disabled={this.state.datePickerDisabled}
+
+                maxDate={new Date ()}
+                minDate={this.state.startDate}
+                maxTime={ today.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23,59)))}
+                minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0,0,0,0)))}
+              />
+            </div>
           </div>
         </div>
         <div className="">
           <ReactTable
             data={this.state.state_data}
             columns={columns}
-
-            defaultPageSize={13}
+            loading={this.state.loading}
+            defaultPageSize={12}
             showPageSizeOptions={false}
-            filterable={true}/>
+            filterable={true}
+            noDataText="Loading..."
+          />
         </div>
       </div>
 

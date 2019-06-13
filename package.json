@@ -32,6 +32,7 @@
     "history": "^4.9.0",
     "moment": "^2.24.0",
     "react": "16.4",
+    "react-csv": "^1.1.1",
     "react-datepicker": "^2.7.0",
     "react-dom": "16.4",
     "react-icons": "^3.7.0",
