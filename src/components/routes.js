@@ -1,4 +1,4 @@
-import Dashboard from "../containers/dashboard"
+import Dashboard from "../containers/dashboard/dashboard"
 import Cameras from "../containers/cameras/cameras"
 import Power from "../containers/power/power"
 import Radar from "../containers/radar/radar"

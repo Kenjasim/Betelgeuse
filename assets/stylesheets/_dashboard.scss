@@ -1,0 +1,82 @@
+.dashboard-section {
+  width: 82%;
+  // padding: 15px;
+  // min-height: 100vh;
+}
+
+.dashboard-size {
+  padding: 15px;
+  height: 100vh;
+
+}
+.white-container {
+  background-color: white;
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: 0px 5.5px 5px rgba(0, 0, 0, 0.24), 0px 9px 18px rgba(0, 0, 0, 0.18);
+}
+
+.dashboard-left {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+.dashboard-right {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+.ship-container {
+  flex-grow: 1;
+}
+.boxstatus-container {
+  height: 300px;
+  margin-bottom: 30px;
+}
+.systems-container {
+  flex-grow: 1;
+}
+.box-box {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+
+}
+.boxstatus {
+  display: flex;
+  align-items: center;
+}
+
+.status-indicator {
+  margin-left: 10px;
+  font-size: 12px;
+  padding: 3px 5px;
+  box-radius: 3px;
+  color: white;
+}
+.status-connected {
+  background-color: #35BA40;
+}
+.status-notconnected {
+
+}
+.status-connecting {
+  background-color: rgba(0,0,0,0.1);
+}
+.tempstatus {
+  margin-top: 3px;
+  display: flex;
+  font-size: 12px;
+}
+.boxtemp {
+  margin-left: 10px;
+}
+.chart-section {
+  flex-grow: 1;
+  display: flex;
+}
+.power-chart-container {
+  width: 50%;
+  height: 100%;
+  padding: 20px;
+}

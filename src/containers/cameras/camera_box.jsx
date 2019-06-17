@@ -65,15 +65,15 @@ class CameraBox extends Component {
           </div>
           <div className="camera-header-buttons">
             <TiRefresh className="camera-btn"/>
-            <TiVideo className="camera-btn" onClick={this.switchToFeed}/>
-            <TiThList className="camera-btn" onClick={this.switchToIndex}/>
+            { this.state.mode == 'Feed' ? <TiVideo className="camera-btn camera-btn-selected" onClick={this.switchToFeed}/> : <TiVideo className="camera-btn" onClick={this.switchToFeed}/>}
+            { this.state.mode == 'Index' || this.state.mode == 'Playback' ? <TiThList className="camera-btn camera-btn-selected" onClick={this.switchToIndex}/> : <TiThList className="camera-btn" onClick={this.switchToIndex}/>}
+
             <TiChevronLeft className="camera-btn"/>
             <TiChevronRight className="camera-btn"/>
           </div>
         </div>
         <div className="camera-container">
-          { this.pickComponent()}
-
+          { this.pickComponent() }
         </div>
       </div>
 

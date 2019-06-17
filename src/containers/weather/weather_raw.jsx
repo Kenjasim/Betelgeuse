@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import DatePicker from 'react-datepicker';
 import moment from 'moment'
+import { CSVLink, CSVDownload } from "react-csv";
 
-
-// import data from './dummy_data'
 
 class WeatherRaw extends Component {
   constructor(props) {
@@ -21,7 +20,6 @@ class WeatherRaw extends Component {
     };
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
-    // this.handleMinTime = this.handleMinTime.bind(this);
   }
 
 
@@ -32,11 +30,6 @@ class WeatherRaw extends Component {
   }
 
   fetchData() {
-    // console.log('eeeeeere')
-    // console.log(this.state.startDate)
-    // console.log(this.state.endDate)
-    // console.log(this.convertDate(this.state.startDate))
-    // console.log(this.convertDate(this.state.endDate))
     const url = "http://217.138.134.182:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
@@ -48,14 +41,15 @@ class WeatherRaw extends Component {
         });
         this.setState({
           state_data: data,
-          datePickerDisabled: false
+          datePickerDisabled: false,
+          loading: false
         })
       })
   }
    handleStartChange(date) {
     this.setState({
-      state_data: [],
       datePickerDisabled: true,
+      loading: true,
       startDate: date
     }, () => {
         this.fetchData()
@@ -66,8 +60,8 @@ class WeatherRaw extends Component {
 
   handleEndChange(date) {
     this.setState({
-      state_data: [],
       datePickerDisabled: true,
+      loading: true,
       endDate: date
     }, () => {
         this.fetchData()
@@ -113,7 +107,9 @@ class WeatherRaw extends Component {
           <div></div>
           <div>
             <div className="csv-btn-wrapper">
-              <button type="button" class="btn btn-default csv-btn">Export to CSV</button>
+              {/*<button type="button" class="btn btn-default csv-btn">Export to CSV</button>*/}
+              <CSVLink data={this.state.state_data} className="btn btn-default csv-btn">Download CSV</CSVLink>
+
             </div>
             <div className="date-filter-section">
               <DatePicker
@@ -160,7 +156,7 @@ class WeatherRaw extends Component {
             defaultPageSize={12}
             showPageSizeOptions={false}
             filterable={true}
-            noDataText="Loading..."
+            noDataText="No Data"
           />
         </div>
       </div>
