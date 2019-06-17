@@ -32,15 +32,7 @@ class WeatherRaw extends Component {
   }
 
   fetchData() {
-<<<<<<< HEAD
-    // console.log('eeeeeere')
-    // console.log(this.state.startDate)
-    // console.log(this.state.endDate)
-    // console.log(this.convertDate(this.state.startDate))
-    // console.log(this.convertDate(this.state.endDate))
-=======
     console.log(this.convertDate(this.state.endDate))
->>>>>>> kenan
     const url = "http://217.138.134.182:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`

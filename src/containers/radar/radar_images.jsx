@@ -65,16 +65,6 @@ class RadarImages extends Component {
       this.selectPrev()
     }
   }
-<<<<<<< HEAD
-  focusDiv() {
-    ReactDOM.findDOMNode(this.refs.theDiv).focus();
-  }
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.keySelect, false);
-    this.ele.focus();
-
-=======
   convertDate(date) {
     const d = moment(date).format()
     return d.slice(0, 10).replace('T', ' ');
@@ -102,9 +92,8 @@ class RadarImages extends Component {
     let d = new Date()
     console.log(this.convertDate(d.setDate(this.state.startDate.getDate() + 1)));
     this.fetchData();
->>>>>>> kenan
   }
-  componentWillUnmount() {
+  componentWillUnmount(){
     document.removeEventListener("keydown", this.keySelect, false);
   }
 
@@ -131,10 +120,7 @@ class RadarImages extends Component {
                   onChange={this.handleChange}
                 />
               </div>
-              <div className="radar-images-list"
-                tabIndex="-1"
-                ref={(element) => { this.ele = element; }}
-              >
+              <div className="radar-images-list">
                 <div className="overflow-wrapper">
                 </div>
                 {this.state.data.map((radar_image, index) => {
