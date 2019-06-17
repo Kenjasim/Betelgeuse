@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
+import ReactMapboxGl, {Marker, Layer, Feature } from "react-mapbox-gl";
+
 
 class ShipStatus extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      lat: 50.567188,
+      long: 0.989291,
+      heading: 61.3
+    }
+  }
 
 
   render() {
     const Map = ReactMapboxGl({
-      accessToken: "pk.eyJ1IjoiZmFicmljOCIsImEiOiJjaWc5aTV1ZzUwMDJwdzJrb2w0dXRmc2d0In0.p6GGlfyV-WksaDV_KdN27A"
+      accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
     });
+    const markerUrl = "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
     return (
       <div className="ship-box">
         <div className="ship-status-left">
@@ -27,15 +37,15 @@ class ShipStatus extends Component {
               <tbody>
                 <tr>
                   <th scope="row">Latitude:</th>
-                  <td>51.2111</td>
+                  <td>{this.state.lat}</td>
                 </tr>
                 <tr>
                   <th scope="row">Longitude:</th>
-                  <td>1.3867</td>
+                  <td>{this.state.long}</td>
                 </tr>
                 <tr>
                   <th scope="row">Heading:</th>
-                  <td>61.2</td>
+                  <td>{this.state.heading}</td>
                 </tr>
               </tbody>
             </table>
@@ -46,13 +56,16 @@ class ShipStatus extends Component {
               containerStyle={{
                 height: "100%",
                 width: "100%"
-              }}>
-                <Layer
-                  type="symbol"
-                  id="marker"
-                  layout={{ "icon-image": "marker-15" }}>
-                  <Feature coordinates={[-0.481747846041145, 51.3233379650232]}/>
-                </Layer>
+              }}
+              center={[this.state.long, this.state.lat]}
+              zoom={[5]}
+              >
+              <Marker
+                coordinates={[this.state.long, this.state.lat]}
+                anchor="bottom">
+                className="ship-marker"
+                <img src={markerUrl}/>
+              </Marker>
             </Map>
           </div>
         </div>

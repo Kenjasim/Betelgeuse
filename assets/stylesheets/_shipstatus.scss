@@ -1,3 +1,5 @@
+
+
 .ship-status-right {
   width: 50%;
   height: 100%;
@@ -6,6 +8,7 @@
 }
 .ship-box {
   display: flex;
+  height: 100%;
 }
 .ship-status-left {
   width: 50%;
@@ -23,4 +26,7 @@
 }
 .ship-map-section {
   flex-grow: 1;
+}
+.ship-marker {
+  height: 10px;
 }
