@@ -28,7 +28,14 @@
 .radar-image {
   height: 520px;
   width: 100%;
-  background-color: #616161;
+  //background-color: #616161;
+  // background-size: cover;
+  text-align: center;
+}
+.radar-img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 .image-footer {
   display: flex;

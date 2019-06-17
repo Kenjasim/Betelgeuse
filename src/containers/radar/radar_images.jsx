@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
+import moment from 'moment'
+
 
 import ImageCard from './image_card'
 import RadarImageSection from './radar_image_section'
-import data from './dummy_data'
+// import data from './dummy_data'
 
 class RadarImages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date(),
+      startDate: new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate()),
       selectedIndex: 0,
-      data: data
+      data: [{}]
     };
     this.handleClick = this.handleClick.bind(this);
     // this.selectIndex = this.selectIndex.bind(this);
   }
 
   handleChange = (date) => {
-    this.setState({
-      startDate: date
+    this.setState({ startDate: date }, () => {
+      this.fetchData()
     });
+
   }
 
   handleClick = (e) => {
@@ -62,9 +65,33 @@ class RadarImages extends Component {
       this.selectPrev()
     }
   }
+  convertDate(date) {
+    const d = moment(date).format()
+    return d.slice(0, 10).replace('T', ' ');
+  }
+
+  fetchData() {
+    console.log(this.convertDate(this.state.endDate))
+    const url = "http://217.138.134.182:3333/?psqlQuery="
+    const temp_url = "http://10.0.0.43:3333/?psqlQuery="
+    let d = new Date()
+    const query = `SELECT * FROM "RadarImage" WHERE "TimeLocal" > '${this.convertDate(this.state.startDate)}' AND "TimeLocal" < '${this.convertDate(d.setDate(this.state.startDate.getDate() + 1))}'`
+    const request = fetch(url+query)
+      .then(response=> response.json())
+      .then((data)=> {
+        this.setState({
+          data: data,
+        })
+        console.log(this.state.data)
+      })
+  }
+
 
   componentDidMount() {
     document.addEventListener("keydown", this.keySelect, false);
+    let d = new Date()
+    console.log(this.convertDate(d.setDate(this.state.startDate.getDate() + 1)));
+    this.fetchData();
   }
   componentWillUnmount(){
     document.removeEventListener("keydown", this.keySelect, false);
@@ -75,8 +102,9 @@ class RadarImages extends Component {
 
       <div className="radar-images-container of-scroll" onKeyDown={this.keySelect}>
         <div className="row display-flex">
-          <div className="col-xs-12 col-sm-7">
+          <div className="col-xs-12 col-sm-5">
             <RadarImageSection
+              //imageFile={}
               selectedIndex={this.state.selectedIndex}
               radar_image={this.state.data[this.state.selectedIndex]}
               toggleNext={this.selectNext}
@@ -84,7 +112,7 @@ class RadarImages extends Component {
               max={this.state.data.length}
             />
           </div>
-          <div className="col-xs-12 col-sm-5">
+          <div className="col-xs-12 col-sm-7">
             <div className="radar-selection-section">
               <div className="radar-selection-search">
                 <DatePicker
@@ -102,10 +130,10 @@ class RadarImages extends Component {
                   }
                   return (
                     <ImageCard
-                      key={radar_image.time_local}
+                      key={radar_image.TimeLocal}
                       style={style} index={index}
-                      time_local={radar_image.time_local}
-                      scale={radar_image.scale}
+                      time_local={radar_image.TimeLocal}
+                      scale={radar_image.Range}
                       toggleIndex={this.selectIndex}
                     />
                   )
