@@ -114,7 +114,7 @@
 .image-playback {
   height: calc(100% - 15px);
   width: 100%;
-  background-size: cover;
+  background-size: contain;
 
 }
 .camera-file-info {
@@ -123,5 +123,17 @@
 .video-playback {
   width: 100%;
   height: calc(100% - 15px);
+}
+.camera-img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.react-player
+{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 

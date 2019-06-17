@@ -11,7 +11,7 @@ class CameraPlayback extends Component {
     return (
       <div className="camera-playback">
         <div className="camera-file-info">{this.props.file}</div>
-          { this.props.filetype == 'Video' ?
+          { this.props.filetype == 'mp4' ?
             <div className="video-playback">
               <ReactPlayer
                 className='react-player '
@@ -20,7 +20,9 @@ class CameraPlayback extends Component {
                 width="100%"
               />
             </div>
-            : <div className="image-playback" style={style}></div>
+            : <div className="image-playback" style={style}>
+              <img src={this.props.file} ></img>
+            </div>
           }
       </div>
     )
