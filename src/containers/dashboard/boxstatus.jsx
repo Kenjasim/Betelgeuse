@@ -6,15 +6,27 @@ class BoxStatus extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: {
-        labels: [],
+      line_data: {
+        labels: ['', '', '', '', '', '', '', '', ''],
         datasets: [
           {
             label: 'Power',
-            data: [22,19,27,23,22,24,17,25,23,24,20,19],
+            data: [22, 19, 20, 25, 28, 18, 18, 15, 11],
             fill: false,          // Don't fill area under the line
             borderColor: '#26AAE2'  // Line color
           }
+        ],
+      },
+      donut_data: {
+        labels: [],
+        datasets: [
+          {
+            label: ['Power Budget Used', 'Unused'],
+            data: [88, 12],
+            fill: true,
+            backgroundColor: ['#26AAE2', 'white']      // Don't fill area under the line // Line color
+          }
+
         ]
       },
       status: "Connected"
@@ -38,22 +50,66 @@ class BoxStatus extends Component {
   }
 
   render() {
+      Chart.pluginService.register({
+        beforeDraw: function (chart) {
+          if (chart.config.options.elements.center) {
+            //Get ctx from string
+            var ctx = chart.chart.ctx;
+
+            //Get options from the center object in options
+            var centerConfig = chart.config.options.elements.center;
+            var fontStyle = centerConfig.fontStyle || 'Arial';
+            var txt = centerConfig.text;
+            var color = centerConfig.color || '#000';
+            var sidePadding = centerConfig.sidePadding || 20;
+            var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
+            //Start with a base font of 30px
+            ctx.font = "35px " + fontStyle;
+
+            //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+            var stringWidth = ctx.measureText(txt).width;
+            var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+            // Find out how much the font can grow in width.
+            var widthRatio = elementWidth / stringWidth;
+            var newFontSize = Math.floor(30 * widthRatio);
+            var elementHeight = (chart.innerRadius * 2);
+
+            // Pick a new font size so it will not be larger than the height of label.
+            var fontSizeToUse = Math.min(newFontSize, elementHeight);
+
+            //Set font settings to draw it correctly.
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+            var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+            ctx.font = fontSizeToUse+"px " + fontStyle;
+            ctx.fillStyle = color;
+
+            //Draw text in center
+            ctx.fillText(txt, centerX, centerY);
+          }
+        }
+      });
+      Chart.defaults.scale.gridLines.display = false;
     return (
 
       <div className="box-box">
-        <div className="boxstatus">
-          Box Status:
-          {this.statusIndicator()}
-        </div>
-        <div className="tempstatus">
-          Box temp:
-          <div className="boxtemp">{24}˚C</div>
-        </div>
-        <div className="chart-section">
+        <div className="box-box-left">
+          <div className="status-info">
+            <div className="boxstatus">
+              Box Status:
+              {this.statusIndicator()}
+            </div>
+            <div className="tempstatus">
+              Box temp:
+              <div className="boxtemp">{24}˚C</div>
+            </div>
+          </div>
           <div className="power-chart-container">
             <Line
-              data={this.state.data}
-              height={400}
+              data={this.state.line_data}
+              height={170}
               options={{
                 maintainAspectRatio: false,
                 axes: {
@@ -63,10 +119,31 @@ class BoxStatus extends Component {
             />
 
           </div>
+        </div>
+        <div className="box-box-right">
           <div className="power-doughnut-section">
-            <Doughnut />
+            <div>
+              <Doughnut
+                height={180}
+                data={this.state.donut_data}
+                options={{
+                  elements: {
+                    center: {
+                      text: '88%',
+                      color: '#26AAE2', // Default is #000000
+                      fontStyle: 'Arial', // Default is Arial
+                      sidePadding: 20 // Defualt is 20 (as a percentage)
+                    }
+                  }
+                }}
+              />
+              <div className="power-budget-text">
+                Daily Power Budget
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
 
     );

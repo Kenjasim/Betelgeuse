@@ -1,0 +1,26 @@
+.ship-status-right {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+.ship-box {
+  display: flex;
+}
+.ship-status-left {
+  width: 50%;
+  height: 100%;
+}
+.ship-title {
+  display: flex;
+  font-size: 12px;
+}
+.ship-indicator {
+  font-weight: bold;
+}
+.ship {
+  margin-left: 10px;
+}
+.ship-map-section {
+  flex-grow: 1;
+}
