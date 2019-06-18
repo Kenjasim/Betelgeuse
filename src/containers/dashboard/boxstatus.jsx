@@ -96,16 +96,16 @@ class BoxStatus extends Component {
 
       <div className="box-box">
         <div className="box-box-left">
-          <div className="status-info">
+          {/*<div className="status-info">*/}
             <div className="boxstatus">
               Box Status:
               {this.statusIndicator()}
             </div>
-            <div className="tempstatus">
+{/*            <div className="tempstatus">
               Box temp:
               <div className="boxtemp">{24}˚C</div>
-            </div>
-          </div>
+            </div>*/}
+          {/*</div>*/}
           <div className="power-chart-container">
             <Line
               data={this.state.line_data}

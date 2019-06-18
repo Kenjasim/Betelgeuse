@@ -1,23 +1,166 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, {Marker, Layer, Feature } from "react-mapbox-gl";
+import { Line } from 'react-chartjs-2';
+import io from "socket.io-client";
+
+import ShipMap from './ship_map'
 
 
 class ShipStatus extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lat: 50.567188,
-      long: 0.989291,
-      heading: 61.3
+      lat:  51.01271940,
+      long: 1.23917630,
+      heading: '',
+      roll_data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Roll',
+            data: [],
+            fill: false,          // Don't fill area under the line
+            borderColor: '#26AAE2'  // Line color
+          }
+        ],
+      },
+      pitch_data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Pitch',
+            data: [],
+            fill: false,          // Don't fill area under the line
+            borderColor: '#26AAE2'  // Line color
+          }
+        ],
+      },
+      response: false,
+      mru_endpoint: 'http://217.138.134.182:3004',
+      gps_endpoint: 'http://217.138.134.182:3003'
     }
+    this.socket_one = io.connect(this.state.mru_endpoint)
+    this.socket_two = io.connect(this.state.gps_endpoint)
+  }
+
+  mruParseData = (array) => {
+    const data = [{
+        'ID': array[0],
+        'TimeLocal': array[1],
+        'Pitch': array[2],
+        'Roll': array[3],
+        'Yaw': array[4],
+        'ShipHeading': array[5]
+      }]
+    return data
+  }
+
+  rollData = (roll_num) => {
+    let upd_labels = ''
+    let upd_data = ''
+    if (this.state.roll_data.labels.length > 70) {
+      upd_labels = this.state.roll_data.labels.slice(2).concat([''])
+      upd_data = this.state.roll_data.datasets[0].data.slice(2).concat(roll_num)
+    } else {
+      upd_labels = this.state.roll_data.labels.concat([''])
+      upd_data = this.state.roll_data.datasets[0].data.concat(roll_num)
+    }
+    const upd_roll_data = {
+      labels: upd_labels,
+      datasets: [
+        {
+          label: 'Roll',
+          data: upd_data,
+          fill: false,          // Don't fill area under the line
+          borderColor: '#26AAE2'  // Line color
+        }
+      ]
+    }
+    this.setState((state, props) => {
+      return { roll_data: upd_roll_data }
+    });
+  }
+  pitchData = (pitch_num) => {
+    let upd_labels = ''
+    let upd_data = ''
+    if (this.state.pitch_data.labels.length > 70) {
+      upd_labels = this.state.pitch_data.labels.slice(2).concat([''])
+      upd_data = this.state.pitch_data.datasets[0].data.slice(2).concat(pitch_num)
+    } else {
+      upd_labels = this.state.pitch_data.labels.concat([''])
+      upd_data = this.state.pitch_data.datasets[0].data.concat(pitch_num)
+    }
+    const upd_pitch_data = {
+      labels: upd_labels,
+      datasets: [
+        {
+          label: 'Pitch',
+          data: upd_data,
+          fill: false,          // Don't fill area under the line
+          borderColor: '#26AAE2'  // Line color
+        }
+      ]
+    }
+    this.setState((state, props) => {
+      return { pitch_data: upd_pitch_data }
+    });
+  }
+
+  headingData = (yaw) => {
+    const offset = 126
+    const bias = 149
+    let heading = offset + bias - yaw
+    heading = heading % 360
+    this.setState({
+      heading: heading.toFixed(2)
+    })
+  }
+
+  openMRUSocket() {
+    this.socket_one.on('connected',  (data) => {
+        this.socket_one.emit('ready for data', {})
+      });
+      this.socket_one.on('update',  (data) => {
+        const message = data.message.payload
+        const result = message.split(",")
+        let data_packet = this.mruParseData(result)
+        this.rollData(data_packet[0]['Roll'])
+        this.pitchData(data_packet[0]['Pitch'])
+        this.headingData(data_packet[0]['Yaw'])
+    });
+  }
+
+  GPSData = (long, lat) => {
+    this.setState({
+      long: (long / 100).toFixed(8),
+      lat: (lat / 100).toFixed(8)
+    })
+  }
+
+  openGPSSocket() {
+    this.socket_two.on('connected',  (data) => {
+        this.socket_two.emit('ready for data', {})
+      });
+      this.socket_two.on('update',  (data) => {
+        const message = data.message.payload
+        const result = message.split(",")
+        this.GPSData(result[2], result[3])
+    });
   }
 
 
+  componentDidMount() {
+    this.openMRUSocket()
+    this.openGPSSocket()
+  }
+
+  componentWillUnmount() {
+    this.socket_one.disconnect()
+    this.socket_two.disconnect()
+  }
+
   render() {
-    const Map = ReactMapboxGl({
-      accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
-    });
-    const markerUrl = "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
+
+    Chart.defaults.scale.gridLines.display = false;
     return (
       <div className="ship-box">
         <div className="ship-status-left">
@@ -28,7 +171,36 @@ class ShipStatus extends Component {
             <div className="ship">
               Light Vessel 07
             </div>
-
+          </div>
+          <div className="ship-roll">
+            Roll:
+            <div className="roll-chart chart-container">
+              <Line
+                data={this.state.roll_data}
+                height={140}
+                options={{
+                  maintainAspectRatio: false,
+                  axes: {
+                    display: false
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <div className="ship-pitch">
+            Pitch:
+            <div className="pitch-chart chart-container">
+              <Line
+                data={this.state.pitch_data}
+                height={140}
+                options={{
+                  maintainAspectRatio: false,
+                  axes: {
+                    display: false
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
         <div className="ship-status-right">
@@ -51,22 +223,7 @@ class ShipStatus extends Component {
             </table>
           </div>
           <div className="ship-map-section">
-            <Map
-              style="mapbox://styles/mapbox/streets-v9"
-              containerStyle={{
-                height: "100%",
-                width: "100%"
-              }}
-              center={[this.state.long, this.state.lat]}
-              zoom={[5]}
-              >
-              <Marker
-                coordinates={[this.state.long, this.state.lat]}
-                anchor="bottom">
-                className="ship-marker"
-                <img src={markerUrl}/>
-              </Marker>
-            </Map>
+            <ShipMap lat={this.state.lat} long={this.state.long} />
           </div>
         </div>
       </div>
