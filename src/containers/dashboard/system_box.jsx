@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import io from "socket.io-client";
+import cogoToast from 'cogo-toast';
+
 
 class SystemBox extends Component {
   constructor(props) {
@@ -14,12 +16,16 @@ class SystemBox extends Component {
   }
 
   openSocket() {
+    const options = {
+      position: 'top-left'
+    }
     this.socket.on('connected',  (data) => {
         this.socket.emit('ready for data', {})
+        cogoToast.success(`${this.props.name} connected`, options);
+
       });
       this.socket.on('update',  (data) => {
         const message = data.message.payload
-        console.log(message)
         this.setState({message: message})
 
     });
@@ -41,7 +47,7 @@ class SystemBox extends Component {
 
     return(
 
-      <Link to="/ais">
+      <Link to={this.props.link}>
         <div className={box_classes}>
           <div className="system-box-title">
             {this.props.name}:

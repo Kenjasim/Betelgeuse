@@ -13,7 +13,7 @@ class CameraStatus extends Component {
 
     return(
 
-      <Link to="/ais">
+      <Link to={this.props.link}>
         <div className={box_classes}>
           <div className="system-box-title">
             {this.props.name}:

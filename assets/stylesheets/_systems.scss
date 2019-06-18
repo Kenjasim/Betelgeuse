@@ -20,6 +20,9 @@
   margin: 5px 0px;
   padding: 0px 5px;
 }
+.system-box--flash {
+  border: 1px solid green;
+}
 .system-enabled:hover {
   transform: scale(1.03)
 }
