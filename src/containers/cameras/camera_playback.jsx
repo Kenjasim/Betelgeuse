@@ -16,12 +16,13 @@ class CameraPlayback extends Component {
               <ReactPlayer
                 className='react-player '
                 url={this.props.file}
-                height="100%"
+                height="80%"
                 width="100%"
+                controls = "true"
               />
             </div>
             : <div className="image-playback" style={style}>
-              <img src={this.props.file} ></img>
+              <img className="camera-img" src={this.props.file} ></img>
             </div>
           }
       </div>
