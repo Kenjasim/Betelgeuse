@@ -11,10 +11,10 @@ class BoxStatus extends Component {
         labels: [],
         datasets: [
           {
-            label: 'Power',
+            label: 'Power (W)',
             data: [],
             fill: false,          // Don't fill area under the line
-            borderColor: '#26AAE2'  // Line color
+            borderColor: '#FF7733'  // Line color
           }
         ],
       },
@@ -65,20 +65,21 @@ class BoxStatus extends Component {
     //   upd_data = this.state.power_data.datasets[0].data.concat(power_num)
     // }
     upd_labels = this.state.power_data.labels.concat([''])
-    upd_data = this.state.power_data.datasets[0].data.concat(power_num)
+    upd_data = this.state.power_data.datasets[0].data.concat(power_num * 24)
     const upd_power_data = {
       labels: upd_labels,
       datasets: [
         {
-          label: 'Power',
+          label: 'Power (W)',
           data: upd_data,
           fill: false,          // Don't fill area under the line
-          borderColor: '#26AAE2'  // Line color
+          borderColor: '#FF7733'  // Line color
         }
       ]
     }
     this.setState((state, props) => {
-      return { power_data: upd_power_data }
+      return {
+        power_data: upd_power_data  }
     });
   }
 
