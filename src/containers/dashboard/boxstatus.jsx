@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { Line, Doughnut } from 'react-chartjs-2';
+import io from "socket.io-client";
 
 
 class BoxStatus extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      line_data: {
-        labels: ['', '', '', '', '', '', '', '', ''],
+      power_data: {
+        labels: [],
         datasets: [
           {
             label: 'Power',
-            data: [22, 19, 20, 25, 28, 18, 18, 15, 11],
+            data: [],
             fill: false,          // Don't fill area under the line
             borderColor: '#26AAE2'  // Line color
           }
@@ -29,8 +30,11 @@ class BoxStatus extends Component {
 
         ]
       },
-      status: "Connected"
+      status: "Connected",
+      response: false,
+      power_endpoint: 'http://217.138.134.182:3001'
     }
+    this.socket = io.connect(this.state.power_endpoint)
   }
 
   statusIndicator = () => {
@@ -47,6 +51,51 @@ class BoxStatus extends Component {
         <div className="status-indicator status-notconnected">Not Connected</div>
       )
     }
+  }
+
+
+  powerData = (power_num) => {
+    let upd_labels = ''
+    let upd_data = ''
+    // if (this.state.power_data.labels.length > 70) {
+    //   upd_labels = this.state.power_data.labels.slice(2).concat([''])
+    //   upd_data = this.state.power_data.datasets[0].data.slice(2).concat(power_num)
+    // } else {
+    //   upd_labels = this.state.power_data.labels.concat([''])
+    //   upd_data = this.state.power_data.datasets[0].data.concat(power_num)
+    // }
+    upd_labels = this.state.power_data.labels.concat([''])
+    upd_data = this.state.power_data.datasets[0].data.concat(power_num)
+    const upd_power_data = {
+      labels: upd_labels,
+      datasets: [
+        {
+          label: 'Power',
+          data: upd_data,
+          fill: false,          // Don't fill area under the line
+          borderColor: '#26AAE2'  // Line color
+        }
+      ]
+    }
+    this.setState((state, props) => {
+      return { power_data: upd_power_data }
+    });
+  }
+
+  openPowerSocket() {
+    this.socket.on('connected',  (data) => {
+        this.socket.emit('ready for data', {})
+      });
+      this.socket.on('update',  (data) => {
+        const message = data.message.payload
+        const result = message.split(",")
+        this.powerData(result[2])
+
+    });
+  }
+
+  componentDidMount() {
+    this.openPowerSocket()
   }
 
   render() {
@@ -108,7 +157,7 @@ class BoxStatus extends Component {
           {/*</div>*/}
           <div className="power-chart-container">
             <Line
-              data={this.state.line_data}
+              data={this.state.power_data}
               height={170}
               options={{
                 maintainAspectRatio: false,

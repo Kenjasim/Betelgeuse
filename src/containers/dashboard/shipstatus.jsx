@@ -132,7 +132,7 @@ class ShipStatus extends Component {
   GPSData = (long, lat) => {
     this.setState({
       long: (long / 100).toFixed(8),
-      lat: (lat / 100).toFixed(8)
+      lat: (lat / 100).toFixed(7)
     })
   }
 
