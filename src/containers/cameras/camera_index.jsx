@@ -3,24 +3,45 @@ import DatePicker from "react-datepicker";
 
 import CameraDataCard from './camera_data_card'
 
-import data from './dummy_data'
+//import data from './dummy_data'
+import moment from 'moment'
+
 
 class CameraIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {
       startDate: new Date(),
-      state_data: data
+      data: []
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(date) {
-    this.setState({
-      startDate: date
+    this.setState({ startDate: date }, () => {
+      this.fetchData()
     });
   }
+  convertDate(date) {
+    const d = moment(date).format()
+    return d.slice(0, 10).replace(/-/g, '/');
+  }
 
+  fetchData() {
+    console.log(this.convertDate(this.state.startDate))
+    const url = "http://217.138.134.182:3006/"
+    const query = this.convertDate(this.state.startDate) + '/';
+    console.log(url+query)
+    const request = fetch(url+query)
+      .then(response=> response.json())
+      .then((data)=> {
+        this.setState({
+          data: data,
+        })
+        console.log(this.state.data)
+        console.log(this.state.data[0].slice(27,29))
+      })
+  }
 
 
   render () {
@@ -33,17 +54,17 @@ class CameraIndex extends Component {
           />
         </div>
         <div className="camera-list-container of-scroll">
-          {this.state.state_data.map((camera_card, index) => {
+          {this.state.data.map((camera_card, index) => {
             let style = index%2 == 0 ? "camera-image-card card-odd" : "camera-image-card"
             return (
               <CameraDataCard
-                key={camera_card.timestamp}
+                key={camera_card}
                 style={style}
                 index={index}
-                timestamp={camera_card.timestamp}
-                type={camera_card.type}
-                filename={camera_card.filename}
-                duration={camera_card.duration}
+                timestamp={camera_card.slice(12,25)}
+                type={camera_card.slice(27,30)}
+                filename={'http://217.138.134.182:3006/'+ this.convertDate(this.state.startDate) + '/' + camera_card}
+                duration={'9:00'}
                 switchFile={this.props.switchFile}
               />
             )
