@@ -154,7 +154,7 @@ class WeatherRaw extends Component {
             data={this.state.state_data}
             columns={columns}
             loading={this.state.loading}
-            defaultPageSize={12}
+            defaultPageSize={9}
             showPageSizeOptions={false}
             filterable={true}
             noDataText="No Data"

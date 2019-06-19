@@ -34,7 +34,7 @@ class CameraIndex extends Component {
     console.log(url+query)
     const request = fetch(url+query)
       .then(response=> response.json())
-      .then((data)=> {
+      .then((data) => {
         this.setState({
           data: data,
         })
@@ -43,7 +43,7 @@ class CameraIndex extends Component {
         //console.log(('http://217.138.134.182:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' +this.state.data[1]).duration)
       })
   }
-  
+
 
   render () {
     return (

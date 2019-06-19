@@ -121,21 +121,22 @@
 }
 .video-playback {
   width: 100%;
-  height: 100%;
-  background-size: auto;
+  height: 80%;
+  // background-size: auto;
 }
 .camera-img{
   width: 100%;
-  height: 80%;
+  height: 65%;
+
   //object-fit: contain;
 }
 
-.react-player
-{
-  width: 100%;
-  height: 80%;
-  object-fit: fill;
-}
+// .react-player
+// {
+//   width: 100%;
+//   height: 80%;
+//   object-fit: fill;
+// }
 
 .camera-btn-selected {
   color: #26AAE2;

@@ -52,6 +52,7 @@
 .linkGroup {
   display: flex;
   align-items: center;
+  font-size: 14px;
 
 }
 .selected {
@@ -61,7 +62,6 @@
 .linkListItem {
   text-decoration: none;
   margin-bottom: 12px;
-  font-size: 16px;
 }
 
 .navLink {
