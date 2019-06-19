@@ -10,7 +10,8 @@ class SystemBox extends Component {
     this.state = {
       message: '',
       response: false,
-      endpoint: this.props.endpoint
+      endpoint: this.props.endpoint,
+      receiving: false
     }
     this.socket = io.connect(this.state.endpoint)
   }
@@ -31,8 +32,20 @@ class SystemBox extends Component {
     });
   }
 
+
+  componentDidUpdate(prevProps, prevState) {
+    const x = document.getElementById(this.props.name)
+    x.className = "system-box--flash show";
+    setTimeout(function(){ x.className = x.className.replace("system-box--flash show", "system-box--flash"); }, 500);
+
+
+  }
+
   componentDidMount() {
     this.openSocket()
+  }
+  componentWillUnmount() {
+    this.socket.disconnect()
   }
 
 
@@ -48,14 +61,17 @@ class SystemBox extends Component {
     return(
 
       <Link to={this.props.link}>
-        <div className={box_classes}>
-          <div className="system-box-title">
-            {this.props.name}:
+
+          <div className={box_classes}>
+            <div id={this.props.name} className=""></div>
+              <div className="system-box-title">
+                {this.props.name}:
+              </div>
+              <div className="system-box-message">
+                {this.state.message}
+              </div>
+
           </div>
-          <div className="system-box-message">
-            {this.state.message}
-          </div>
-        </div>
       </Link>
 
     )

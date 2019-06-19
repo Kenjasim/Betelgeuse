@@ -19,10 +19,62 @@
   border-radius: 3px;
   margin: 5px 0px;
   padding: 0px 5px;
+  position: relative
 }
 .system-box--flash {
-  border: 1px solid green;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(53, 186, 64, 0.05);
+  border: 1px solid rgba(53, 186, 64, 0.4);
+  // transition: opacity 800ms;
+  visibility: hidden;
 }
+.system-box--flash.show{
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.1s, fadeout 0.3s 1s;
+  animation: fadein 0.3s, fadeout 0.3s 1s;
+}
+@-webkit-keyframes fadein {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadein {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+.system-box--flash.off {
+  display: none;
+}
+.system-box--flash.fade {
+  opacity: 0;
+  // transition: 700ms;
+}
+
+// .show {
+//   opacity: 1;
+//   transition: opacity 100ms;
+// }
+// .hide {
+//   opacity: 0;
+//   transition: opacity 500ms;
+// }
 .system-enabled:hover {
   transform: scale(1.03)
 }

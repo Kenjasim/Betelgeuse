@@ -57,15 +57,15 @@ class BoxStatus extends Component {
   powerData = (power_num) => {
     let upd_labels = ''
     let upd_data = ''
-    // if (this.state.power_data.labels.length > 70) {
-    //   upd_labels = this.state.power_data.labels.slice(2).concat([''])
-    //   upd_data = this.state.power_data.datasets[0].data.slice(2).concat(power_num)
-    // } else {
-    //   upd_labels = this.state.power_data.labels.concat([''])
-    //   upd_data = this.state.power_data.datasets[0].data.concat(power_num)
-    // }
-    upd_labels = this.state.power_data.labels.concat([''])
-    upd_data = this.state.power_data.datasets[0].data.concat(power_num * 24)
+    if (this.state.power_data.labels.length > 300) {
+      upd_labels = this.state.power_data.labels.slice(2).concat([''])
+      upd_data = this.state.power_data.datasets[0].data.slice(2).concat(power_num * 24)
+    } else {
+      upd_labels = this.state.power_data.labels.concat([''])
+      upd_data = this.state.power_data.datasets[0].data.concat(power_num * 24)
+    }
+    // upd_labels = this.state.power_data.labels.concat([''])
+    // upd_data = this.state.power_data.datasets[0].data.concat(power_num * 24)
     const upd_power_data = {
       labels: upd_labels,
       datasets: [
@@ -97,6 +97,9 @@ class BoxStatus extends Component {
 
   componentDidMount() {
     this.openPowerSocket()
+  }
+  componentWillUnmount() {
+    this.socket.disconnect()
   }
 
   render() {
