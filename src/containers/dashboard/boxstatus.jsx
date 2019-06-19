@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Line, Doughnut } from 'react-chartjs-2';
 import io from "socket.io-client";
-import moment from 'moment'
+import moment from 'moment';
+import ReactInterval from 'react-interval';
+
 
 
 class BoxStatus extends Component {
@@ -37,6 +39,7 @@ class BoxStatus extends Component {
       power_endpoint: 'http://217.138.134.182:3001'
     }
     this.socket = io.connect(this.state.power_endpoint)
+    this.donut = this.donut.bind(this)
   }
 
   statusIndicator = () => {
@@ -54,8 +57,7 @@ class BoxStatus extends Component {
       )
     }
   }
-  curdate()
-  {
+  curdate() {
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -64,13 +66,12 @@ class BoxStatus extends Component {
     today = dd + '/' + mm + '/' + yyyy;
     return today
   }
-  convertDate(date) {
+  convertDate = (date) => {
     const d = moment(date).format()
     return d.slice(0, 10).replace('T', ' ');
   }
 
-  donut()
-  {
+  donut = () => {
     const url = "http://217.138.134.182:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     let d = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
@@ -93,20 +94,18 @@ class BoxStatus extends Component {
               fill: true,
               backgroundColor: ['#26AAE2', 'white']      // Don't fill area under the line // Line color
             }
-  
+
           ]
         }
         this.setState({
           donut_data: up_dont_data,
-          
+
           percentpower: powerstring,
         })
       })
-
   }
 
-  percentday()
-  {
+  percentday() {
     var now = new Date(),
     then = new Date(
         now.getFullYear(),
@@ -116,13 +115,12 @@ class BoxStatus extends Component {
     diff = now.getTime() - then.getTime()
 
     return (diff/3600000);
-
   }
 
    round(value, precision) {
     var multiplier = Math.pow(10, precision || 0);
     return Math.round(value * multiplier) / multiplier;
-}
+  }
 
 
   powerData = (power_num) => {
@@ -169,9 +167,14 @@ class BoxStatus extends Component {
   componentDidMount() {
     this.openPowerSocket()
     this.donut()
+    // const don_int = setInterval(this.donut, 1000)
   }
   componentWillUnmount() {
     this.socket.disconnect()
+    // clearInterval(don_int)
+  }
+  test() {
+    console.log('test')
   }
 
   render() {
@@ -248,6 +251,7 @@ class BoxStatus extends Component {
         <div className="box-box-right">
           <div className="power-doughnut-section">
             <div>
+              <ReactInterval timeout={30000} enabled={true} callback={this.donut.bind(this)} />
               <Doughnut
                 height={180}
                 data={this.state.donut_data}
