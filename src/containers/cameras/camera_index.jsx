@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import DatePicker from "react-datepicker";
 
-import CameraDataCard from './camera_data_card'
+import CameraDataCard from './camera_data_card';
 
 //import data from './dummy_data'
-import moment from 'moment'
+import moment from 'moment';
 
 
 class CameraIndex extends Component {
@@ -30,7 +30,7 @@ class CameraIndex extends Component {
   fetchData() {
     console.log(this.convertDate(this.state.startDate))
     const url = "http://217.138.134.182:3006/"
-    const query = this.convertDate(this.state.startDate) + '/';
+    const query = this.props.id + '/' + this.convertDate(this.state.startDate) + '/';
     console.log(url+query)
     const request = fetch(url+query)
       .then(response=> response.json())
@@ -39,10 +39,11 @@ class CameraIndex extends Component {
           data: data,
         })
         console.log(this.state.data)
-        console.log(this.state.data[0].slice(27,29))
+        console.log(this.state.data[1].slice(27,30))
+        //console.log(('http://217.138.134.182:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' +this.state.data[1]).duration)
       })
   }
-
+  
 
   render () {
     return (
@@ -63,8 +64,8 @@ class CameraIndex extends Component {
                 index={index}
                 timestamp={camera_card.slice(12,25)}
                 type={camera_card.slice(27,30)}
-                filename={'http://217.138.134.182:3006/'+ this.convertDate(this.state.startDate) + '/' + camera_card}
-                duration={'9:00'}
+                filename={'http://217.138.134.182:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card}
+                 duration={camera_card.slice(27,30)}
                 switchFile={this.props.switchFile}
               />
             )

@@ -29,6 +29,7 @@
   "dependencies": {
     "babel": "^6.23.0",
     "babel-preset-env": "^1.7.0",
+    "get-video-duration": "^1.0.3",
     "history": "^4.9.0",
     "moment": "^2.24.0",
     "promises": "^0.2.5",
