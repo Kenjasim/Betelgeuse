@@ -4,6 +4,10 @@
 @import 'tables';
 @import 'datepicker';
 @import 'radar';
+@import 'dashboard';
+@import 'boxstatus';
+@import 'shipstatus';
+@import 'systems';
 
 body {
   font-family: Helvetica;
@@ -15,4 +19,8 @@ body {
   display: flex;
   // align-items: center;
   // justify-content: center;
+}
+* {
+   font-size: 14px;
+   line-height: 2;
 }

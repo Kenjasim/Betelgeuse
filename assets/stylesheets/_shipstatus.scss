@@ -1,0 +1,39 @@
+
+
+.ship-status-right {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+.ship-box {
+  display: flex;
+  height: 100%;
+}
+.ship-status-left {
+  width: 50%;
+  height: 100%;
+  padding-right: 15px;
+}
+.ship-title {
+  display: flex;
+  font-size: 14px;
+}
+.ship-indicator {
+  font-weight: bold;
+}
+.ship {
+  margin-left: 10px;
+}
+.ship-map-section {
+  flex-grow: 1;
+}
+.ship-marker {
+  // // background-image: url('../images/arrowcursor.png');
+  // background-size: cover;
+  width: 30px;
+  height: 30px;
+  // border-radius: 50%;
+  // cursor: pointer;
+
+}
