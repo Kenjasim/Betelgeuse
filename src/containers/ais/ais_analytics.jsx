@@ -5,7 +5,7 @@ class AISAnalytics extends Component {
   render() {
     return (
 
-      <p>analytics</p>
+      <p>coming soon</p>
 
     );
   }

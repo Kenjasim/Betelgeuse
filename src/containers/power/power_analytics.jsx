@@ -5,7 +5,7 @@ class PowerAnalytics extends Component {
   render() {
     return (
 
-      <p>PowerAnalytics</p>
+      <p>coming soon</p>
 
     );
   }

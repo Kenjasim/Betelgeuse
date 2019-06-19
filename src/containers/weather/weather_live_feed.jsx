@@ -85,7 +85,7 @@ class WeatherLiveFeed extends Component {
 
     return (
       <div className="table-wrapper">
-        <ReactTable data={this.state.state_data} columns={columns} defaultPageSize={15} showPagination={true} showPageSizeOptions={false}/>
+        <ReactTable data={this.state.state_data} columns={columns} defaultPageSize={12} showPagination={true} showPageSizeOptions={false}/>
       </div>
 
     );
