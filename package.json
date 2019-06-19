@@ -1,5 +1,6 @@
 {
   "license": "UNLICENSED",
+  "homepage": "https://kenjasim.github.io/betelgeuse", 
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
@@ -65,6 +66,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "lint": "eslint './src/**/*.js*'",
+    "predeploy": "yarn run build",
     "deploy": "webpack -p && gh-pages -d dist"
   }
 }
