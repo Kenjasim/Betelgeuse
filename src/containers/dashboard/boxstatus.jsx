@@ -75,12 +75,13 @@ class BoxStatus extends Component {
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     let d = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
     let cd = new Date();
-    const query = `SELECT AVG("Current") FROM "Power" WHERE "TimeLocal" > '${this.convertDate(d)}' AND "TimeLocal" < '${this.convertDate(cd.setDate(d.getDate() + 1))}'`
+    const query = `SELECT AVG("Current") FROM "Power" WHERE "TimeLocal" > '${this.convertDate(d)}' AND "TimeLocal" < '${this.convertDate(cd.setDate(d.getDate() + 1))}' AND "Current" < 6 AND "Current" > 0`
     console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data)=> {
         let poweruse = data[0].avg * 24 * (this.percentday())
+        console.log(poweruse)
         let ps = this.round((poweruse/1500)*100, 1)
         console.log(ps)
         let powerstring = ps.toString() + '%'
