@@ -32,9 +32,12 @@
     "babel-preset-env": "^1.7.0",
     "chart.js": "^2.8.0",
     "cogo-toast": "2.0.1",
+    "get-video-duration": "^1.0.3",
     "history": "^4.9.0",
     "mapbox-gl": "^1.0.0",
     "moment": "^2.24.0",
+    "promises": "^0.2.5",
+    "q": "^1.5.1",
     "react": "16.4",
     "react-animate-on-change": "^2.2.0",
     "react-chartjs-2": "^2.7.6",
@@ -53,6 +56,9 @@
     "redux-logger": "^3.0.6",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
+    "ssh2": "^0.8.4",
+    "ssh2-sftp-client": "^2.5.0",
+    "stream": "^0.0.2",
     "typicons.font": "^2.0.9"
   },
   "scripts": {

@@ -15,7 +15,7 @@ class CameraDataCard extends Component {
         <div className="camera-card-left">
           <div className="type-indicator">
             {
-              this.props.type == "Video" ?
+              this.props.type == "mp4" ?
               <TiVideoOutline />
               : <TiCameraOutline />
             }

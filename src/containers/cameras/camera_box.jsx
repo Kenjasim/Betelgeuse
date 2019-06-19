@@ -46,7 +46,7 @@ class CameraBox extends Component {
     if (this.state.mode == 'Feed') {
       return <CameraFeed />
     } else if (this.state.mode == 'Index') {
-      return <CameraIndex switchFile={this.switchFile}/>
+      return <CameraIndex switchFile={this.switchFile} id = {this.props.id}/>
     } else if (this.state.mode == 'Playback') {
       return <CameraPlayback filetype={this.state.file_type} file={this.state.file}/>
     }
