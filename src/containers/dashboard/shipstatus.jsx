@@ -57,7 +57,7 @@ class ShipStatus extends Component {
   rollData = (roll_num) => {
     let upd_labels = ''
     let upd_data = ''
-    if (this.state.roll_data.labels.length > 70) {
+    if (this.state.roll_data.labels.length > 100) {
       upd_labels = this.state.roll_data.labels.slice(10).concat([''])
       upd_data = this.state.roll_data.datasets[0].data.slice(10).concat(roll_num)
     } else {
@@ -82,7 +82,7 @@ class ShipStatus extends Component {
   pitchData = (pitch_num) => {
     let upd_labels = ''
     let upd_data = ''
-    if (this.state.pitch_data.labels.length > 70) {
+    if (this.state.pitch_data.labels.length > 100) {
       upd_labels = this.state.pitch_data.labels.slice(10).concat([''])
       upd_data = this.state.pitch_data.datasets[0].data.slice(10).concat(pitch_num)
     } else {
