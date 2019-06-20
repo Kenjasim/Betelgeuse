@@ -1,6 +1,10 @@
 {
   "license": "UNLICENSED",
   "homepage": "https://kenjasim.github.io/Betelgeuse",
+  "engines": {
+    "node": "10.10.0",
+    "yarn": "1.17.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
