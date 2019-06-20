@@ -58,8 +58,8 @@ class ShipStatus extends Component {
     let upd_labels = ''
     let upd_data = ''
     if (this.state.roll_data.labels.length > 70) {
-      upd_labels = this.state.roll_data.labels.slice(2).concat([''])
-      upd_data = this.state.roll_data.datasets[0].data.slice(2).concat(roll_num)
+      upd_labels = this.state.roll_data.labels.slice(10).concat([''])
+      upd_data = this.state.roll_data.datasets[0].data.slice(10).concat(roll_num)
     } else {
       upd_labels = this.state.roll_data.labels.concat([''])
       upd_data = this.state.roll_data.datasets[0].data.concat(roll_num)
@@ -83,8 +83,8 @@ class ShipStatus extends Component {
     let upd_labels = ''
     let upd_data = ''
     if (this.state.pitch_data.labels.length > 70) {
-      upd_labels = this.state.pitch_data.labels.slice(2).concat([''])
-      upd_data = this.state.pitch_data.datasets[0].data.slice(2).concat(pitch_num)
+      upd_labels = this.state.pitch_data.labels.slice(10).concat([''])
+      upd_data = this.state.pitch_data.datasets[0].data.slice(10).concat(pitch_num)
     } else {
       upd_labels = this.state.pitch_data.labels.concat([''])
       upd_data = this.state.pitch_data.datasets[0].data.concat(pitch_num)
