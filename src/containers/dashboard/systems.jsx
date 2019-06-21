@@ -32,7 +32,7 @@ class Systems extends Component {
           Systems:
         </div>
         <div className="system-boxes-container">
-          <div className="row">
+          <div className="">
             {systems.map((system) => {
               return <div className="col-xs-6 systems-columns" key={system.name}>{system}</div>
             })}
