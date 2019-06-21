@@ -35,8 +35,8 @@ class ShipStatus extends Component {
         ],
       },
       response: false,
-      mru_endpoint: 'http://217.138.134.182:3004',
-      gps_endpoint: 'http://217.138.134.182:3003'
+      mru_endpoint: 'https://217.138.134.182:3004',
+      gps_endpoint: 'https://217.138.134.182:3003'
     }
     this.socket_one = io.connect(this.state.mru_endpoint)
     this.socket_two = io.connect(this.state.gps_endpoint)
