@@ -6,8 +6,8 @@ import RadarImagesStatus from './radar_images_status'
 import CameraStatus from './camera_status'
 
 const systems = [
-  <SystemBox name="AIS" endpoint='https://217.138.134.182:3002' link='/ais' />,
-  <SystemBox name="GPS" endpoint='https://217.138.134.182:3003' link='/' />,
+  <SystemBox name="AIS" endpoint='http://217.138.134.182:3002' link='/ais' />,
+  <SystemBox name="GPS" endpoint='http://217.138.134.182:3003' link='/' />,
   <SystemBox name="Radar Data" link='/radar' disabled={true}/>,
   <RadarImagesStatus name="Radar Images" link='/radar'/>,
   <SystemBox name="WiFi Pinger" link='/wifi_pinger' disabled={true}/>,
@@ -16,9 +16,9 @@ const systems = [
   // <CameraStatus name="Camera 2" link='/cameras'/>,
   // <CameraStatus name="Camera 3" link='/cameras'/>,
   // <CameraStatus name="Camera 4" link='/cameras' />,
-  <SystemBox name="Power" endpoint='https://217.138.134.182:3001' link='/power' />,
-  <SystemBox name="MRU" endpoint='https://217.138.134.182:3004' link='/mru' />,
-  <SystemBox name="Weather" endpoint='https://217.138.134.182:3000'link='/weather' />
+  <SystemBox name="Power" endpoint='http://217.138.134.182:3001' link='/power' />,
+  <SystemBox name="MRU" endpoint='http://217.138.134.182:3004' link='/mru' />,
+  <SystemBox name="Weather" endpoint='http://217.138.134.182:3000'link='/weather' />
 ]
 
 class Systems extends Component {
@@ -32,7 +32,7 @@ class Systems extends Component {
           Systems:
         </div>
         <div className="system-boxes-container">
-          <div className="">
+          <div className="row">
             {systems.map((system) => {
               return <div className="col-xs-6 systems-columns" key={system.name}>{system}</div>
             })}
