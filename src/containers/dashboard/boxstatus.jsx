@@ -36,7 +36,7 @@ class BoxStatus extends Component {
       percentpower: '',
       status: "Connected",
       response: false,
-      power_endpoint: '//217.138.134.182:3001'
+      power_endpoint: 'http://217.138.134.182:3001'
     }
     this.socket = io.connect(this.state.power_endpoint)
     this.donut = this.donut.bind(this)
@@ -72,7 +72,7 @@ class BoxStatus extends Component {
   }
 
   donut = () => {
-    const url = "//217.138.134.182:3333/?psqlQuery="
+    const url = "http://217.138.134.182:3333/?psqlQuery="
     const temp_url = "//10.0.0.43:3333/?psqlQuery="
     let d = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
     let cd = new Date();
