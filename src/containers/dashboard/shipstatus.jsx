@@ -177,7 +177,7 @@ class ShipStatus extends Component {
             <div className="roll-chart chart-container">
               <Line
                 data={this.state.roll_data}
-                height={140}
+                height={130}
                 options={{
                   maintainAspectRatio: false,
                   axes: {
@@ -192,7 +192,7 @@ class ShipStatus extends Component {
             <div className="pitch-chart chart-container">
               <Line
                 data={this.state.pitch_data}
-                height={140}
+                height={130}
                 options={{
                   maintainAspectRatio: false,
                   axes: {

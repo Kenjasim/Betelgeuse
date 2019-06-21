@@ -10,8 +10,8 @@ class Dashboard extends Component {
     return (
 
       <div className="dashboard-section">
-        <div  className="row dashboard-size">
-          <div className="col-xs-12 col-sm-6 dashboard-left">
+        <div  className=" dashboard-size">
+          <div className="col-12 col-sm-12 col-md-6 dashboard-left">
             <div className="boxstatus-container white-container">
               <BoxStatus />
             </div>
@@ -19,7 +19,7 @@ class Dashboard extends Component {
               <ShipStatus />
             </div>
           </div>
-          <div className="col-xs-12 col-sm-6 dashboard-right">
+          <div className="col-12 col-sm-12 col-md-6 dashboard-right">
             <div className="systems-container white-container">
               <Systems />
             </div>

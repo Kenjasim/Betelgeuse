@@ -78,7 +78,7 @@ class RadarImages extends Component {
     const query = `SELECT * FROM "RadarImage" WHERE "TimeLocal" > '${this.convertDate(this.state.startDate)}' AND "TimeLocal" < '${this.convertDate(d.setDate(this.state.startDate.getDate() + 1))}'`
     const request = fetch(url+query)
       .then(response=> response.json())
-      .then((data)=> {
+      .then((data) => {
         this.setState({
           data: data,
         })
@@ -101,8 +101,8 @@ class RadarImages extends Component {
     return (
 
       <div className="radar-images-container of-scroll" onKeyDown={this.keySelect}>
-        <div className="row display-flex">
-          <div className="col-xs-12 col-sm-5">
+        <div className=" display-flex">
+          <div className="col-12 col-sm-12 col-md-5">
             <RadarImageSection
               //imageFile={}
               selectedIndex={this.state.selectedIndex}
@@ -112,7 +112,7 @@ class RadarImages extends Component {
               max={this.state.data.length}
             />
           </div>
-          <div className="col-xs-12 col-sm-7">
+          <div className="col-12 col-sm-12 col-md-7">
             <div className="radar-selection-section">
               <div className="radar-selection-search">
                 <DatePicker
