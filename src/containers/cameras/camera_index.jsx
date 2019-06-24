@@ -29,7 +29,7 @@ class CameraIndex extends Component {
 
   fetchData() {
     console.log(this.convertDate(this.state.startDate))
-    const url = "http://217.138.134.182:3006/"
+    const url = "https://bobeyes.siriusinsight.io:3006/"
     const query = this.props.id + '/' + this.convertDate(this.state.startDate) + '/';
     console.log(url+query)
     const request = fetch(url+query)
@@ -64,7 +64,7 @@ class CameraIndex extends Component {
                 index={index}
                 timestamp={camera_card.slice(12,25)}
                 type={camera_card.slice(27,30)}
-                filename={'http://217.138.134.182:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card}
+                filename={'https://bobeyes.siriusinsight.io:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card}
                  duration={camera_card.slice(27,30)}
                 switchFile={this.props.switchFile}
               />

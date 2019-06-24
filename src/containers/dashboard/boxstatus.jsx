@@ -72,12 +72,12 @@ class BoxStatus extends Component {
   }
 
   donut = () => {
-    const url = "http://217.138.134.182:3333/?psqlQuery="
-    const temp_url = "//10.0.0.43:3333/?psqlQuery="
+    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    //const temp_url = "//10.0.0.43:3333/?psqlQuery="
     let d = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
     let cd = new Date();
     const query = `SELECT AVG("Current") FROM "Power" WHERE "TimeLocal" > '${this.convertDate(d)}' AND "TimeLocal" < '${this.convertDate(cd.setDate(d.getDate() + 1))}' AND "Current" < 6 AND "Current" > 0`
-    console.log(query)
+    console.log(url+query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
