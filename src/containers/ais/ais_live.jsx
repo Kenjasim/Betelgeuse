@@ -10,7 +10,7 @@ class AISLiveFeed extends Component {
     this.parseData = this.parseData.bind(this);
     this.state = {
       response: false,
-      endpoint: 'http://217.138.134.182:3002',
+      endpoint: 'bobeyes.siriusinsight.io:3002',
       state_data: [],
     };
     this.socket = io.connect(this.state.endpoint)
