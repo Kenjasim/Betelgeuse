@@ -72,7 +72,7 @@ class RadarImages extends Component {
 
   fetchData() {
     console.log(this.convertDate(this.state.endDate))
-    const url = "http://217.138.134.182:3333/?psqlQuery="
+    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     let d = new Date()
     const query = `SELECT * FROM "RadarImage" WHERE "TimeLocal" > '${this.convertDate(this.state.startDate)}' AND "TimeLocal" < '${this.convertDate(d.setDate(this.state.startDate.getDate() + 1))}'`

@@ -6,8 +6,8 @@ import RadarImagesStatus from './radar_images_status'
 import CameraStatus from './camera_status'
 
 const systems = [
-  <SystemBox name="AIS" endpoint='http://217.138.134.182:3002' link='/ais' />,
-  <SystemBox name="GPS" endpoint='http://217.138.134.182:3003' link='/' />,
+  <SystemBox name="AIS" endpoint='bobeyes.siriusinsight.io:3002' link='/ais' />,
+  <SystemBox name="GPS" endpoint='bobeyes.siriusinsight.io:3003' link='/' />,
   <SystemBox name="Radar Data" link='/radar' disabled={true}/>,
   <RadarImagesStatus name="Radar Images" link='/radar'/>,
   <SystemBox name="WiFi Pinger" link='/wifi_pinger' disabled={true}/>,
@@ -16,9 +16,9 @@ const systems = [
   // <CameraStatus name="Camera 2" link='/cameras'/>,
   // <CameraStatus name="Camera 3" link='/cameras'/>,
   // <CameraStatus name="Camera 4" link='/cameras' />,
-  <SystemBox name="Power" endpoint='http://217.138.134.182:3001' link='/power' />,
-  <SystemBox name="MRU" endpoint='/http:/217.138.134.182:3004' link='/mru' />,
-  <SystemBox name="Weather" endpoint='http://217.138.134.182:3000'link='/weather' />
+  <SystemBox name="Power" endpoint='bobeyes.siriusinsight.io:3001' link='/power' />,
+  <SystemBox name="MRU" endpoint='bobeyes.siriusinsight.io:3004' link='/mru' />,
+  <SystemBox name="Weather" endpoint='bobeyes.siriusinsight.io:3000'link='/weather' />
 ];
 
 class Systems extends Component {

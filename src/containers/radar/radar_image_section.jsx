@@ -6,13 +6,13 @@ class RadarImageSection extends Component {
     let prev_style = this.props.selectedIndex == this.props.max -1 ? "radar-image-btn radar-btn-disabled" : "radar-image-btn radar-image-hover"
     let next_style = this.props.selectedIndex == 0 ? "radar-image-btn radar-btn-disabled" : "radar-image-btn radar-image-hover"
     let style = {
-      backgroundImage: `url(${"http://217.138.134.182:3005" + this.props.radar_image.FilePath})`
+      backgroundImage: `url(${"https://bobeyes.siriusinsight.io:3005/" + this.props.radar_image.FilePath})`
     }
     return (
 
       <div className="radar-image-section">
         <div className="radar-image" >
-          <img className="radar-img" src={"http://217.138.134.182:3005" + this.props.radar_image.FilePath} ></img>
+          <img className="radar-img" src={"https://bobeyes.siriusinsight.io:3005/" + this.props.radar_image.FilePath} ></img>
         </div>
         <div className="image-footer">
           <button className={prev_style} onClick={this.props.togglePrev}>

@@ -28,7 +28,7 @@ class AISRaw extends Component {
 
   fetchData() {
 
-    const url = "http://217.138.134.182:3333/?psqlQuery="
+    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "Ais" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
     const request = fetch(url+query)
