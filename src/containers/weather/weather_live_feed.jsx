@@ -10,7 +10,7 @@ class WeatherLiveFeed extends Component {
     this.parseData = this.parseData.bind(this);
     this.state = {
       response: false,
-      endpoint: 'https://bobeyes.siriusinsight.io:3000',
+      endpoint: 'bobeyes.siriusinsight.io:3000',
       state_data: [],
     };
     this.socket = io.connect(this.state.endpoint)
