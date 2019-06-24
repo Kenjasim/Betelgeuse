@@ -17,7 +17,7 @@ const systems = [
   // <CameraStatus name="Camera 3" link='/cameras'/>,
   // <CameraStatus name="Camera 4" link='/cameras' />,
   <SystemBox name="Power" endpoint='http://217.138.134.182:3001' link='/power' />,
-  <SystemBox name="MRU" endpoint='http://217.138.134.182:3004' link='/mru' />,
+  <SystemBox name="MRU" endpoint='/http:/217.138.134.182:3004' link='/mru' />,
   <SystemBox name="Weather" endpoint='http://217.138.134.182:3000'link='/weather' />
 ];
 
@@ -32,7 +32,7 @@ class Systems extends Component {
           Systems:
         </div>
         <div className="system-boxes-container">
-          <div className="">
+          <div className="row">
             {systems.map((system) => {
               return <div className="col-xs-6 systems-columns" key={system.name}>{system}</div>
             })}
