@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import ReactMapboxGl, {Marker, Layer, Feature } from "react-mapbox-gl";
 
+import ShipMarker from './map_marker'
+
 class ShipMap extends Component {
   constructor(props) {
       super(props)
@@ -24,7 +26,7 @@ class ShipMap extends Component {
     const Map = ReactMapboxGl({
       accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
     });
-    const markerUrl = "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png";
+    const markerUrl = "https://siriusdashboard.s3.eu-west-2.amazonaws.com/red_arrow.png";
     console.log(this.props.lat)
     console.log(this.props.long)
     return (
@@ -35,15 +37,9 @@ class ShipMap extends Component {
           width: "100%"
         }}
         center={[1.23917630, 51.01271940 ]}
-        zoom={[6]}
+        zoom={[7]}
         >
-        <Marker
-          coordinates={[this.props.long, this.props.lat]}
-          anchor="bottom"
-
-          >
-          <img className="ship-marker" src={markerUrl}/>
-        </Marker>
+        <ShipMarker />
       </Map>
 
 
