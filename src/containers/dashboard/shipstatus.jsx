@@ -11,7 +11,7 @@ class ShipStatus extends Component {
     this.state = {
       lat:  51.01271940,
       long: 1.23917630,
-      heading: 0,
+      heading: '',
       roll_data: {
         labels: [],
         datasets: [
@@ -35,8 +35,8 @@ class ShipStatus extends Component {
         ],
       },
       response: false,
-      mru_endpoint: 'http://217.138.134.182:3004',
-      gps_endpoint: 'http://217.138.134.182:3003'
+      mru_endpoint: 'http://bobeyes.siriusinsight.io:3004',
+      gps_endpoint: 'http://bobeyes.siriusinsight.io:3003'
     }
     this.socket_one = io.connect(this.state.mru_endpoint)
     this.socket_two = io.connect(this.state.gps_endpoint)
@@ -223,7 +223,7 @@ class ShipStatus extends Component {
             </table>
           </div>
           <div className="ship-map-section">
-            <ShipMap lat={this.state.lat} long={this.state.long} heading={this.state.heading}/>
+            <ShipMap lat={this.state.lat} long={this.state.long} />
           </div>
         </div>
       </div>

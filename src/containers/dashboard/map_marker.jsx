@@ -58,28 +58,34 @@ class MapMarker extends Component {
   openGPSSocket() {
     this.socket_two.on('connected',  (data) => {
         this.socket_two.emit('ready for data', {})
+        console.log('here')
       });
       this.socket_two.on('update',  (data) => {
         const message = data.message.payload
         const result = message.split(",")
         this.GPSData(result[2], result[3])
+
     });
   }
 
   componentWillMount() {
     this.openMRUSocket()
+    this.openGPSSocket()
   }
 
 
   render() {
     const markerUrl = "https://siriusdashboard.s3.eu-west-2.amazonaws.com/red_arrow.png";
+    const markerRotate = {
+      transform: `rotate(${this.state.heading}deg)`
+    }
     return (
       <Marker
         coordinates={[this.state.long, this.state.lat]}
         anchor="bottom"
 
         >
-        <img className="ship-marker" src={markerUrl}/>
+        <img style={markerRotate} className="ship-marker" src={markerUrl}/>
       </Marker>
     )
   }
