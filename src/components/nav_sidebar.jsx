@@ -15,7 +15,6 @@ class NavSideBar extends Component {
         <div className="sideNavHeader">
           <div className="navHeaderContent">
             <img src="https://siriusdashboard.s3.eu-west-2.amazonaws.com/SiriusLogo.png" className="siriusLogo" alt=""/>
-            {/*<img src="https://siriusdashboard.s3.eu-west-2.amazonaws.com/SiriusLogo.png" className="siriusLogo" alt="not working">*/}
             <p className="headerText">Sirius Sensor Dashboard</p>
           </div>
         </div>

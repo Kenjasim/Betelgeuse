@@ -11,7 +11,7 @@ class ShipStatus extends Component {
     this.state = {
       lat:  51.01271940,
       long: 1.23917630,
-      heading: '',
+      heading: 0,
       roll_data: {
         labels: [],
         datasets: [
@@ -223,7 +223,7 @@ class ShipStatus extends Component {
             </table>
           </div>
           <div className="ship-map-section">
-            <ShipMap lat={this.state.lat} long={this.state.long} />
+            <ShipMap lat={this.state.lat} long={this.state.long} heading={this.state.heading}/>
           </div>
         </div>
       </div>
