@@ -19,7 +19,7 @@ const systems = [
   <SystemBox name="Power" endpoint='http://217.138.134.182:3001' link='/power' />,
   <SystemBox name="MRU" endpoint='http://217.138.134.182:3004' link='/mru' />,
   <SystemBox name="Weather" endpoint='http://217.138.134.182:3000'link='/weather' />
-]
+];
 
 class Systems extends Component {
 

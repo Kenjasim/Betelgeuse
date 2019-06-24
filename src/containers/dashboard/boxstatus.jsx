@@ -80,7 +80,7 @@ class BoxStatus extends Component {
     console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
-      .then((data)=> {
+      .then((data) => {
         let poweruse = data[0].avg * 24 * (this.percentday())
         console.log(poweruse)
         let ps = this.round((poweruse/1500)*100, 1)
@@ -128,8 +128,8 @@ class BoxStatus extends Component {
     let upd_labels = ''
     let upd_data = ''
     if (this.state.power_data.labels.length > 300) {
-      upd_labels = this.state.power_data.labels.slice(2).concat([''])
-      upd_data = this.state.power_data.datasets[0].data.slice(2).concat(power_num * 24)
+      upd_labels = this.state.power_data.labels.slice(30).concat([''])
+      upd_data = this.state.power_data.datasets[0].data.slice(30).concat(power_num * 24)
     } else {
       upd_labels = this.state.power_data.labels.concat([''])
       upd_data = this.state.power_data.datasets[0].data.concat(power_num * 24)
