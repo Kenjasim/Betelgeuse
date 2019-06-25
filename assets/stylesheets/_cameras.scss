@@ -141,3 +141,16 @@
 .camera-btn-selected {
   color: #26AAE2;
 }
+
+@media (max-width: 576px){
+  .camera-section {
+    width: 100%;
+    padding: 0px;
+  }
+  .react-player {
+    margin-top: 20px;
+  }
+  .camera-img {
+    height: 70%;
+  }
+}

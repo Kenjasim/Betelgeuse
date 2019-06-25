@@ -37,3 +37,24 @@
 .systems-container {
   flex-grow: 1;
 }
+@media (max-width: 970px){
+
+  .power-doughnut-section {
+    transform: scale(0.7);
+  }
+}
+
+@media (max-width: 576px){
+  .dashboard-section {
+    width: 100%;
+  }
+  .container {
+    padding: 0;
+  }
+  .power-doughnut-section {
+    transform: scale(0.7);
+  }
+  .systems-container {
+    margin-top: 60px;
+  }
+}

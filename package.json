@@ -1,7 +1,6 @@
 {
   "license": "UNLICENSED",
   "homepage": "https://kenjasim.github.io/Betelgeuse",
-
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
@@ -40,12 +39,13 @@
     "moment": "^2.24.0",
     "promises": "^0.2.5",
     "q": "^1.5.1",
-    "react": "16.4",
+    "react": "16.8",
     "react-animate-on-change": "^2.2.0",
+    "react-burger-menu": "^2.6.10",
     "react-chartjs-2": "^2.7.6",
     "react-csv": "^1.1.1",
     "react-datepicker": "^2.7.0",
-    "react-dom": "16.4",
+    "react-dom": "16.8",
     "react-icons": "^3.7.0",
     "react-interval": "^2.1.0",
     "react-mapbox-gl": "^4.4.0",
@@ -55,6 +55,7 @@
     "react-router-dom": "^5.0.0",
     "react-table": "^6.10.0",
     "react-tabs": "^3.0.0",
+    "reactstrap": "^8.0.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "socket.io": "^2.2.0",

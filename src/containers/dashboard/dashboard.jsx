@@ -9,8 +9,8 @@ class Dashboard extends Component {
   render() {
     return (
 
-      <div className="dashboard-section">
-        <div  className=" dashboard-size">
+      <div className=" container dashboard-section">
+        <div  className="row dashboard-size">
           <div className="col-12 col-sm-12 col-md-6 dashboard-left">
             <div className="boxstatus-container white-container">
               <BoxStatus />

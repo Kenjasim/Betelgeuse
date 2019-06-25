@@ -55,3 +55,10 @@
     cursor: default
   }
 }
+
+@media (max-width: 576px){
+  .tab-section {
+    width: 100%;
+    // padding: 0;
+  }
+}
