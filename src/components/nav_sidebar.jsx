@@ -11,7 +11,7 @@ class NavSideBar extends Component {
 
 
     return (
-      <div className="sideNav">
+      <div id="sideNavToggle" className="sideNav">
         <div className="sideNavHeader">
           <div className="navHeaderContent">
             <img src="https://siriusdashboard.s3.eu-west-2.amazonaws.com/SiriusLogo.png" className="siriusLogo" alt=""/>

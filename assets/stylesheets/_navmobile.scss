@@ -1,0 +1,45 @@
+.nav-mobile {
+  display: none;
+  height: 60px;
+  background-color: #616161;
+  width: 100%;
+}
+.nav-mobile-inner {
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+@media (max-width: 576px){
+  #mobileNavToggle {
+    display: block;
+  }
+  #sideNavToggle {
+    display: none;
+  }
+}
+
+.dropdown #toggleButton{
+  background-color: #616161;
+  border-color: #616161;
+  font-size: 16px;
+  &:hover {
+  background-color: #616161;
+  border-color: #616161;
+  }
+}
+.dropdown-burger {
+  margin-top: 5px;
+  font-size: 25px;
+}
+.dropdown-item {
+  a {
+    color: #616161;
+
+  }
+}

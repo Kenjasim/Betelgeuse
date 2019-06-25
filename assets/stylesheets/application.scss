@@ -8,6 +8,7 @@
 @import 'boxstatus';
 @import 'shipstatus';
 @import 'systems';
+@import 'navmobile';
 
 body {
   font-family: Helvetica;
@@ -20,6 +21,15 @@ body {
   // align-items: center;
   // justify-content: center;
 }
+
+
+@media screen and (max-width: 576px) {
+  #root {
+    display: block;
+  }
+}
+
+
 * {
    font-size: 12px;
    line-height: 2;

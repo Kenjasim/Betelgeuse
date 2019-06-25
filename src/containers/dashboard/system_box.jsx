@@ -22,13 +22,15 @@ class SystemBox extends Component {
     }
     this.socket.on('connected',  (data) => {
         this.socket.emit('ready for data', {})
-        cogoToast.success(`${this.props.name} connected`, options);
 
       });
       this.socket.on('update',  (data) => {
         const message = data.message.payload
         this.setState({message: message})
-
+        if (!this.state.receiving) {
+          this.setState({receiving: true})
+          cogoToast.success(`${this.props.name} connected`, options);
+        }
     });
   }
 
