@@ -1,4 +1,5 @@
 import Dashboard from "../containers/dashboard/dashboard"
+import Fused from "../containers/fused/fused"
 import Cameras from "../containers/cameras/cameras"
 import Power from "../containers/power/power"
 import Radar from "../containers/radar/radar"
@@ -12,6 +13,8 @@ import MRU from "../containers/mru/mru"
 const routes = [
   { path: '/',
     component: Dashboard },
+  { path: '/fused',
+    component: Fused },
   { path: '/cameras',
     component: Cameras },
   { path: '/power',
