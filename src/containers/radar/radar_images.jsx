@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import ImageCard from './image_card'
 import RadarImageSection from './radar_image_section'
-// import data from './dummy_data'
+import dummyData from './dummy_data'
 
 class RadarImages extends Component {
   constructor(props) {
@@ -13,7 +13,9 @@ class RadarImages extends Component {
     this.state = {
       startDate: new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate()),
       selectedIndex: 0,
-      data: [{}]
+      data: [{ TimeLocal: 'NaN',
+      Range: 15, 
+     FilePath: ""}]
     };
     this.handleClick = this.handleClick.bind(this);
     // this.selectIndex = this.selectIndex.bind(this);
@@ -77,11 +79,12 @@ class RadarImages extends Component {
     let d = new Date()
     const query = `SELECT * FROM "RadarImage" WHERE "TimeLocal" > '${this.convertDate(this.state.startDate)}' AND "TimeLocal" < '${this.convertDate(d.setDate(this.state.startDate.getDate() + 1))}'`
     const request = fetch(url+query)
+    //console.log(url)
       .then(response=> response.json())
       .then((data) => {
-        this.setState({
-          data: data,
-        })
+          this.setState({
+            data: data,
+          })
         console.log(this.state.data)
       })
   }
