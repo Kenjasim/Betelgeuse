@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import ReactMapboxGl, { Marker, Layer, Feature } from "react-mapbox-gl";
 import io from "socket.io-client";
-import ShipMarker from '../dashboard/map_marker'
+import ShipMarker from './marker';
 import DatePicker from 'react-datepicker';
+import moment from 'moment'
+import { CSVLink, CSVDownload } from "react-csv";
 
 // import data from './dummy_data'
 
@@ -19,9 +21,10 @@ class FusedMap extends Component {
       state_data: [],
       startDate: d2,
       endDate: d1,
-      state_data: [],
+      map_data: [],
       datePickerDisabled: false,
-      loading: false
+      loading: false,
+
     };
     this.socket = io.connect(this.state.endpoint)
     this.handleStartChange = this.handleStartChange.bind(this);
@@ -47,6 +50,54 @@ class FusedMap extends Component {
 
     });
   }
+
+  handleStartChange(date) {
+    this.setState({
+      datePickerDisabled: true,
+      loading: true,
+      startDate: date
+    }, () => {
+        this.fetchData()
+    });
+
+  }
+
+  handleEndChange(date) {
+    this.setState({
+      datePickerDisabled: true,
+      loading: true,
+      endDate: date
+    }, () => {
+        this.fetchData()
+    });
+
+  }
+
+  convertDate(date) {
+    const d = moment(date).format()
+    return d.slice(0, 19).replace('T', ' ');
+  }
+
+  fetchData() {
+    
+    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const temp_url = "http://10.0.0.43:3333/?psqlQuery="
+    const query = `SELECT "Longitude", "Latitude" FROM "Ais" WHERE "TimeLocal" BETWEEN '2019-06-25 12:34:25' AND '2019-06-25 17:34:11'`
+    console.log(this.convertDate(this.state.startDate));
+    console.log(this.convertDate(this.state.endDate));
+    const request = fetch(url+query)
+      .then(response=> response.json())
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          map_data: data,
+          datePickerDisabled: false,
+          loading: false
+        })
+      })
+  }
+
+
   handleStartChange(date) {
     this.setState({
       datePickerDisabled: true,
@@ -69,6 +120,10 @@ class FusedMap extends Component {
 
   }
 
+  componentWillMount() {
+    this.fetchData()
+  }
+
   componentWillUnmount() {
     this.socket.disconnect()
   }
@@ -76,10 +131,7 @@ class FusedMap extends Component {
   render() {
     const Map = ReactMapboxGl({
       accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
-    });
-    const markerUrl = "https://siriusdashboard.s3.eu-west-2.amazonaws.com/red_arrow.png";
-    console.log(this.props.lat)
-    console.log(this.props.long)
+    })
 
     const today = new Date()
     return (
@@ -119,15 +171,28 @@ class FusedMap extends Component {
             />
           </div>
           <Map
-            style="mapbox://styles/mapbox/streets-v9"
+            style="mapbox://styles/mapbox/dark-v10"
             containerStyle={{
               height: "100%",
               width: "100%"
             }}
-            center={[1.23917630, 51.01271940]}
-            zoom={[7]}
+            center={[0, 0]}
+            zoom={[5]}
           >
-            <ShipMarker />
+
+          
+
+          <Layer
+              type="symbol"
+              id="marker"
+              layout={{ "icon-image": "harbor-15" }}>
+
+
+              {this.state.map_data.map((point, i) => <Feature key={i} coordinates={[point.Longitude, point.Latitude]} />)}
+
+
+            </Layer> 
+           <ShipMarker /> 
           </Map>
       </div>);
 
