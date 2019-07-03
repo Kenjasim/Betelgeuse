@@ -28,6 +28,7 @@ class FusedMap extends Component {
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
     this.handleDateSelected = this.handleDateSelected.bind(this);
+    this.togglePopup = this.togglePopup.bind(this);
   }
 
 
@@ -86,7 +87,11 @@ class FusedMap extends Component {
       this.fetchData()
       console.log("Data fetched and drawn")
     });
-  } 
+  }
+  
+  togglePopup(MMSI) {
+
+  }
 
   convertDate(date) {
     const d = moment(date).format()
@@ -254,7 +259,7 @@ class FusedMap extends Component {
                 <Feature 
                   key={i} 
                   coordinates={[point.Longitude, point.Latitude]} 
-                  onClick={point.MMSI}
+                  onClick={this.togglePopup(point.MMSI)}
                   />)}
             </Layer>
 
