@@ -6,8 +6,8 @@ class MapMarker extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      lat:  6.019686, 
-      long: 50.6877940,
+      lat:  51.01271940, 
+      long: 1.23917630,
       heading: 0,
       response: false,
       mru_endpoint: 'http://bobeyes.siriusinsight.io:3004',

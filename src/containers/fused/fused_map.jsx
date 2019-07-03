@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { Marker, Layer, Feature } from "react-mapbox-gl";
+import ReactMapboxGl, { Marker, Layer, Feature, Popup } from "react-mapbox-gl";
 import io from "socket.io-client";
 import ShipMarker from './marker';
 import DatePicker from 'react-datepicker';
@@ -18,17 +18,16 @@ class FusedMap extends Component {
     this.state = {
       response: false,
       endpoint: 'bobeyes.siriusinsight.io:3002',
-      state_data: [],
       startDate: d2,
       endDate: d1,
       map_data: [],
       datePickerDisabled: false,
       loading: false,
-
     };
     this.socket = io.connect(this.state.endpoint)
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
+    this.handleDateSelected = this.handleDateSelected.bind(this);
   }
 
 
@@ -55,9 +54,12 @@ class FusedMap extends Component {
     this.setState({
       datePickerDisabled: true,
       loading: true,
-      startDate: date
+      startDate: date,
+
+      datePickerDisabled: false,
+      loading: false,
     }, () => {
-        this.fetchData()
+        console.log("Date received")
     });
 
   }
@@ -66,12 +68,25 @@ class FusedMap extends Component {
     this.setState({
       datePickerDisabled: true,
       loading: true,
-      endDate: date
+      endDate: date,
+
+      datePickerDisabled: false,
+      loading: false,
     }, () => {
-        this.fetchData()
+        console.log("Date received")
     });
 
   }
+  
+  handleDateSelected() {
+    this.setState({
+      datePickerDisabled: true,
+      loading: true,
+    }, () => {
+      this.fetchData()
+      console.log("Data fetched and drawn")
+    });
+  } 
 
   convertDate(date) {
     const d = moment(date).format()
@@ -82,7 +97,7 @@ class FusedMap extends Component {
     
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
-    const query = `SELECT "Longitude", "Latitude" FROM "Ais" WHERE "TimeLocal" BETWEEN '2019-06-25 12:34:25' AND '2019-06-25 17:34:11'`
+    const query = `SELECT "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
     console.log(this.convertDate(this.state.startDate));
     console.log(this.convertDate(this.state.endDate));
     const request = fetch(url+query)
@@ -97,29 +112,6 @@ class FusedMap extends Component {
       })
   }
 
-
-  handleStartChange(date) {
-    this.setState({
-      datePickerDisabled: true,
-      loading: true,
-      startDate: date
-    }, () => {
-      //this.fetchData()
-    });
-
-  }
-
-  handleEndChange(date) {
-    this.setState({
-      datePickerDisabled: true,
-      loading: true,
-      endDate: date
-    }, () => {
-      //this.fetchData()
-    });
-
-  }
-
   componentWillMount() {
     this.fetchData()
   }
@@ -132,7 +124,51 @@ class FusedMap extends Component {
     const Map = ReactMapboxGl({
       accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
     })
-
+    
+    const layerPaint = {
+      'heatmap-weight': {
+        property: 'aisPresence',
+        type: 'exponential',
+        stops: [[1, 0], [62, 1]]
+      },
+      // Increase the heatmap color weight weight by zoom level
+      // heatmap-ntensity is a multiplier on top of heatmap-weight
+      'heatmap-intensity': {
+        stops: [[11, 1], [15, 3]]
+      },
+      // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
+      'heatmap-color': [
+        'interpolate',
+        ['linear'],
+        ['heatmap-density'],
+        0,
+        'rgba(33,102,172,0)',
+        0.25,
+        'rgb(103,169,207)',
+        0.5,
+        'rgb(209,229,240)',
+        0.8,
+        'rgb(253,219,199)',
+        1,
+        'rgb(239,138,98)',
+        2,
+        'rgb(178,24,43)'
+      ],
+      // Adjust the heatmap radius by zoom level
+      'heatmap-radius': {
+        stops: [[11, 5], [15, 20]]
+      },
+      // Adjust increase of heatmap opacity as user zooms in to make data decluster
+      'heatmap-opacity': {
+        default: 1,
+        stops: [
+          [4, 0],
+          [6, 1],
+          [14, 1],
+          [15, 0]
+        ]
+      },
+    };
     const today = new Date()
     return (
       <div className="map-wrapper">
@@ -146,6 +182,18 @@ class FusedMap extends Component {
               dateFormat="MMMM d, yyyy h:mm aa"
               timeCaption="time"
               disabled={this.state.datePickerDisabled}
+              popperPlacement="bottom-end"
+              popperModifiers={{
+                flip: {
+                    behavior: ['bottom'] // don't allow it to flip to be above
+                },
+                preventOverflow: {
+                    enabled: false // tell it not to try to stay within the view (this prevents the popper from covering the element you clicked)
+                },
+                hide: {
+                    enabled: false // turn off since needs preventOverflow to be enabled
+                }}}
+
               maxDate={this.state.endDate}
               minDate={1}
               maxTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23, 59)))}
@@ -163,6 +211,17 @@ class FusedMap extends Component {
               dateFormat="MMMM d, yyyy h:mm aa"
               timeCaption="time"
               disabled={this.state.datePickerDisabled}
+              popperPlacement="bottom-end"
+              popperModifiers={{
+                flip: {
+                    behavior: ['bottom'] // don't allow it to flip to be above
+                },
+                preventOverflow: {
+                    enabled: false // tell it not to try to stay within the view (this prevents the popper from covering the element you clicked)
+                },
+                hide: {
+                    enabled: false // turn off since needs preventOverflow to be enabled
+                }}}
 
               maxDate={new Date()}
               minDate={this.state.startDate}
@@ -170,29 +229,48 @@ class FusedMap extends Component {
               minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0, 0, 0, 0)))}
             />
           </div>
+
+          <button onClick={this.handleDateSelected}>
+            Display data
+          </button>
+          
           <Map
             style="mapbox://styles/mapbox/dark-v10"
             containerStyle={{
               height: "100%",
               width: "100%"
             }}
-            center={[0, 0]}
+            center={[1.23917630, 51.01271940]}
             zoom={[5]}
           >
-
-          
-
-          <Layer
+            <Layer
               type="symbol"
               id="marker"
-              layout={{ "icon-image": "harbor-15" }}>
+              layout={{ "icon-image": "harbor-15" }}
+              minZoom={14}>
 
+
+              {this.state.map_data.map((point, i) => 
+                <Feature 
+                  key={i} 
+                  coordinates={[point.Longitude, point.Latitude]} 
+                  onClick={point.MMSI}
+                  />)}
+            </Layer>
+
+            <Layer
+              type="heatmap"
+              id="ais-heat"
+              minZoom={5}
+              maxZoom={15}
+              paint={layerPaint}
+              >
 
               {this.state.map_data.map((point, i) => <Feature key={i} coordinates={[point.Longitude, point.Latitude]} />)}
+            
+            </Layer>
 
-
-            </Layer> 
-           <ShipMarker /> 
+            <ShipMarker /> 
           </Map>
       </div>);
 
