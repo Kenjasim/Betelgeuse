@@ -9,12 +9,16 @@ import { TiRss } from "react-icons/ti";
 import { TiEject } from "react-icons/ti";
 import { TiWeatherPartlySunny } from "react-icons/ti";
 import { TiCompass } from "react-icons/ti";
+import { TiInfoLarge } from "react-icons/ti";
 
 
 const links = [
   { url: '/',
     link: 'Dashboard',
     icon: <TiChartBar className="linkIcon"/> },
+  { url: '/fused',
+    link: 'Fused',
+    icon: <TiInfoLarge className="linkIcon"/> },
   { url: '/cameras',
     link: 'Cameras',
     icon: <TiVideo className="linkIcon"/> },
