@@ -162,8 +162,7 @@ class FusedMap extends Component {
       'heatmap-opacity': {
         default: 1,
         stops: [
-          [4, 0],
-          [6, 1],
+          [1, 1],
           [14, 1],
           [15, 0]
         ]
@@ -235,7 +234,7 @@ class FusedMap extends Component {
           </button>
           
           <Map
-            style="mapbox://styles/mapbox/dark-v10"
+            style="mapbox://styles/mapbox/satellite-v9"
             containerStyle={{
               height: "100%",
               width: "100%"
@@ -255,7 +254,8 @@ class FusedMap extends Component {
                 <Feature 
                   key={i} 
                   coordinates={[point.Longitude, point.Latitude]} 
-                  onClick={point.MMSI}
+                  onClick={() => 
+                    console.log(point.MMSI + " " + point.Longitude + " " + point.Latitude)}
                   />)}
             </Layer>
 
