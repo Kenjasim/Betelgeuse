@@ -17,7 +17,7 @@ class CameraFeed extends Component {
     return (
 
       <div className="camera-feed">
-        <Iframe url="http://camelabobeyera.ddns.net:8001"
+        <Iframe url="https://camelabobeyera.ddns.net:8000"
           width="100%"
           height="100%"
           id={this.props.id}
