@@ -17,6 +17,7 @@ class WeatherLiveFeed extends Component {
   }
 
 
+  //creates a usable array to pass into the live data table
   parseData = (array) => {
       const data = [{
           'id': array[0],
