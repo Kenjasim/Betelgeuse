@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { Marker, Layer, Feature, Popup } from "react-mapbox-gl";
+import ReactMapboxGl, { Marker, Layer, Feature, Popup, ScaleControl } from "react-mapbox-gl";
 import io from "socket.io-client";
 import ShipMarker from './marker';
 import DatePicker from 'react-datepicker';
@@ -28,7 +28,6 @@ class FusedMap extends Component {
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
     this.handleDateSelected = this.handleDateSelected.bind(this);
-    this.togglePopup = this.togglePopup.bind(this);
   }
 
 
@@ -87,11 +86,7 @@ class FusedMap extends Component {
       this.fetchData()
       console.log("Data fetched and drawn")
     });
-  }
-  
-  togglePopup(MMSI) {
-
-  }
+  } 
 
   convertDate(date) {
     const d = moment(date).format()
@@ -248,6 +243,7 @@ class FusedMap extends Component {
             center={[1.23917630, 51.01271940]}
             zoom={[5]}
           >
+            <ScaleControl measurement="mi" position="bottomLeft" style={{ left: 30 }} />
             <Layer
               type="symbol"
               id="marker"
@@ -259,7 +255,7 @@ class FusedMap extends Component {
                 <Feature 
                   key={i} 
                   coordinates={[point.Longitude, point.Latitude]} 
-                  onClick={this.togglePopup(point.MMSI)}
+                  onClick={point.MMSI}
                   />)}
             </Layer>
 
