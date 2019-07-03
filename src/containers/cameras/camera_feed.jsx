@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
-import ReactPlayer from 'react-player'
+import JSMpeg from 'jsmpeg-player';
+import Iframe from 'react-iframe'
 
 class CameraFeed extends Component {
-  render () {
+  componentDidMount() {
+    //this.InitialiseVideo()
+  }
+
+  // InitialiseVideo(){
+
+  //   var videoUrl = "https://217.138.134.182:3008";
+  //   new JSMpeg.VideoElement('#' + this.props.id, videoUrl);
+  // }
+
+  render() {
     return (
+
       <div className="camera-feed">
-        <ReactPlayer
-                className='react-player '
-                url={"rtsp://admin:yeetyeet@camelabobeyera.ddns.net:554//h264Preview_01_main"}
-                height="80%"
-                width="100%"
-                controls = "true"
-              />
+        <Iframe url="http://camelabobeyera.ddns.net:8001"
+          width="100%"
+          height="100%"
+          id={this.props.id}
+          className="camera-frame"
+          display="initial"
+          position="relative"/>
       </div>
     )
   }
