@@ -14,12 +14,12 @@ class RadarImageSection extends Component {
       }
       FilePath = this.props.radar_image.FilePath
       TimeLocal = this.props.radar_image.TimeLocal
-      Range = this.props.radar_image.TimeLocal
+      Range = this.props.radar_image.Range
     }catch
     {
 
     }
-    
+
     return (
 
       <div className="radar-image-section">
