@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import DatePicker from 'react-datepicker';
 import moment from 'moment'
 import { CSVLink, CSVDownload } from "react-csv";
+
+
 
 class PowerRaw extends Component {
   constructor(props) {
@@ -19,6 +23,7 @@ class PowerRaw extends Component {
     };
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
+    this.handleDateSelected = this.handleDateSelected.bind(this);
   }
 
 
@@ -32,40 +37,45 @@ class PowerRaw extends Component {
 
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
-    const query = `SELECT * FROM "Power" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+
+    const query = `SELECT * FROM "Power" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "TimeLocal" desc`
+
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
-        data.sort(function(a, b){
-          return new Date(b.TimeLocal) - new Date(a.TimeLocal);
-        });
         this.setState({
           state_data: data,
           datePickerDisabled: false,
           loading: false
         })
       })
+
   }
    handleStartChange(date) {
     this.setState({
-      datePickerDisabled: true,
-      loading: true,
       startDate: date
     }, () => {
-        this.fetchData()
+        console.log("date received")
     });
 
   }
 
   handleEndChange(date) {
     this.setState({
-      datePickerDisabled: true,
-      loading: true,
       endDate: date
     }, () => {
-        this.fetchData()
+        console.log("date received")
     });
+  }
 
+  handleDateSelected() {
+    this.setState({
+      datePickerDisabled: true,
+      loading: true,
+    }, () => {
+      this.fetchData()
+      console.log("Data fetched and drawn")
+    });
   }
 
   componentWillMount() {
@@ -86,6 +96,7 @@ class PowerRaw extends Component {
     }
     ]
     const today = new Date ()
+    console.log(this.props.bst)
     return (
       <div className="table-wrapper">
         <div className="date-filter-wrapper">
@@ -130,6 +141,9 @@ class PowerRaw extends Component {
                 maxTime={ today.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23,59)))}
                 minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0,0,0,0)))}
               />
+              <button onClick={this.handleDateSelected}>
+                Display data
+              </button>
             </div>
           </div>
         </div>
@@ -150,4 +164,10 @@ class PowerRaw extends Component {
   }
 }
 
-export default PowerRaw;
+function mapStateToProps(reduxState) {
+  return {
+    bst: reduxState.bst
+  };
+}
+
+export default connect(mapStateToProps, null)(PowerRaw);

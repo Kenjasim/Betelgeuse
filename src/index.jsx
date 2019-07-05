@@ -7,11 +7,12 @@ import { logger } from 'redux-logger';
 
 import '../assets/stylesheets/application.scss';
 
-import Router from './components/router'
+import Router from './containers/router'
 
+import bstReducer from './reducers/bst_reducer'
 
 const reducers = combineReducers({
-
+  bst: bstReducer
 });
 
 const middlewares = applyMiddleware(logger);
