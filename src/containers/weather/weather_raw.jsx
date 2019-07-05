@@ -33,14 +33,11 @@ class WeatherRaw extends Component {
   fetchData() {
     const url = "http://217.138.134.182:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
-    const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "TimeLocal" desc`
     console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
-        data.sort(function(a, b){
-          return new Date(b.TimeLocal) - new Date(a.TimeLocal);
-        });
         this.setState({
           state_data: data,
           datePickerDisabled: false,
