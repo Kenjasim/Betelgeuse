@@ -48,7 +48,8 @@ class MRURaw extends Component {
     this.setState({
       startDate: date
     }, () => {
-        this.fetchData()
+        // this.fetchData()
+        console.log("mru start date")
     });
 
   }
@@ -58,7 +59,8 @@ class MRURaw extends Component {
     this.setState({
       endDate: date
     }, () => {
-        this.fetchData()
+        // this.fetchData()
+        console.log("mru end date")
     });
 
   }
