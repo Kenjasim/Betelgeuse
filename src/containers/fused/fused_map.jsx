@@ -77,7 +77,7 @@ class FusedMap extends Component {
     });
 
   }
-  
+
   handleDateSelected() {
     this.setState({
       datePickerDisabled: true,
@@ -86,7 +86,7 @@ class FusedMap extends Component {
       this.fetchData()
       console.log("Data fetched and drawn")
     });
-  } 
+  }
 
   convertDate(date) {
     const d = moment(date).format()
@@ -94,12 +94,12 @@ class FusedMap extends Component {
   }
 
   fetchData() {
-    
+
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
-    console.log(this.convertDate(this.state.startDate));
-    console.log(this.convertDate(this.state.endDate));
+    console.log('query is:')
+    console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
@@ -124,7 +124,7 @@ class FusedMap extends Component {
     const Map = ReactMapboxGl({
       accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
     })
-    
+
     const layerPaint = {
       'heatmap-weight': {
         property: 'aisPresence',
@@ -172,6 +172,8 @@ class FusedMap extends Component {
     return (
       <div className="map-wrapper">
           <div className="date-filter-wrapper">
+
+
             <DatePicker
               selected={this.state.startDate}
               onChange={this.handleStartChange}
@@ -227,12 +229,13 @@ class FusedMap extends Component {
               maxTime={today.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23, 59)))}
               minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0, 0, 0, 0)))}
             />
+
           </div>
 
           <button onClick={this.handleDateSelected}>
             Display data
           </button>
-          
+
           <Map
             style="mapbox://styles/mapbox/satellite-v9"
             containerStyle={{
@@ -250,11 +253,11 @@ class FusedMap extends Component {
               minZoom={14}>
 
 
-              {this.state.map_data.map((point, i) => 
-                <Feature 
-                  key={i} 
-                  coordinates={[point.Longitude, point.Latitude]} 
-                  onClick={() => 
+              {this.state.map_data.map((point, i) =>
+                <Feature
+                  key={i}
+                  coordinates={[point.Longitude, point.Latitude]}
+                  onClick={() =>
                     console.log(point.MMSI + " " + point.Longitude + " " + point.Latitude)}
                   />)}
             </Layer>
@@ -268,12 +271,13 @@ class FusedMap extends Component {
               >
 
               {this.state.map_data.map((point, i) => <Feature key={i} coordinates={[point.Longitude, point.Latitude]} />)}
-            
+
             </Layer>
 
-            <ShipMarker /> 
+            <ShipMarker />
           </Map>
-      </div>);
+      </div>
+    );
 
   }
 }

@@ -20,6 +20,7 @@ class WeatherRaw extends Component {
     };
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
+    this.handleDateSelected = this.handleDateSelected.bind(this);
   }
 
 
@@ -30,16 +31,13 @@ class WeatherRaw extends Component {
   }
 
   fetchData() {
-
     const url = "http://217.138.134.182:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
-    const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "TimeLocal" desc`
+    console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
-        data.sort(function(a, b){
-          return new Date(b.TimeLocal) - new Date(a.TimeLocal);
-        });
         this.setState({
           state_data: data,
           datePickerDisabled: false,
@@ -47,27 +45,32 @@ class WeatherRaw extends Component {
         })
       })
   }
+
    handleStartChange(date) {
     this.setState({
-      datePickerDisabled: true,
-      loading: true,
       startDate: date
     }, () => {
         this.fetchData()
     });
-
   }
 
 
   handleEndChange(date) {
     this.setState({
-      datePickerDisabled: true,
-      loading: true,
       endDate: date
     }, () => {
         this.fetchData()
     });
+  }
 
+  handleDateSelected() {
+    this.setState({
+      datePickerDisabled: true,
+      loading: true,
+    }, () => {
+      this.fetchData()
+      console.log("Data fetched and drawn")
+    });
   }
 
   componentWillMount() {
@@ -146,6 +149,9 @@ class WeatherRaw extends Component {
                 maxTime={ today.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23,59)))}
                 minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0,0,0,0)))}
               />
+              <button onClick={this.handleDateSelected}>
+                Display data
+              </button>
             </div>
           </div>
         </div>

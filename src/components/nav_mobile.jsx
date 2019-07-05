@@ -20,7 +20,7 @@ class NavMobile extends Component {
             <DropdownMenu>
               {links.map(({url, link}) => {
                 return (
-                  <Link to={url} className="dropdown-links">
+                  <Link to={url} className="dropdown-links" key={url}>
                     <DropdownItem >
                       {link}
                     </DropdownItem>
