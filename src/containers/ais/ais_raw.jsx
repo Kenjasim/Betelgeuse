@@ -19,6 +19,7 @@ class AISRaw extends Component {
     };
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
+    this.handleDateSelected = this.handleDateSelected.bind(this);
   }
 
   convertDate(date) {
@@ -46,24 +47,30 @@ class AISRaw extends Component {
   }
    handleStartChange(date) {
     this.setState({
-      datePickerDisabled: true,
-      loading: true,
       startDate: date
     }, () => {
-        this.fetchData()
+        console.log("ais date received")
     });
 
   }
 
   handleEndChange(date) {
     this.setState({
-      datePickerDisabled: true,
-      loading: true,
       endDate: date
     }, () => {
-        this.fetchData()
+        console.log("ais date received")
     });
 
+  }
+
+  handleDateSelected() {
+    this.setState({
+      datePickerDisabled: true,
+      loading: true,
+    }, () => {
+      this.fetchData()
+      console.log("Data fetched and drawn")
+    });
   }
 
   componentWillMount() {
@@ -158,6 +165,9 @@ class AISRaw extends Component {
                 maxTime={ today.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23,59)))}
                 minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0,0,0,0)))}
               />
+              <button onClick={this.handleDateSelected}>
+                Display data
+              </button>
             </div>
           </div>
         </div>
