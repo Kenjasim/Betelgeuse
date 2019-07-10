@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Line, Doughnut } from 'react-chartjs-2';
 import io from "socket.io-client";
 import moment from 'moment';
@@ -43,11 +45,11 @@ class BoxStatus extends Component {
   }
 
   statusIndicator = () => {
-    if (this.state.status == 'Connecting') {
+    if (this.props.connected == 'Connecting') {
       return (
         <div className="status-indicator status-connecting">Connecting...</div>
       )
-    } else if (this.state.status == 'Connected') {
+    } else if (this.props.connected == 'Connected') {
       return (
         <div className="status-indicator status-connected">Connected</div>
       )
@@ -289,4 +291,10 @@ class BoxStatus extends Component {
   }
 }
 
-export default BoxStatus;
+function mapStateToProps(reduxState) {
+  return {
+    connected: reduxState.connected
+  };
+}
+
+export default connect(mapStateToProps, null)(BoxStatus);
