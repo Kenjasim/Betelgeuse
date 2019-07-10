@@ -15,7 +15,7 @@ class CameraFeed extends Component {
 
   render() {
     return (
-
+      //Calls and Iframe and adds the url of the cameras
       <div className="camera-feed">
         <Iframe url="https://camelabobeyera.ddns.net:8000"
           width="100%"
