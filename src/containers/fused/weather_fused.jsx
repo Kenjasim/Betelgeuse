@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment'
 import { CSVLink, CSVDownload } from "react-csv";
 
-class AISRaw extends Component {
+class WeatherFused extends Component {
   constructor(props) {
     super(props);
     const d1 = new Date();
@@ -179,4 +179,4 @@ class AISRaw extends Component {
   }
 }
 
-export default AISRaw;
+export default WeatherFused;

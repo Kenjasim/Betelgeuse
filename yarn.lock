@@ -6597,6 +6597,13 @@ react-dom@16.8:
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
+react-google-charts@^3.0.13:
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/react-google-charts/-/react-google-charts-3.0.13.tgz#7e22b36312054cf4a370e121206dd2af5bcea0cf"
+  integrity sha512-YGWVblSKycszcSWKARbQMrjC244dbamCSanW52uzWR+hvr4+5OVT3c3OQdwHcV0zmIeMywjWk7XHbUUAiZm+Yg==
+  dependencies:
+    react-load-script "^0.0.6"
+
 react-icons@^3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.7.0.tgz#64fe46231fabfeea27895edeae6c3b78114b8c8f"
@@ -6627,6 +6634,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-load-script@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-load-script/-/react-load-script-0.0.6.tgz#db6851236aaa25bb622677a2eb51dad4f8d2c258"
+  integrity sha512-aRGxDGP9VoLxcsaYvKWIW+LRrMOzz2eEcubTS4NvQPPugjk2VvMhow0wWTkSl7RxookomD1MwcP4l5UStg5ShQ==
 
 react-mapbox-gl@^4.4.0:
   version "4.4.0"
@@ -6663,6 +6675,11 @@ react-popper@^1.0.2, react-popper@^1.3.3:
     prop-types "^15.6.1"
     typed-styles "^0.0.7"
     warning "^4.0.2"
+
+react-radial-gauge@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-radial-gauge/-/react-radial-gauge-0.1.1.tgz#bbf35ad52cb5ff0026968d6a76c9b58516e7851e"
+  integrity sha512-KK8CIuVK5Or/K70qdVwUbRba+RqW1xHhNrZNOITL44O/+Wrk3H0f+0HiuvtcDgVIBX/Vpy37qTY9Ptgf0of3Fg==
 
 react-redux@^7.1.0:
   version "7.1.0"
