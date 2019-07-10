@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import DatePicker from 'react-datepicker';
 import moment from 'moment'
 import { CSVLink, CSVDownload } from "react-csv";
 
 
-class WiFiPinger extends Component {
+class WiFiPingerRaw extends Component {
 constructor(props) {
     super(props);
     const d1 = new Date();
@@ -31,13 +33,22 @@ constructor(props) {
   }
 
   fetchData() {
-    const url = "http://217.138.134.182:3333/?psqlQuery="
+    const url = "http://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
-    const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "TimeLocal" desc`
+    const query = `SELECT * FROM "WifiPinger" WHERE "Last time seen" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "Last time seen" desc`
     console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
+
+        if (this.props.bst) {
+          data.map((object) => {
+            let d = new Date(object.TimeLocal)
+            // d.setHours(d.getHours() + 1 )
+            object.TimeLocal = this.convertDate(d)
+          })
+        }
+
         this.setState({
           state_data: data,
           datePickerDisabled: false,
@@ -51,7 +62,7 @@ constructor(props) {
       startDate: date
     }, () => {
         // this.fetchData()
-        console.log("weather start date")
+        console.log("wifi pinger start date")
     });
   }
 
@@ -61,7 +72,7 @@ constructor(props) {
       endDate: date
     }, () => {
         // this.fetchData()
-        console.log("weather end date")
+        console.log("wifi pinger end date")
     });
   }
 
@@ -82,29 +93,25 @@ constructor(props) {
 
   render() {
     const columns = [{
-        Header: 'Time Local',
-        accessor: 'TimeLocal',
+        Header: 'BSSID',
+        accessor: 'BSSID'
+      },{
+        Header: 'Last Time Seen',
+        accessor: 'Last time seen',
         width: 200
       },{
-        Header: 'Wind Direction',
-        accessor: 'WindDirection',
-        width: 115
+        Header: 'Power',
+        accessor: 'Power'
       },{
-        Header: 'Wind Speed',
-        accessor: 'WindSpeed'
+        Header: 'ESSID',
+        accessor: 'ESSID'
       },{
-        Header: 'Humidity',
-        accessor: 'Humidity'
+        Header: 'Type',
+        accessor: 'Type'
       },{
-        Header: 'Temperature',
-        accessor: 'Temperature'
-      },{
-        Header: 'Air Pressure',
-        accessor: 'AirPressure'
-      },{
-        Header: 'Altitude',
-        accessor: 'Altitude'
-      },
+        Header: 'Antenna',
+        accessor: 'Antenna'
+      }
     ]
     const today = new Date ()
     return (
@@ -174,4 +181,10 @@ constructor(props) {
   }
 }
 
-export default WiFiPinger;
+function mapStateToProps(reduxState) {
+  return {
+    bst: reduxState.bst
+  };
+}
+
+export default connect(mapStateToProps, null)(WiFiPingerRaw);
