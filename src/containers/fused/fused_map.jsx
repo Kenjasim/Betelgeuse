@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { Marker, Layer, Feature, Popup, ScaleControl } from "react-mapbox-gl";
+import ReactMapboxGl, { Marker, Layer, Feature, Popup, ScaleControl, Overlay } from "react-mapbox-gl";
 import io from "socket.io-client";
 import ShipMarker from './marker';
 import DatePicker from 'react-datepicker';
+import Select from 'react-select';
 import moment from 'moment'
 import { CSVLink, CSVDownload } from "react-csv";
+import ControlPanel from "./control-panel";
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import data from './dummy_data'
 
@@ -21,13 +24,18 @@ class FusedMap extends Component {
       startDate: d2,
       endDate: d1,
       map_data: [],
+      mmsi_data: [],
       datePickerDisabled: false,
       loading: false,
+      viewport: {},
+      queryString: "AND",
     };
     this.socket = io.connect(this.state.endpoint)
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
-    this.handleDateSelected = this.handleDateSelected.bind(this);
+    this.drawDataSelected = this.drawDataSelected.bind(this);
+    this.fetchMMSIData = this.fetchMMSIData.bind(this);
+    this.changeQuery = this.changeQuery.bind(this);
   }
 
 
@@ -78,15 +86,38 @@ class FusedMap extends Component {
 
   }
   
-  handleDateSelected() {
+  drawDataSelected() {
     this.setState({
       datePickerDisabled: true,
       loading: true,
     }, () => {
       this.fetchData()
-      console.log("Data fetched and drawn")
+      console.log("1")
     });
-  } 
+  }
+  
+  fetchMMSIData() {
+    this.setState({
+      datePickerDisabled: true,
+      loading: true,
+    }, () => {
+      this.fetchData2()
+      console.log("2")
+    });
+  }
+
+  changeQuery(mmsiAdd) {
+    let mmsiData = "AND ("
+    //console.log(mmsiAdd)
+    mmsiAdd.map((point, i) => (mmsiData = mmsiData + ' "MMSI"=' + point.value+ " OR"));
+    this.setState({
+      queryString: mmsiData,
+    }, () =>
+    {
+      console.log(this.state.queryString);
+    });
+    
+  }
 
   convertDate(date) {
     const d = moment(date).format()
@@ -94,12 +125,16 @@ class FusedMap extends Component {
   }
 
   fetchData() {
-    
+    let tempData = [{value: "", label: "All"}]
+
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
-    const query = `SELECT "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const query = `SELECT "TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "Longitude" > 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const query_mmsi = `SELECT DISTINCT "MMSI" FROM "Ais" WHERE "Longitude" > 0 AND "MMSI" <> 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+
     console.log(this.convertDate(this.state.startDate));
     console.log(this.convertDate(this.state.endDate));
+
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
@@ -110,6 +145,65 @@ class FusedMap extends Component {
           loading: false
         })
       })
+     
+      const request2 = fetch(url+query_mmsi)
+      .then(response=> response.json())
+      .then((data2) => {
+        console.log(data2);
+        data2.map((point, i) => tempData.push({value: point.MMSI, label: point.MMSI}));
+        this.setState({
+          mmsi_data: tempData,
+          datePickerDisabled: false,
+          loading: false
+        })
+        console.log(this.state.mmsi_data);
+      })
+  }
+
+  fetchData2() {
+    let query_check = ""
+    if (this.state.queryString.substring(0,this.state.queryString.length-3) != "MMSI="){
+      query_check = this.state.queryString.substring(0,this.state.queryString.length-3) + ")" 
+    }
+
+    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const temp_url = "http://10.0.0.43:3333/?psqlQuery="
+    const query_mmsi = `SELECT "TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "Longitude" > 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const query = query_mmsi + query_check
+    console.log(query);
+    const request = fetch(url+query)
+      .then(response=> response.json())
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          map_data: data,
+          datePickerDisabled: false,
+          loading: false
+        })
+      })
+    
+  
+  }
+
+  fetchData3() {
+    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const temp_url = "http://10.0.0.43:3333/?psqlQuery="
+    const query_draw = `SELECT "TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+
+    console.log(this.convertDate(this.state.startDate));
+    console.log(this.convertDate(this.state.endDate));
+
+    const request3 = fetch(url+query_draw)
+      .then(response=> response.json())
+      .then((data3) => {
+        console.log(data3);
+        this.setState({
+          map_data: data3,
+          datePickerDisabled: false,
+          loading: false
+        })
+      })
+  
   }
 
   componentWillMount() {
@@ -119,6 +213,11 @@ class FusedMap extends Component {
   componentWillUnmount() {
     this.socket.disconnect()
   }
+
+  //_onViewportChange = viewport => this.setState({viewport});
+
+  //_onStyleChange = mapStyle => this.setState({mapStyle});
+
 
   render() {
     const Map = ReactMapboxGl({
@@ -229,20 +328,63 @@ class FusedMap extends Component {
             />
           </div>
 
-          <button onClick={this.handleDateSelected}>
-            Display data
+          <button onClick={this.drawDataSelected}>
+            1
           </button>
+
+          <button onClick={this.fetchMMSIData}>
+            2
+          </button>
+
+          <button onClick={this.drawMMSIData}>
+            3
+          </button>      
+
+          <div className="mmsiSelect" style={{width: '300px'}}>
+            <Select
+              defaultValue = {[]}
+              isMulti
+              options = {this.state.mmsi_data}
+              classNamePrefix = "select"
+              placeholder = "Search for MMSI..." 
+              onChange = {this.changeQuery}
+            />
+          </div>
           
           <Map
             style="mapbox://styles/mapbox/satellite-v9"
+            //onViewportChange={this._onViewportChange}
+
             containerStyle={{
               height: "100%",
               width: "100%"
-            }}
-            center={[1.23917630, 51.01271940]}
-            zoom={[5]}
-          >
-            <ScaleControl measurement="mi" position="bottomLeft" style={{ left: 30 }} />
+              }}
+              
+              center = {[1.23917630,51.01271940]}
+              zoom = {[5]}
+              bearing = {[0]}
+              pitch = {[0]}>
+            
+            {/* <Overlay
+              type="image"
+              url="http://217.138.134.182:3005//home/keith/Documents/Radar/17062019/radarImage1560803671.bmp"
+              coordinates={[[
+                [-80.425, 46.437],
+                [-71.516, 46.437],
+                [-71.516, 37.936],
+                [-80.425, 37.936]
+            ]]}>
+
+
+            </Overlay> */}
+
+
+            {/* <ControlPanel
+              containerComponent={this.props.containerComponent}
+              onChange={this._onStyleChange}
+            /> */}
+
+            <ScaleControl measurement="mi" position="bottomLeft" style={{ right: 30 }} />
             <Layer
               type="symbol"
               id="marker"
@@ -253,9 +395,16 @@ class FusedMap extends Component {
               {this.state.map_data.map((point, i) => 
                 <Feature 
                   key={i} 
-                  coordinates={[point.Longitude, point.Latitude]} 
+                  coordinates={[point.Longitude, point.Latitude]}
+                  style={{transform: `rotate(${point.Cog}deg)`}} 
                   onClick={() => 
-                    console.log(point.MMSI + " " + point.Longitude + " " + point.Latitude)}
+                    console.log("////////////////////////////////////"  + '\n' +
+                                "Local Time: " + point.TimeLocal + '\n' + 
+                                "MMSI: " + point.MMSI + '\n' + 
+                                "Longitude: " + point.Longitude + '\n' + 
+                                "Latitude: " + point.Latitude + '\n' + 
+                                "Speed over ground: " + point.Sog + '\n' + 
+                                "Course over ground: " + point.Cog)}
                   />)}
             </Layer>
 
