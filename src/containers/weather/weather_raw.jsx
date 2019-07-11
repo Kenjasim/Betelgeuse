@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import DatePicker from 'react-datepicker';
 import moment from 'moment'
@@ -20,6 +22,7 @@ class WeatherRaw extends Component {
     };
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
+    this.handleDateSelected = this.handleDateSelected.bind(this);
   }
 
 
@@ -30,16 +33,22 @@ class WeatherRaw extends Component {
   }
 
   fetchData() {
-
-    const url = "http://217.138.134.182:3333/?psqlQuery="
+    const url = "http://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
-    const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "TimeLocal" desc`
+    console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
-        data.sort(function(a, b){
-          return new Date(b.TimeLocal) - new Date(a.TimeLocal);
-        });
+
+        if (this.props.bst) {
+          data.map((object) => {
+            let d = new Date(object.TimeLocal)
+            // d.setHours(d.getHours() + 1 )
+            object.TimeLocal = this.convertDate(d)
+          })
+        }
+
         this.setState({
           state_data: data,
           datePickerDisabled: false,
@@ -47,27 +56,34 @@ class WeatherRaw extends Component {
         })
       })
   }
+
    handleStartChange(date) {
     this.setState({
-      datePickerDisabled: true,
-      loading: true,
       startDate: date
     }, () => {
-        this.fetchData()
+        // this.fetchData()
+        console.log("weather start date")
     });
-
   }
 
 
   handleEndChange(date) {
     this.setState({
-      datePickerDisabled: true,
-      loading: true,
       endDate: date
     }, () => {
-        this.fetchData()
+        // this.fetchData()
+        console.log("weather end date")
     });
+  }
 
+  handleDateSelected() {
+    this.setState({
+      datePickerDisabled: true,
+      loading: true,
+    }, () => {
+      this.fetchData()
+      console.log("Data fetched and drawn")
+    });
   }
 
   componentWillMount() {
@@ -146,6 +162,9 @@ class WeatherRaw extends Component {
                 maxTime={ today.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23,59)))}
                 minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0,0,0,0)))}
               />
+              <button onClick={this.handleDateSelected}>
+                Display data
+              </button>
             </div>
           </div>
         </div>
@@ -166,4 +185,10 @@ class WeatherRaw extends Component {
   }
 }
 
-export default WeatherRaw;
+function mapStateToProps(reduxState) {
+  return {
+    bst: reduxState.bst
+  };
+}
+
+export default connect(mapStateToProps, null)(WeatherRaw);

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Line, Doughnut } from 'react-chartjs-2';
 import io from "socket.io-client";
 import moment from 'moment';
@@ -43,11 +45,11 @@ class BoxStatus extends Component {
   }
 
   statusIndicator = () => {
-    if (this.state.status == 'Connecting') {
+    if (this.props.connected == 'Connecting') {
       return (
         <div className="status-indicator status-connecting">Connecting...</div>
       )
-    } else if (this.state.status == 'Connected') {
+    } else if (this.props.connected == 'Connected') {
       return (
         <div className="status-indicator status-connected">Connected</div>
       )
@@ -71,21 +73,26 @@ class BoxStatus extends Component {
     return d.slice(0, 10).replace('T', ' ');
   }
 
+  //Creates the query ewhich gets the power used on that day
   donut = () => {
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     //const temp_url = "//10.0.0.43:3333/?psqlQuery="
     let d = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
     let cd = new Date();
+    //The SQL Query to get the average current used throughout the day
     const query = `SELECT AVG("Current") FROM "Power" WHERE "TimeLocal" > '${this.convertDate(d)}' AND "TimeLocal" < '${this.convertDate(cd.setDate(d.getDate() + 1))}' AND "Current" < 6 AND "Current" > 0`
     console.log(url+query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
+        //Gets the actual number from the object and multiply it by the hours that have passsed this day
         let poweruse = data[0].avg * 24 * (this.percentday())
         console.log(poweruse)
+        //Create the percentage and round to 1.d.p
         let ps = this.round((poweruse/1500)*100, 1)
         console.log(ps)
         let powerstring = ps.toString() + '%'
+        //Add the data into a form which can be shown by the donut
         let up_dont_data = {
           labels: [],
           datasets: [
@@ -99,6 +106,7 @@ class BoxStatus extends Component {
           ]
         }
         this.setState({
+          //set the data
           donut_data: up_dont_data,
 
           percentpower: powerstring,
@@ -106,6 +114,7 @@ class BoxStatus extends Component {
       })
   }
 
+  //Calculate the percentage of the day whcih has passed
   percentday() {
     var now = new Date(),
     then = new Date(
@@ -113,12 +122,14 @@ class BoxStatus extends Component {
         now.getMonth(),
         now.getDate(),
         0,0,0),
+    //calculates difference from midnight to now 
     diff = now.getTime() - then.getTime()
 
     return (diff/3600000);
   }
 
-   round(value, precision) {
+  //Rounds a number to a certain precision  
+  round(value, precision) {
     var multiplier = Math.pow(10, precision || 0);
     return Math.round(value * multiplier) / multiplier;
   }
@@ -280,4 +291,10 @@ class BoxStatus extends Component {
   }
 }
 
-export default BoxStatus;
+function mapStateToProps(reduxState) {
+  return {
+    connected: reduxState.connected
+  };
+}
+
+export default connect(mapStateToProps, null)(BoxStatus);
