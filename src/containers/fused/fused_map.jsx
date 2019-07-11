@@ -106,16 +106,33 @@ class FusedMap extends Component {
     });
   }
 
+/*Continued at line 182
+
+  Change changeQuery() so that it checks whether the mmsiAdd from the select field is null. 
+  If it is not, map mmsiAdd and form a query extension from it called mmsiData and equate queryString to it. 
+  If it is, make queryString equal to an empty string “”. 
+  
+*/
+
   changeQuery(mmsiAdd) {
     let mmsiData = "AND ("
-    //console.log(mmsiAdd)
-    mmsiAdd.map((point, i) => (mmsiData = mmsiData + ' "MMSI"=' + point.value+ " OR"));
+    if(mmsiAdd != null || "") {
+      mmsiAdd.map((point, i) => (mmsiData = mmsiData + ' "MMSI"=' + point.value+ " OR"));
+    
     this.setState({
       queryString: mmsiData,
     }, () =>
     {
       console.log(this.state.queryString);
-    });
+    });}
+
+    else if(mmsiAdd == null || "") {
+      this.setState({
+        queryString: "",
+      }, () =>
+      {
+        console.log(this.state.queryString);
+      });}
     
   }
 
@@ -125,7 +142,7 @@ class FusedMap extends Component {
   }
 
   fetchData() {
-    let tempData = [{value: "", label: "All"}]
+    let tempData = []
 
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
@@ -160,11 +177,22 @@ class FusedMap extends Component {
       })
   }
 
+  /*Comment starts at line 109
+    
+    In turn, in fetchData2, the queryString’s ending will be compared to “ OR”. 
+    If it is equal to it (i.e. the string does include MMSI data that ends with “ OR”), that ending will be removed 
+    and closed bracket “)” will be concatenated to form the end query extension. 
+    If the ending of queryString is not equal to “ OR”, it means that no MMSI’s are selected 
+    and thus the empty extension will be added to the root query (i.e. nothing changes) and all data is displayed.
+
+  */
+
   fetchData2() {
     let query_check = ""
-    if (this.state.queryString.substring(0,this.state.queryString.length-3) != "MMSI="){
+    if (this.state.queryString.substring(this.state.queryString.length-3, this.state.queryString.length) == " OR"){
       query_check = this.state.queryString.substring(0,this.state.queryString.length-3) + ")" 
     }
+    
 
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
@@ -384,7 +412,7 @@ class FusedMap extends Component {
               onChange={this._onStyleChange}
             /> */}
 
-            <ScaleControl measurement="mi" position="bottomLeft" style={{ right: 30 }} />
+            <ScaleControl measurement="mi" position="topLeft" style={{ right: 30 }} />
             <Layer
               type="symbol"
               id="marker"
@@ -405,7 +433,7 @@ class FusedMap extends Component {
                                 "Latitude: " + point.Latitude + '\n' + 
                                 "Speed over ground: " + point.Sog + '\n' + 
                                 "Course over ground: " + point.Cog)}
-                  />)}
+                />)}
             </Layer>
 
             <Layer
@@ -416,7 +444,11 @@ class FusedMap extends Component {
               paint={layerPaint}
               >
 
-              {this.state.map_data.map((point, i) => <Feature key={i} coordinates={[point.Longitude, point.Latitude]} />)}
+              {this.state.map_data.map((point, i) => 
+                <Feature 
+                  key={i} 
+                  coordinates={[point.Longitude, point.Latitude]} 
+                />)}
             
             </Layer>
 
