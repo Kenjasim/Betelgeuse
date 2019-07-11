@@ -122,13 +122,13 @@ class BoxStatus extends Component {
         now.getMonth(),
         now.getDate(),
         0,0,0),
-    //calculates difference from midnight to now 
+    //calculates difference from midnight to now
     diff = now.getTime() - then.getTime()
 
     return (diff/3600000);
   }
 
-  //Rounds a number to a certain precision  
+  //Rounds a number to a certain precision
   round(value, precision) {
     var multiplier = Math.pow(10, precision || 0);
     return Math.round(value * multiplier) / multiplier;
@@ -171,7 +171,10 @@ class BoxStatus extends Component {
       this.socket.on('update',  (data) => {
         const message = data.message.payload
         const result = message.split(",")
-        this.powerData(result[2])
+        if (result[2] > 0) {
+          this.powerData(result[2])
+
+        }
 
     });
   }
