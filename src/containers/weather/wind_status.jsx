@@ -12,6 +12,7 @@ class WindStatus extends Component {
     super(props)
     this.state = {
       wind_dir: 0,
+      wind_speed: 0,
       wind_data: {
         labels: [],
         datasets: [
@@ -70,9 +71,10 @@ class WindStatus extends Component {
         const result = message.split(",")
         console.log(result)
         this.setState({
-          wind_dir: result[2]
+          wind_dir: result[2],
+          wind_speed: result[4]
         })
-        this.windData(result[4])
+        this.windData(this.state.wind_speed)
 
     });
   }
@@ -89,11 +91,16 @@ class WindStatus extends Component {
   }
 
   render() {
+    //The options for the compass which sets the size and makes it a 360 degree circle
     let opts = {size: 200,
     currentValue: (this.state.wind_dir)/3.6,
     dialWidth: 0,
+    tickLength: 0,
     progressWidth: 0,
-    progressFontSize: 0}
+    needleSharp: true,
+    needleColor: '#1D1955',
+    needleBaseColor: '#1D1955',
+    }
       Chart.pluginService.register({
         beforeDraw: function (chart) {
           if (chart.config.options.elements.center) {
@@ -149,7 +156,7 @@ class WindStatus extends Component {
               <div className="boxtemp">{24}˚C</div>
             </div>*/}
           {/*</div>*/}
-          <div className="power-chart-container">
+          <div className="wind-chart-container">
             <Line
               data={this.state.wind_data}
               height={170}
@@ -160,14 +167,18 @@ class WindStatus extends Component {
                 }
               }}
             />
-
+            <div className="wind-speed-text">
+                Wind Speed:
+                {this.state.wind_speed} m/s
+              </div>
           </div>
+          
         </div>
         <div className="box-box-right">
           <div className="power-doughnut-section">
-            <div>
+            <div className ="compass">
               <Gauge {...opts}/>
-              <div className="power-budget-text">
+              <div className="wind-direction-text">
                 Direction:
                 {this.state.wind_dir}°
               </div>

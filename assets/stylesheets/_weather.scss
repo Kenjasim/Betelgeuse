@@ -1,0 +1,26 @@
+.compass {
+font-size: 0 !important;
+}
+.grey-container {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0px 5.5px 5px rgba(0, 0, 0, 0.24), 0px 9px 18px rgba(0, 0, 0, 0.18);
+  }
+.wind-speed-text {
+    width: 100%;
+    text-align: center;
+    margin-top: 0px;
+    font-size: 12px;
+  }
+.wind-direction-text {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+.wind-chart-container {
+    width: 100%;
+    height: 81%;
+    padding: 20px 20px;
+  }

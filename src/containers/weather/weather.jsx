@@ -12,16 +12,16 @@ class Weather extends Component {
   render() {
     const tabs = [
       {
+        'name': 'Analytics',
+        'component': <WeatherAnalytics/>
+      },
+      {
         'name': 'Live Feed',
         'component': <WeatherLiveFeed/>
       },
       {
         'name': 'Raw Data',
         'component': <WeatherRaw/>
-      },
-      {
-        'name': 'Analytics',
-        'component': <WeatherAnalytics/>
       }
     ]
     return (
