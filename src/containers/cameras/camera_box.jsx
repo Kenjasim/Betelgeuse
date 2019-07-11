@@ -16,8 +16,11 @@ class CameraBox extends Component {
     super(props);
     this.state = {
       mode: 'Feed',
-      file: '',
-      file_type: ''
+      filepath: '',
+      filename: '',
+      file_type: '',
+      file_list: [],
+      selectedIndex: 0
     };
 
   }
@@ -34,23 +37,49 @@ class CameraBox extends Component {
     })
   }
 
-  switchFile = (file, file_type) => {
+  switchFile = (filepath, file_type, filename) => {
     this.setState({
       mode: 'Playback',
-      file: file,
+      filepath: filepath,
+      filename: filename,
       file_type: file_type
     })
+
   }
+
+  setFiles = (file_list) => {
+    this.setState({file_list: file_list}, () => {
+      console.log("in camera box")
+      console.log(this.state.file_list)
+
+    } )
+  }
+
 
   pickComponent = () => {
     if (this.state.mode == 'Feed') {
       return <CameraFeed id = {this.props.id}/>
     } else if (this.state.mode == 'Index') {
-      return <CameraIndex switchFile={this.switchFile} id = {this.props.id}/>
+      return <CameraIndex switchFile={this.switchFile} id = {this.props.id} setFiles={this.setFiles}/>
     } else if (this.state.mode == 'Playback') {
-      return <CameraPlayback filetype={this.state.file_type} file={this.state.file}/>
+      return <CameraPlayback filetype={this.state.file_type} file={this.state.filepath}/>
     }
   }
+
+
+  imagePrev = () => {
+    console.log(`previous image ${this.props.name}`)
+    console.log(this.state.file_list)
+    console.log(this.state.file)
+
+    const index = this.state.file_list.indexOf(this.state.filename)
+
+  }
+
+  imageNext = () => {
+    console.log("next image")
+  }
+
 
   render() {
 
@@ -68,8 +97,8 @@ class CameraBox extends Component {
             { this.state.mode == 'Feed' ? <TiVideo className="camera-btn camera-btn-selected" onClick={this.switchToFeed}/> : <TiVideo className="camera-btn" onClick={this.switchToFeed}/>}
             { this.state.mode == 'Index' || this.state.mode == 'Playback' ? <TiThList className="camera-btn camera-btn-selected" onClick={this.switchToIndex}/> : <TiThList className="camera-btn" onClick={this.switchToIndex}/>}
 
-            <TiChevronLeft className="camera-btn"/>
-            <TiChevronRight className="camera-btn"/>
+            <TiChevronLeft className="camera-btn" onClick={this.imagePrev}/>
+            <TiChevronRight className="camera-btn" onClick={this.imageNext}/>
           </div>
         </div>
         <div className="camera-container">
