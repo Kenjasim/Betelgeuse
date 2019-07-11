@@ -357,15 +357,15 @@ class FusedMap extends Component {
           </div>
 
           <button onClick={this.drawDataSelected}>
-            1
+            1: Draw all data
           </button>
 
           <button onClick={this.fetchMMSIData}>
-            2
+            2: Draw specific MMSI
           </button>
 
-          <button onClick={this.drawMMSIData}>
-            3
+          <button onClick={() => {console.log("You dirty dog")}}>
+            3: Overthrow the Queen
           </button>      
 
           <div className="mmsiSelect" style={{width: '300px'}}>
