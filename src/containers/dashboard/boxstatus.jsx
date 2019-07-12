@@ -36,7 +36,7 @@ class BoxStatus extends Component {
       percentpower: '',
       status: "Connected",
       response: false,
-      power_endpoint: 'http://bobeyes.siriusinsight.io:3001'
+      power_endpoint: 'http://localhost:3001'
     }
     this.socket = io.connect(this.state.power_endpoint)
     this.donut = this.donut.bind(this)
