@@ -17,10 +17,13 @@ class CameraIndex extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+
+
   handleChange(date) {
     this.setState({ startDate: date }, () => {
       this.fetchData()
     });
+
   }
   convertDate(date) {
     const d = moment(date).format()
@@ -30,18 +33,18 @@ class CameraIndex extends Component {
   //Queries the camera server to get the images which are in the server
   fetchData() {
     console.log(this.convertDate(this.state.startDate))
-    //Passes the query which is just the date and time into the API 
+    //Passes the query which is just the date and time into the API
     const url = "https://bobeyes.siriusinsight.io:3006/"
     const query = this.props.id + '/' + this.convertDate(this.state.startDate) + '/';
     console.log(url+query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
-        this.setState({
-          data: data,
+        this.setState({ data: data}, () => {
+          this.props.setFiles(this.state.data)
         })
-        console.log(this.state.data)
-        console.log(this.state.data[1].slice(27,30))
+        // console.log(this.state.data)
+        // console.log(this.state.data[1].slice(27,30))
         //console.log(('http://217.138.134.182:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' +this.state.data[1]).duration)
       })
   }
@@ -66,9 +69,11 @@ class CameraIndex extends Component {
                 index={index}
                 timestamp={camera_card.slice(12,25)}
                 type={camera_card.slice(27,30)}
-                filename={'https://bobeyes.siriusinsight.io:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card}
-                 duration={camera_card.slice(27,30)}
+                filepath={'https://bobeyes.siriusinsight.io:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card}
+                filename={camera_card}
+                duration={camera_card.slice(27,30)}
                 switchFile={this.props.switchFile}
+                index={index}
               />
             )
           })}
