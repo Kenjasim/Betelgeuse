@@ -66,24 +66,70 @@ class CameraBox extends Component {
     }
   }
 
+  convertDate(date) {
+    const d = moment(date).format()
+    return d.slice(0, 10).replace(/-/g, '/');
+  }
+
+
+
 
   imagePrev = () => {
     console.log(`previous image ${this.props.name}`)
-    console.log(this.state.file_list)
-    console.log(this.state.file)
 
     const index = this.state.file_list.indexOf(this.state.filename)
+
+    if (index < this.state.file_list.length - 1) {
+      const filepath_array = this.state.filepath.split("/")
+      filepath_array.pop()
+      const new_image = this.state.file_list[index+1]
+      filepath_array.push(new_image)
+      const filepath = filepath_array.join('/')
+      const filetype = new_image.split(".").slice(-1)[0]
+
+      this.switchFile(filepath, filetype, new_image)
+    }
+
 
   }
 
   imageNext = () => {
     console.log("next image")
+
+    const index = this.state.file_list.indexOf(this.state.filename)
+
+    if (index > 0) {
+      const filepath_array = this.state.filepath.split("/")
+      filepath_array.pop()
+      const new_image = this.state.file_list[index-1]
+      filepath_array.push(new_image)
+      const filepath = filepath_array.join('/')
+      const filetype = new_image.split(".").slice(-1)[0]
+
+      this.switchFile(filepath, filetype, new_image)
+    }
+  }
+
+  disabledNext = () => {
+    let arrow_style = "camera-btn"
+    const index = this.state.file_list.indexOf(this.state.filename)
+    if ((!(this.state.mode == "Playback")) || (index == this.state.file_list.length - 1)) {
+      arrow_style += " arrow-button-disabled"
+    }
+    return arrow_style
+  }
+
+  disabledPrev = () => {
+    let arrow_style = "camera-btn"
+    const index = this.state.file_list.indexOf(this.state.filename)
+    if ((!(this.state.mode == "Playback")) || (index == 0)) {
+      arrow_style += " arrow-button-disabled"
+    }
+    return arrow_style
   }
 
 
   render() {
-
-
 
     return (
 
@@ -97,8 +143,8 @@ class CameraBox extends Component {
             { this.state.mode == 'Feed' ? <TiVideo className="camera-btn camera-btn-selected" onClick={this.switchToFeed}/> : <TiVideo className="camera-btn" onClick={this.switchToFeed}/>}
             { this.state.mode == 'Index' || this.state.mode == 'Playback' ? <TiThList className="camera-btn camera-btn-selected" onClick={this.switchToIndex}/> : <TiThList className="camera-btn" onClick={this.switchToIndex}/>}
 
-            <TiChevronLeft className="camera-btn" onClick={this.imagePrev}/>
-            <TiChevronRight className="camera-btn" onClick={this.imageNext}/>
+            <TiChevronLeft className={this.disabledPrev()} onClick={this.imageNext}/>
+            <TiChevronRight className={this.disabledNext()} onClick={this.imagePrev}/>
           </div>
         </div>
         <div className="camera-container">
