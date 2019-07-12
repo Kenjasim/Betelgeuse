@@ -14,7 +14,7 @@ class WindStatus extends Component {
       wind_dir: 0,
       wind_speed: 0,
       wind_data: {
-        labels: [],
+        labels: [], 
         datasets: [
           {
             label: 'Wind Speed (m/s)',
@@ -27,7 +27,7 @@ class WindStatus extends Component {
       percentpower: '',
       status: "Connected",
       response: false,
-      weather_endpoint: 'http://bobeyes.siriusinsight.io:3000'
+      weather_endpoint: 'https://bobeyes.siriusinsight.io:3000'
     }
     this.socket = io.connect(this.state.weather_endpoint)
   }
@@ -69,7 +69,6 @@ class WindStatus extends Component {
       this.socket.on('update',  (data) => {
         const message = data.message.payload
         const result = message.split(",")
-        console.log(result)
         this.setState({
           wind_dir: result[2],
           wind_speed: result[4]
