@@ -32,6 +32,7 @@
     "babel": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "chart.js": "^2.8.0",
+    "clean-webpack-plugin": "^3.0.0",
     "cogo-toast": "2.0.1",
     "get-video-duration": "^1.0.3",
     "history": "^4.9.0",
@@ -52,6 +53,7 @@
     "react-iframe": "^1.8.0",
     "react-interval": "^2.1.0",
     "react-mapbox-gl": "^4.4.0",
+    "react-open-weather": "^0.4.0",
     "react-player": "^1.11.0",
     "react-radial-gauge": "^0.1.1",
     "react-redux": "^7.1.0",
@@ -62,16 +64,19 @@
     "reactstrap": "^8.0.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
+    "serve": "^11.1.0",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "ssh2": "^0.8.4",
     "ssh2-sftp-client": "^2.5.0",
     "stream": "^0.0.2",
-    "typicons.font": "^2.0.9"
+    "typicons.font": "^2.0.9",
+    "webpack-merge": "^4.2.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development",
+    "start": "webpack-dev-server --open --config webpack.dev.js",
     "lint": "eslint './src/**/*.js*'",
-    "deploy": "webpack -p && gh-pages -d dist"
+    "build": "webpack",
+    "deploy": "webpack --config webpack.prod.js"
   }
 }
