@@ -15,6 +15,7 @@ class WeatherAnalytics extends Component {
           <div className="col-12 col-sm-12 col-md-6 dashboard-left">
             <div className="boxstatus-container grey-container">
                <TempStatus />
+               yeet
             </div>
             <div className="ship-container grey-container">
               <WindMap />
