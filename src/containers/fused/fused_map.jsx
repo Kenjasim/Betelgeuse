@@ -106,6 +106,7 @@ class FusedMap extends Component {
     });
 
   }
+
   
   drawDataSelected() {
     this.setState({
@@ -157,6 +158,7 @@ class FusedMap extends Component {
     
   }
 
+<<<<<<< HEAD
   changeVisibility() {
     if (this.state.visibility === "visible") {
       this.state.visibility = "none";
@@ -165,6 +167,8 @@ class FusedMap extends Component {
       this.state.visibility = "visible";
     }
   }
+=======
+>>>>>>> eff29de761ae78e2a2a98ded494a7a3520ae9e56
 
   convertDate(date) {
     const d = moment(date).format()
@@ -172,6 +176,7 @@ class FusedMap extends Component {
   }
 
   fetchData() {
+
     let tempData = []
 
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
@@ -229,6 +234,7 @@ class FusedMap extends Component {
     const query_mmsi = `SELECT "TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "Longitude" > 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
     const query = query_mmsi + query_check
     console.log(query);
+
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
@@ -323,6 +329,7 @@ class FusedMap extends Component {
     const Map = ReactMapboxGl({
       accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
     })
+<<<<<<< HEAD
     
     const mapStyle = {
       
@@ -454,6 +461,8 @@ class FusedMap extends Component {
         }
       ]
     };
+=======
+>>>>>>> eff29de761ae78e2a2a98ded494a7a3520ae9e56
 
     const layerPaint = {
       'heatmap-weight': {
@@ -543,6 +552,8 @@ class FusedMap extends Component {
     return (
       <div className="map-wrapper">
           <div className="date-filter-wrapper">
+
+
             <DatePicker
               selected={this.state.startDate}
               onChange={this.handleStartChange}
@@ -580,6 +591,7 @@ class FusedMap extends Component {
               maxTime={today.getDate() === this.state.endDate.getDate() ? this.state.endDate : (new Date(new Date().setHours(23, 59)))}
               minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0, 0, 0, 0)))}
             />
+
           </div>
 
           <button onClick={this.drawDataSelected}>
@@ -604,7 +616,12 @@ class FusedMap extends Component {
               onChange = {this.changeQuery}
             />
           </div>
+<<<<<<< HEAD
           <nav id="menu" ref="menu"></nav>
+=======
+          
+
+>>>>>>> eff29de761ae78e2a2a98ded494a7a3520ae9e56
           <Map
             style={mapStyle}
             //onViewportChange={this._onViewportChange}
@@ -648,6 +665,7 @@ class FusedMap extends Component {
                                 "Speed over ground: " + point.Sog + '\n' + 
                                 "Course over ground: " + point.Cog)}
                 />)}
+
             </Layer>
 
             <Layer
@@ -665,11 +683,13 @@ class FusedMap extends Component {
                   coordinates={[point.Longitude, point.Latitude]} 
                 />)}
             
+
             </Layer>
 
-            <ShipMarker /> 
+            <ShipMarker />
           </Map>
-      </div>);
+      </div>
+    );
 
   }
 }

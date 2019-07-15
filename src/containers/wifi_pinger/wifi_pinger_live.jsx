@@ -4,13 +4,13 @@ import io from "socket.io-client";
 
 // import data from './dummy_data'
 
-class WeatherLiveFeed extends Component {
+class WifiLiveFeed extends Component {
   constructor(props) {
     super(props);
     this.parseData = this.parseData.bind(this);
     this.state = {
       response: false,
-      endpoint: 'bobeyes.siriusinsight.io:3000',
+      endpoint: 'bobeyes.siriusinsight.io:3007',
       state_data: [],
     };
     this.socket = io.connect(this.state.endpoint)
@@ -20,22 +20,20 @@ class WeatherLiveFeed extends Component {
   //creates a usable array to pass into the live data table
   parseData = (array) => {
       const data = [{
-          'id': array[0],
-          'time local': array[1],
-          'wind direction': array[2],
-          'reference': array[3],
-          'wind speed': array[4],
-          'humidity': array[5],
-          'temp': array[6],
-          'air pressure': array[7],
-          'altitude': array[8]
+          'bssid': array[0],
+          'last time seen': array[1],
+          'power': array[2],
+          'essid': array[3],
+          'type': array[4],
+          'antenna': array[5]
         }]
       return data
 
     }
 
 
-  componentDidMount = () => {
+  //connects to the socket and when a message is sent is parsed
+    componentDidMount = () => {
 
       this.socket.on('connected',  (data) => {
         this.socket.emit('ready for data', {})
@@ -59,28 +57,25 @@ class WeatherLiveFeed extends Component {
 
   render() {
     const columns = [{
-        Header: 'Time Local',
-        accessor: 'time local',
+        Header: 'BSSID',
+        accessor: 'bssid',
         width: 200
       },{
-        Header: 'Wind Direction',
-        accessor: 'wind direction',
+        Header: 'Last Time Seen',
+        accessor: 'last time seen',
         width: 115
       },{
-        Header: 'Wind Speed',
-        accessor: 'wind speed'
+        Header: 'Power',
+        accessor: 'power'
       },{
-        Header: 'Humidity',
-        accessor: 'humidity'
+        Header: 'ESSID',
+        accessor: 'essid'
       },{
-        Header: 'Temperature',
-        accessor: 'temp'
+        Header: 'Type',
+        accessor: 'type'
       },{
-        Header: 'Air Pressure',
-        accessor: 'air pressure'
-      },{
-        Header: 'Altitude',
-        accessor: 'altitude'
+        Header: 'Antenna',
+        accessor: 'antenna'
       }
     ]
 
@@ -92,4 +87,4 @@ class WeatherLiveFeed extends Component {
     );
   }
 }
-export default WeatherLiveFeed;
+export default WifiLiveFeed;

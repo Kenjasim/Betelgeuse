@@ -71,18 +71,20 @@ class RadarImages extends Component {
     const d = moment(date).format()
     return d.slice(0, 10).replace('T', ' ');
   }
-
+  //executes a query to the database from the server
   fetchData() {
     console.log(this.convertDate(this.state.endDate))
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     let d = new Date()
+    //The SQL query which gets all the Radar Data froma certain time which is defined by the timw picker
     const query = `SELECT * FROM "RadarImage" WHERE "TimeLocal" > '${this.convertDate(this.state.startDate)}' AND "TimeLocal" < '${this.convertDate(d.setDate(this.state.startDate.getDate() + 1))}'`
     const request = fetch(url+query)
     //console.log(url)
       .then(response=> response.json())
       .then((data) => {
           this.setState({
+            //sets the data recieved by the query as the data to show
             data: data,
           })
         console.log(this.state.data)

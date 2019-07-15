@@ -27,8 +27,10 @@ class CameraIndex extends Component {
     return d.slice(0, 10).replace(/-/g, '/');
   }
 
+  //Queries the camera server to get the images which are in the server
   fetchData() {
     console.log(this.convertDate(this.state.startDate))
+    //Passes the query which is just the date and time into the API 
     const url = "https://bobeyes.siriusinsight.io:3006/"
     const query = this.props.id + '/' + this.convertDate(this.state.startDate) + '/';
     console.log(url+query)

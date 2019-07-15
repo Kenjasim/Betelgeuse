@@ -44,7 +44,7 @@ class CameraBox extends Component {
 
   pickComponent = () => {
     if (this.state.mode == 'Feed') {
-      return <CameraFeed />
+      return <CameraFeed id = {this.props.id}/>
     } else if (this.state.mode == 'Index') {
       return <CameraIndex switchFile={this.switchFile} id = {this.props.id}/>
     } else if (this.state.mode == 'Playback') {

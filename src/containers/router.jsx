@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import NavSideBar from './nav_sidebar'
-import NavMobile from './nav_mobile'
+import NavSideBar from '../components/nav_sidebar'
+import NavMobile from '../components/nav_mobile'
 
-import routes from './routes'
+import routes from '../components/routes'
 
-import App from './app';
-import Example from './example';
+import {setBST} from '../actions'
+
+
 
 class Router extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentWillMount() {
+      this.props.setBST()
     }
 
     render() {
@@ -30,4 +37,11 @@ class Router extends Component {
     }
 };
 
-export default Router;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {setBST: setBST},
+    dispatch
+  );
+}
+
+export default connect(null, mapDispatchToProps)(Router);
