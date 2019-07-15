@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import io from "socket.io-client";
 import cogoToast from 'cogo-toast';
+
+import { emitConnected } from '../../actions'
 
 
 class SystemBox extends Component {
@@ -30,6 +34,8 @@ class SystemBox extends Component {
         if (!this.state.receiving) {
           this.setState({receiving: true})
           cogoToast.success(`${this.props.name} connected`, options);
+          this.props.emitConnected()
+
         }
     });
   }
@@ -80,4 +86,11 @@ class SystemBox extends Component {
   }
 }
 
-export default SystemBox;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {emitConnected: emitConnected},
+    dispatch
+  );
+}
+
+export default connect(null, mapDispatchToProps)(SystemBox);

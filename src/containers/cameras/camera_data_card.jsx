@@ -6,7 +6,7 @@ import { TiVideoOutline } from "react-icons/ti";
 class CameraDataCard extends Component {
 
   sendFile = () => {
-    this.props.switchFile(this.props.filename, this.props.type)
+    this.props.switchFile(this.props.filepath, this.props.type, this.props.filename)
   }
 
   render() {
@@ -22,7 +22,7 @@ class CameraDataCard extends Component {
           </div>
           <div className="camera-card-info">
             <p className="camera-timestamp">{this.props.timestamp}</p>
-            <p className="camera-filename">{this.props.filename}</p>
+            <p className="camera-filename">{this.props.filepath}</p>
           </div>
         </div>
         <div className="camera-card-right">
