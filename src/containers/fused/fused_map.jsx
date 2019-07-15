@@ -29,6 +29,23 @@ class FusedMap extends Component {
       loading: false,
       viewport: {},
       queryString: "AND",
+
+      coordinates24nm: [
+        [1.1502777777777777, 51.2209667],
+        [1.6474622222222222, 51.2209667],
+        [1.6474622222222222, 50.8208333],
+        [1.1502777777777777, 50.8208333]
+        ],
+
+      coordinates12nm: [
+        [1.274722222222222, 51.1209667],
+        [1.5230175, 51.1209667],
+        [1.5230175, 50.9208333],
+        [1.274722222222222, 50.9208333 ]
+        ],
+
+        drawn: false,
+        visibility: "visible", 
     };
     this.socket = io.connect(this.state.endpoint)
     this.handleStartChange = this.handleStartChange.bind(this);
@@ -36,6 +53,8 @@ class FusedMap extends Component {
     this.drawDataSelected = this.drawDataSelected.bind(this);
     this.fetchMMSIData = this.fetchMMSIData.bind(this);
     this.changeQuery = this.changeQuery.bind(this);
+    this.changeVisibility = this.changeVisibility.bind(this);
+    this.calculateCoordinates = this.calculateCoordinates.bind(this);
   }
 
 
@@ -56,6 +75,8 @@ class FusedMap extends Component {
       });
 
     });
+
+
   }
 
   handleStartChange(date) {
@@ -134,6 +155,15 @@ class FusedMap extends Component {
         console.log(this.state.queryString);
       });}
     
+  }
+
+  changeVisibility() {
+    if (this.state.visibility === "visible") {
+      this.state.visibility = "none";
+    } 
+    else {
+      this.state.visibility = "visible";
+    }
   }
 
   convertDate(date) {
@@ -246,12 +276,185 @@ class FusedMap extends Component {
 
   //_onStyleChange = mapStyle => this.setState({mapStyle});
 
+  calculateCoordinates(startLat, startLon, radRange, bearing) {
+    let coord = []
+    let adjCoord = []
+    let φ1 = (startLat * Math.PI) / 180                //51.0209 
+    let λ1 = (startLon * Math.PI) / 180                //1.39887
+    let relBrng = (bearing * Math.PI) / 180
+    let realBrng = [5.6199823571 + relBrng,
+                    0.6632029501 + relBrng, 
+                    2.4783897035 + relBrng, 
+                    3.8047956037 + relBrng]
+    let d = radRange * 1852.00/2                                            //radRange in nautical miles, d in metres
+    let R = 6371e3                                                          // Earth's mean radius = 6,371e3 metres 
+
+    let latSort = []
+    let lonSort = []  
+
+    //console.log(relBrng, realBrng, d, R)
+
+    for(var i = 0; i < 4; i++) {
+      var φ2 = Math.asin( Math.sin(φ1)*Math.cos(d/R) +
+                    Math.cos(φ1)*Math.sin(d/R)*Math.cos(realBrng[i]) );
+      var λ2 = λ1 + Math.atan2(Math.sin(realBrng[i])*Math.sin(d/R)*Math.cos(φ1),
+                         Math.cos(d/R)-Math.sin(φ1)*Math.sin(φ2));
+
+      coord.push([(λ2 * 180) / Math.PI, (φ2 * 180) / Math.PI]);
+    }
+    //console.log(coord);
+    
+    for(var i = 0; i < 4; i++) {
+      let pair = coord[i];
+      
+      lonSort.push(pair[0]);
+      latSort.push(pair[1]);
+    }
+
+    latSort.sort((a, b) => a - b);
+    lonSort.sort((a, b) => a - b);
+
+    adjCoord.push([lonSort[0],latSort[3]], [lonSort[3],latSort[3]], [lonSort[3],latSort[0]], [lonSort[0],latSort[0]])
+    //console.log(adjCoord);
+    return adjCoord
+  }
 
   render() {
     const Map = ReactMapboxGl({
       accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
     })
     
+    const mapStyle = {
+      
+      "version": 8,
+      "name": "Dark",
+      "sources": {
+        "mapbox": {
+          "type": "vector",
+          "url": "mapbox://mapbox.mapbox-streets-v8"
+        },
+        "overlay": {
+          "type": "image",
+          "url": "assets/images/transpRadarCopy4.png",
+          "coordinates": this.calculateCoordinates(51.0209, 1.39887, 38, 238)
+          //center: {[1.39887,51.0209]}
+        },
+        "10m-bathymetry-81bsvj": {
+          "type": "vector",
+          "url": "mapbox://mapbox.9tm8dx88"
+        },
+        "satellite": {
+          "type": "raster",
+          "url": "mapbox://mapbox.satellite",
+          "tileSize": 256 
+        }
+
+      },
+      "sprite": "mapbox://sprites/mapbox/dark-v10",
+      "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+      "layers": [
+        
+        {
+          "id": 'satellite',
+          "source": "satellite",
+          "type": "raster"
+        },
+        {
+          "id": "water",
+          "source": "mapbox",
+          "source-layer": "water",
+          "type": "fill",
+          "paint": {"fill-color": "#a5d2f3"},
+          "layout": {"visibility": "none"},
+        },
+        {
+          "id": "10m-bathymetry-81bsvj",
+          "type": "fill",
+          "source": "10m-bathymetry-81bsvj",
+          "source-layer": "10m-bathymetry-81bsvj",
+          "layout": {"visibility": "none"},
+          "paint": {
+            "fill-outline-color": "hsla(337, 82%, 62%, 0)",
+            // cubic bezier is a four point curve for smooth and precise styling
+            // adjust the points to change the rate and intensity of interpolation
+            "fill-color": [ "interpolate",
+            [ "cubic-bezier",
+            0, 0.5,
+            1, 0.5 ],
+            ["get", "DEPTH"],
+            50,  "#78bced",
+            500, "#1b82cc",
+            1000, "#15659f",
+            9000, "#125788"
+            ]
+          }  
+          },
+        {
+        "id": "boundaries",
+        "source": "mapbox",
+        "source-layer": "admin",
+        "type": "line",
+        "paint": {"line-color": "#797979", "line-dasharray": [2, 2, 6, 2]},
+        "filter": ["all", ["==", "maritime", 0]]
+        },
+        {
+        "id": "overlay",
+        "source": "overlay",
+        "type": "raster",
+        "paint": {"raster-opacity": 0.85},
+        "layout": {"visibility": this.state.visibility},
+        },
+        {
+        "id": "cities",
+        "source": "mapbox",
+        "source-layer": "place_label",
+        "type": "symbol",
+          "layout": {
+          "text-field": "{name_en}",
+          "text-font": ["DIN Offc Pro Bold", "Arial Unicode MS Bold"],
+          "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4, 9,
+          6, 12
+          ]
+          },
+          "paint": {
+          "text-color": "#969696",
+          "text-halo-width": 2,
+          "text-halo-color": "rgba(0, 0, 0, 0.85)"
+          }
+        },
+        {
+        "id": "states",
+        "source": "mapbox",
+        "source-layer": "place_label",
+        "type": "symbol",
+          "layout": {
+          "text-transform": "uppercase",
+          "text-field": "{name_en}",
+          "text-font": ["DIN Offc Pro Bold", "Arial Unicode MS Bold"],
+          "text-letter-spacing": 0.15,
+          "text-max-width": 7,
+          "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4, 10,
+          6, 14
+          ]
+          },
+          "filter": ["==", ["get", "class"], "state"],
+          "paint": {
+          "text-color": "#969696",
+          "text-halo-width": 2,
+          "text-halo-color": "rgba(0, 0, 0, 0.85)"
+          }
+        }
+      ]
+    };
+
     const layerPaint = {
       'heatmap-weight': {
         property: 'aisPresence',
@@ -295,7 +498,48 @@ class FusedMap extends Component {
         ]
       },
     };
+
+    // var toggleableLayerIds = [ "10m-bathymetry-81bsvj", "water", "overlay" ];
+
+    // for (var i = 0; i < toggleableLayerIds.length; i++) {
+    //   var id = toggleableLayerIds[i];
+    //   console.log(id);
+
+    //   var link = document.createElement('a');
+    //   link.href = '#';
+    //   link.className = 'active';
+    //   link.textContent = id;
+      
+    //   console.log(link);
+
+    //   link.onclick = function (e) {
+    //     var clickedLayer = this.textContent;
+    //     e.preventDefault();
+    //     e.stopPropagation();
+        
+    //     var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+        
+    //     if (visibility === 'visible') {
+    //       map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+    //       this.className = '';
+    //     } 
+    //     else {
+    //       this.className = 'active';
+    //       map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+    //     }
+    //   };
+      
+    //   if(document.readyState === "complete" && !this.state.drawn) {
+    //     var layers = document.getElementById('menu');
+    //     layers.appendChild(link);
+    //     this.state.drawn = true;
+    //   }
+      
+    // }
+
     const today = new Date()
+
+    
     return (
       <div className="map-wrapper">
           <div className="date-filter-wrapper">
@@ -309,16 +553,7 @@ class FusedMap extends Component {
               timeCaption="time"
               disabled={this.state.datePickerDisabled}
               popperPlacement="bottom-end"
-              popperModifiers={{
-                flip: {
-                    behavior: ['bottom'] // don't allow it to flip to be above
-                },
-                preventOverflow: {
-                    enabled: false // tell it not to try to stay within the view (this prevents the popper from covering the element you clicked)
-                },
-                hide: {
-                    enabled: false // turn off since needs preventOverflow to be enabled
-                }}}
+              
 
               maxDate={this.state.endDate}
               minDate={1}
@@ -338,16 +573,7 @@ class FusedMap extends Component {
               timeCaption="time"
               disabled={this.state.datePickerDisabled}
               popperPlacement="bottom-end"
-              popperModifiers={{
-                flip: {
-                    behavior: ['bottom'] // don't allow it to flip to be above
-                },
-                preventOverflow: {
-                    enabled: false // tell it not to try to stay within the view (this prevents the popper from covering the element you clicked)
-                },
-                hide: {
-                    enabled: false // turn off since needs preventOverflow to be enabled
-                }}}
+              
 
               maxDate={new Date()}
               minDate={this.state.startDate}
@@ -361,11 +587,11 @@ class FusedMap extends Component {
           </button>
 
           <button onClick={this.fetchMMSIData}>
-            2: Draw specific MMSI
+            2: Draw specified MMSI
           </button>
 
-          <button onClick={() => {console.log("You dirty dog")}}>
-            3: Overthrow the Queen
+          <button onClick={this.changeVisibility}>
+            3: Toggle layers
           </button>      
 
           <div className="mmsiSelect" style={{width: '300px'}}>
@@ -378,9 +604,9 @@ class FusedMap extends Component {
               onChange = {this.changeQuery}
             />
           </div>
-          
+          <nav id="menu" ref="menu"></nav>
           <Map
-            style="mapbox://styles/mapbox/satellite-v9"
+            style={mapStyle}
             //onViewportChange={this._onViewportChange}
 
             containerStyle={{
@@ -392,19 +618,6 @@ class FusedMap extends Component {
               zoom = {[5]}
               bearing = {[0]}
               pitch = {[0]}>
-            
-            {/* <Overlay
-              type="image"
-              url="http://217.138.134.182:3005//home/keith/Documents/Radar/17062019/radarImage1560803671.bmp"
-              coordinates={[[
-                [-80.425, 46.437],
-                [-71.516, 46.437],
-                [-71.516, 37.936],
-                [-80.425, 37.936]
-            ]]}>
-
-
-            </Overlay> */}
 
 
             {/* <ControlPanel
@@ -416,8 +629,9 @@ class FusedMap extends Component {
             <Layer
               type="symbol"
               id="marker"
-              layout={{ "icon-image": "harbor-15" }}
-              minZoom={14}>
+              layout={{ "icon-image": "harbor-15" , "visibility": this.state.visibility}}
+              minZoom={14}
+              >
 
 
               {this.state.map_data.map((point, i) => 
@@ -442,6 +656,7 @@ class FusedMap extends Component {
               minZoom={5}
               maxZoom={15}
               paint={layerPaint}
+              layout={{"visibility": this.state.visibility}}
               >
 
               {this.state.map_data.map((point, i) => 
