@@ -43,6 +43,15 @@ class PowerRaw extends Component {
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
+
+        if (this.props.bst) {
+          data.map((object) => {
+            let d = new Date(object.TimeLocal)
+            // d.setHours(d.getHours() + 1 )
+            object.TimeLocal = this.convertDate(d)
+          })
+        }
+
         this.setState({
           state_data: data,
           datePickerDisabled: false,

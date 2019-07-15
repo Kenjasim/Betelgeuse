@@ -154,3 +154,10 @@
     height: 70%;
   }
 }
+
+.arrow-button-disabled {
+  opacity: 0.5;
+  &:hover {
+    cursor: default;
+  }
+}

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import DatePicker from 'react-datepicker';
 import moment from 'moment'
@@ -37,6 +39,15 @@ class MRURaw extends Component {
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
+
+        if (this.props.bst) {
+          data.map((object) => {
+            let d = new Date(object.TimeLocal)
+            // d.setHours(d.getHours() + 1 )
+            object.TimeLocal = this.convertDate(d)
+          })
+        }
+
         this.setState({
           state_data: data,
           datePickerDisabled: false,
@@ -170,4 +181,10 @@ class MRURaw extends Component {
   }
 }
 
-export default MRURaw;
+function mapStateToProps(reduxState) {
+  return {
+    bst: reduxState.bst
+  };
+}
+
+export default connect(mapStateToProps, null)(MRURaw);

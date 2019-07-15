@@ -10,9 +10,11 @@ import '../assets/stylesheets/application.scss';
 import Router from './containers/router'
 
 import bstReducer from './reducers/bst_reducer'
+import connectedReducer from './reducers/connected_reducer'
 
 const reducers = combineReducers({
-  bst: bstReducer
+  bst: bstReducer,
+  connected: connectedReducer
 });
 
 const middlewares = applyMiddleware(logger);

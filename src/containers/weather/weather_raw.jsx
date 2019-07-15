@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import DatePicker from 'react-datepicker';
 import moment from 'moment'
@@ -31,13 +33,22 @@ class WeatherRaw extends Component {
   }
 
   fetchData() {
-    const url = "http://217.138.134.182:3333/?psqlQuery="
+    const url = "http://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "TimeLocal" desc`
     console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
+
+        if (this.props.bst) {
+          data.map((object) => {
+            let d = new Date(object.TimeLocal)
+            // d.setHours(d.getHours() + 1 )
+            object.TimeLocal = this.convertDate(d)
+          })
+        }
+
         this.setState({
           state_data: data,
           datePickerDisabled: false,
@@ -174,4 +185,10 @@ class WeatherRaw extends Component {
   }
 }
 
-export default WeatherRaw;
+function mapStateToProps(reduxState) {
+  return {
+    bst: reduxState.bst
+  };
+}
+
+export default connect(mapStateToProps, null)(WeatherRaw);
