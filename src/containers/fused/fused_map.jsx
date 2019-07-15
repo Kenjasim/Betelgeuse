@@ -158,7 +158,6 @@ class FusedMap extends Component {
     
   }
 
-<<<<<<< HEAD
   changeVisibility() {
     if (this.state.visibility === "visible") {
       this.state.visibility = "none";
@@ -167,8 +166,6 @@ class FusedMap extends Component {
       this.state.visibility = "visible";
     }
   }
-=======
->>>>>>> eff29de761ae78e2a2a98ded494a7a3520ae9e56
 
   convertDate(date) {
     const d = moment(date).format()
@@ -329,7 +326,6 @@ class FusedMap extends Component {
     const Map = ReactMapboxGl({
       accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
     })
-<<<<<<< HEAD
     
     const mapStyle = {
       
@@ -461,8 +457,6 @@ class FusedMap extends Component {
         }
       ]
     };
-=======
->>>>>>> eff29de761ae78e2a2a98ded494a7a3520ae9e56
 
     const layerPaint = {
       'heatmap-weight': {
@@ -616,12 +610,7 @@ class FusedMap extends Component {
               onChange = {this.changeQuery}
             />
           </div>
-<<<<<<< HEAD
           <nav id="menu" ref="menu"></nav>
-=======
-          
-
->>>>>>> eff29de761ae78e2a2a98ded494a7a3520ae9e56
           <Map
             style={mapStyle}
             //onViewportChange={this._onViewportChange}
