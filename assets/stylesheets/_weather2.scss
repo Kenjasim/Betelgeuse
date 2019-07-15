@@ -9,7 +9,7 @@
   border: 1px solid rgba(0,0,0,0.3);
   border-radius: 4px;
   height: 100%;
-  padding: 8px;
+  padding: 10px;
 }
 
 
@@ -77,8 +77,110 @@
   line-height: 1.3;
 }
 .weather-title {
-  font-size: 18px;
+  font-size: 19px;
 }
 .weather-sub {
-  font-size: 14px;
+  font-size: 16px;
 }
+.weather-gen-middle {
+  width:L 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.middle-left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.middle-right {
+  display: flex;
+  align-items: center;
+}
+.live-temp {
+  font-size: 30px;
+  font: arial,helvetica,sans-serif;
+  font-weight: bold;
+  color: #212121;
+  line-height: 1.3;
+  margin-right: 3px;
+}
+.temp-symbol-div {
+  height: 100%;
+}
+.flex {
+  display: flex;
+}
+.seperator {
+  display: flex;
+  justify-content: space-between;
+}
+.weather-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: bottom;
+}
+.weather-option-btn {
+  font-size: 9px;
+  margin-left: 5px;
+}
+.weather-selected {
+  border-bottom: 2px solid rgb(66, 133, 244);
+}
+.weather-gen-bottom {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column;
+}
+
+.weather-general {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+.historical-wrapper {
+  flex-grow: 1;
+  display: flex;
+  margin-top: 5px;
+  // border: 1px solid #616161;
+  overflow: scroll;
+}
+.historical-box {
+  width: 20%;
+  text-align: center;
+  padding-top: 5px;
+}
+.historic-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.weather-avg {
+  font-size: 24px;
+  margin-right: 2px;
+}
+.high-and-low {
+  line-height: 1.2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

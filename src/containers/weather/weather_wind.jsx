@@ -60,7 +60,7 @@ class WeatherWind extends Component {
   }
 
   getAbsoluteDir = (relative_dir) => {
-    return (this.state.heading + parseInt(relative_dir,10)) % 360
+    return (parseInt(this.state.heading, 10) + parseInt(relative_dir,10)) % 360
   }
 
   openWindSocket() {
@@ -70,7 +70,6 @@ class WeatherWind extends Component {
       this.socket_two.on('update',  (data) => {
         const message = data.message.payload
         const result = message.split(",")
-        // console.log(this.state.heading + parseInt(result[2], 10))
         this.setState({
           wind_dir: this.getAbsoluteDir(result[2]),
           wind_speed: result[4]
