@@ -9,7 +9,7 @@
   border: 1px solid rgba(0,0,0,0.3);
   border-radius: 4px;
   height: 100%;
-  padding: 5px;
+  padding: 8px;
 }
 
 
@@ -44,7 +44,41 @@
 }
 .width-40 {
   width: 40%;
+  position: relative;
 }
 .wind-title {
   font-weight: bold;
+}
+.weather-compass {
+  height: 100%;
+  width: 100%;
+  background-image: url("https://siriusdashboard.s3.eu-west-2.amazonaws.com/beige-designer-stencils-stencils-fs040-64_600.jpg");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+.compass-needle {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 3px;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://siriusdashboard.s3.eu-west-2.amazonaws.com/step023_needle_red_blue.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.weather-text {
+  color: #878787;
+  line-height: 1.3;
+}
+.weather-title {
+  font-size: 18px;
+}
+.weather-sub {
+  font-size: 14px;
 }
