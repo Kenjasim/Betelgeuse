@@ -127,7 +127,7 @@ class WeatherWind extends Component {
     }
     return (
       <div className="full-height">
-        <div className="wind-title">Wind</div>
+        <div className="wind-title">Wind:</div>
         <div className="vertical-half weather-flex">
           <div className="width-60">
             <Line

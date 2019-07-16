@@ -77,6 +77,10 @@ class WeatherGeneral extends Component {
     )
   }
 
+  switchDataTab = (e) => {
+    this.setState({current_tab: e.target.innerHTML})
+  }
+
   render() {
     const historic_array = this.getHistoric()
 
@@ -91,7 +95,7 @@ class WeatherGeneral extends Component {
             51.1, 1.08
           </div>
           <div className="weather-text weather-sub">
-            Monday
+            Tuesday
           </div>
           <div className="weather-text weather-sub">
             {this.state.weather_status}
@@ -124,43 +128,43 @@ class WeatherGeneral extends Component {
           </div>
         </div>
 
-          <div className="weather-gen-bottom">
-            <div className="seperator">
-              <div className="weather-text weather-sub">
-                Past (average, high, low):
-              </div>
-              <div className="weather-options">
-                {
-                  ["Temp (°C)", "Wind (m/s)", "Humidity (%)", "Altitude (m)"].map((tab) => {
-                    let classes = "weather-option-btn"
-                    if (this.state.current_tab == tab) {
-                      classes += " weather-selected"
-                    }
-                    return (
-                      <div className={classes}>{tab}</div>
-
-                    )
-                  })
-                }
-              </div>
+        <div className="weather-gen-bottom">
+          <div className="seperator">
+            <div className="weather-text weather-sub">
+              Past (average, high, low):
             </div>
-            <div className="historical-wrapper">
-              {historic_array.map((historic_obj) => {
-                return (
-                  <div className="historical-box">
-                    <div className="weather-text">{historic_obj.date}</div>
-                    <div className="historic-data">
-                      <div className="weather-avg">{historic_obj.avg}</div>
-                      <div className="historical-right">
-                        <div className="weather-high high-and-low weather-text">{historic_obj.high}</div>
-                        <div className="weather-low high-and-low weather-text">{historic_obj.low}</div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
+            <div className="weather-options">
+              {
+                ["Temp (°C)", "Wind (m/s)", "Humidity (%)", "Altitude (m)"].map((tab) => {
+                  let classes = "weather-option-btn"
+                  if (this.state.current_tab == tab) {
+                    classes += " weather-selected"
+                  }
+                  return (
+                    <div className={classes} onClick={this.switchDataTab} key={tab}>{tab}</div>
+
+                  )
+                })
+              }
             </div>
           </div>
+          <div className="historical-wrapper">
+            {historic_array.map((historic_obj) => {
+              return (
+                <div className="historical-box" key={historic_obj.date}>
+                  <div className="weather-text">{historic_obj.date}</div>
+                  <div className="historic-data">
+                    <div className="weather-avg">{historic_obj.avg}</div>
+                    <div className="historical-right">
+                      <div className="weather-high high-and-low weather-text">{historic_obj.high}</div>
+                      <div className="weather-low high-and-low weather-text">{historic_obj.low}</div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
 
       </div>
     )

@@ -122,6 +122,13 @@
 .weather-option-btn {
   font-size: 9px;
   margin-left: 5px;
+  cursor: pointer;
+}
+.weather-option-btn2 {
+  font-size: 14px;
+  margin-left: 8px;
+  cursor: pointer;
+  color: #878787;
 }
 .weather-selected {
   border-bottom: 2px solid rgb(66, 133, 244);
@@ -147,7 +154,7 @@
 .historical-box {
   width: 20%;
   text-align: center;
-  padding-top: 5px;
+  padding-top: 10px;
 }
 .historic-data {
   display: flex;
@@ -162,9 +169,22 @@
   line-height: 1.2;
 }
 
-
-
-
+.weather-graph-section {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+.weather-query-wrapper {
+  display: flex;
+}
+.weather-graph-wrapper {
+  margin-top: 10px;
+  flex-grow: 1;
+}
+.weather-graph-options {
+  display: flex;
+  justify-content: space-between;
+}
 
 
 
