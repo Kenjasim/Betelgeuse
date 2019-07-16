@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import DatePicker from 'react-datepicker';
-import moment from 'moment'
+import moment from 'moment';
 import { CSVLink, CSVDownload } from "react-csv";
 
 

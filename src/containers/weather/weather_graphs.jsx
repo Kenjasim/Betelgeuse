@@ -74,6 +74,7 @@ class WeatherGraphs extends Component {
 
         let color1 = '#FFCC00'
         let color2 = '#FFF5CC'
+        let title = 'Temperature °C'
 
         switch (this.state.current_tab) {
           case 'Temperature':
@@ -82,6 +83,17 @@ class WeatherGraphs extends Component {
           case 'WindSpeed':
             color1 = '#5198F4'
             color2 = '#E7F1FC'
+            title = 'Wind Speed m/s'
+            break
+          case 'Humidity':
+            color1 = 'rgb(217,217,217)'
+            color2 = 'rgba(217,217,217, 0.3)'
+            title = 'Humidity %'
+            break
+          case 'AirPressure':
+            color1 = '#E15554'
+            color2 = 'rgba(225, 85, 84, 0.3)'
+            title = 'Air Pressure Pa'
         }
 
 
@@ -90,7 +102,7 @@ class WeatherGraphs extends Component {
             labels: chart_times,
             datasets: [
               {
-                label: this.state.current_tab,
+                label: title,
                 data: chart_data,
                 fill: true,
                 backgroundColor: color2,
@@ -116,10 +128,11 @@ class WeatherGraphs extends Component {
           <DatePicker
             selected={this.state.startDate}
             onChange={this.handleChange}
+            maxDate={new Date ()}
           />
           <div className="weather-graph-options">
             {
-              ["Temperature", "WindSpeed", "Humidity", "Pressure"].map((tab) => {
+              ["Temperature", "WindSpeed", "AirPressure", "Humidity"].map((tab) => {
                 let classes = "weather-option-btn2"
                 if (this.state.current_tab == tab) {
                   classes += " weather-selected"

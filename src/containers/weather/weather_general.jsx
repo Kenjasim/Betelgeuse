@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import io from "socket.io-client";
+import moment from 'moment';
 
 class WeatherGeneral extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
+      long: 0,
+      lat: 0,
       curr_temp: 0,
       curr_pressure: 0,
       curr_hum: 0,
@@ -15,7 +18,8 @@ class WeatherGeneral extends Component {
       status: "Connected",
       response: false,
       current_tab: "Temp (°C)",
-      weather_endpoint: 'http://bobeyes.siriusinsight.io:3000'
+      weather_endpoint: 'http://bobeyes.siriusinsight.io:3000',
+      historical_array: [{}]
     }
     this.socket = io.connect(this.state.weather_endpoint)
   }
@@ -34,6 +38,68 @@ class WeatherGeneral extends Component {
         })
       })
   }
+
+  fetchGPS() {
+    const url = "http://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const query = 'SELECT * FROM "GPS" ORDER BY "ID" desc LIMIT 1'
+    const request = fetch(url+query)
+      .then(response=> response.json())
+      .then((data) => {
+        console.log(data)
+        this.setState({
+          long: data[0].Longitude,
+          lat: data[0].Latitude,
+        })
+    })
+  }
+
+  convertDate(date) {
+    const d = moment(date).format()
+    return d.slice(0, 10)
+  }
+
+  parseDate(date) {
+    const split = date.split('-')
+    return `${split[2]}/${split[1]}`
+  }
+
+  fetchHistorical() {
+    const query_map = {
+      "Temp (°C)": "Temperature",
+      "Wind (m/s)": "WindSpeed",
+      "Humidity (%)": "Humidity",
+      "Altitude (m)": "Altitude"
+    }
+    const query_word = query_map[this.state.current_tab]
+    const index_array = Array(5).fill().map((_, i) => i);
+    const date_array = index_array.map((day) => {
+      let d = new Date()
+      d.setDate(d.getDate() - day)
+      return(this.convertDate(d))
+    })
+    const url = "http://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    let queries = []
+    date_array.forEach((date) => {
+      queries.push(`(SELECT ROUND(AVG("${query_word}")::numeric,0), MAX("${query_word}"), MIN("${query_word}") FROM "Weather" WHERE "TimeLocal" BETWEEN '${date} 00:00:01' AND '${date} 23:59:59')`)
+    })
+    const query = queries.join(" UNION ALL ")
+
+    const request = fetch(url+query)
+      .then(response=> response.json())
+      .then((data) => {
+        console.log(data)
+        data.forEach((a, i) => {
+          a.date = this.parseDate(date_array[i])
+        })
+        console.log(data)
+
+        this.setState({
+          historical_array: data.reverse()
+        })
+    })
+
+  }
+
   //Opens the socket on the server and gets the relevent data from the server
   openWeatherSocket() {
     this.socket.on('connected',  (data) => {
@@ -58,6 +124,8 @@ class WeatherGeneral extends Component {
   componentDidMount() {
     this.openWeatherSocket()
     this.fetchWeatherMessage()
+    this.fetchGPS()
+    this.fetchHistorical()
   }
   componentWillUnmount() {
     this.socket.disconnect()
@@ -78,11 +146,15 @@ class WeatherGeneral extends Component {
   }
 
   switchDataTab = (e) => {
-    this.setState({current_tab: e.target.innerHTML})
+    this.setState({current_tab: e.target.innerHTML}, () => {
+      this.fetchHistorical()
+    })
+
   }
 
   render() {
     const historic_array = this.getHistoric()
+    const days = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
     return (
       <div className="weather-general">
@@ -92,10 +164,10 @@ class WeatherGeneral extends Component {
             The Varne, English Channel
           </div>
           <div className="weather-text weather-title">
-            51.1, 1.08
+            {(this.state.long / 100).toFixed(2)}, {(this.state.lat / 100).toFixed(2)}
           </div>
           <div className="weather-text weather-sub">
-            Tuesday
+            {days[new Date(new Date).getDay()]}
           </div>
           <div className="weather-text weather-sub">
             {this.state.weather_status}
@@ -130,7 +202,7 @@ class WeatherGeneral extends Component {
 
         <div className="weather-gen-bottom">
           <div className="seperator">
-            <div className="weather-text weather-sub">
+            <div id="reduce-font" className="weather-text weather-sub">
               Past (average, high, low):
             </div>
             <div className="weather-options">
@@ -149,15 +221,15 @@ class WeatherGeneral extends Component {
             </div>
           </div>
           <div className="historical-wrapper">
-            {historic_array.map((historic_obj) => {
+            {this.state.historical_array.map((historic_obj) => {
               return (
                 <div className="historical-box" key={historic_obj.date}>
                   <div className="weather-text">{historic_obj.date}</div>
                   <div className="historic-data">
-                    <div className="weather-avg">{historic_obj.avg}</div>
+                    <div className="weather-avg">{historic_obj.round}</div>
                     <div className="historical-right">
-                      <div className="weather-high high-and-low weather-text">{historic_obj.high}</div>
-                      <div className="weather-low high-and-low weather-text">{historic_obj.low}</div>
+                      <div className="weather-high high-and-low weather-text">{historic_obj.max}</div>
+                      <div className="weather-low high-and-low weather-text">{historic_obj.min}</div>
                     </div>
                   </div>
                 </div>

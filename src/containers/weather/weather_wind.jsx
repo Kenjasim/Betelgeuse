@@ -137,6 +137,18 @@ class WeatherWind extends Component {
                 maintainAspectRatio: false,
                 axes: {
                   display: false
+                },
+                scales: {
+                  xAxes: [{
+                    gridLines: {
+                      display:false
+                    }
+                  }],
+                  yAxes: [{
+                      gridLines: {
+                          display:false
+                      }
+                  }]
                 }
               }}
             />
