@@ -191,10 +191,50 @@
 }
 
 
+@media (max-width: 1000px) {
+  .weather-title {
+    font-size: 14px !important;
+  }
+  .weather-sub {
+    font-size: 12px !important;
+  }
+}
 
 
+@media (max-width: 750px) {
+  .weather-option-btn2 {
+    font-size: 8px !important;
+    margin-left: 2px;
+  }
+}
 
-
+@media (max-width: 450px) {
+  .weather-option-btn2 {
+    font-size: 8px !important;
+    margin-left: 2px;
+  }
+  .weather-sub {
+    font-size: 11px;
+  }
+  .live-temp {
+    font-size: 23px;
+  }
+  .weather-avg {
+    font-size: 16px;
+  }
+  #reduce-font {
+    font-size: 10px !important
+  }
+  .weather-option-btn {
+    font-size: 7px;
+  }
+  .weather-option-btn2 {
+    font-size: 7px !important;
+  }
+  .weather-datepicker {
+    width: 80px !important;
+  }
+}
 
 
 

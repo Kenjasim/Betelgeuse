@@ -129,6 +129,7 @@ class WeatherGraphs extends Component {
             selected={this.state.startDate}
             onChange={this.handleChange}
             maxDate={new Date ()}
+            className="weather-datepicker"
           />
           <div className="weather-graph-options">
             {
