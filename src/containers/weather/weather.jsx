@@ -13,7 +13,7 @@ class Weather extends Component {
   render() {
     const tabs = [
       {
-        'name': 'Analytics',
+        'name': 'Dashboard',
         'component': <WeatherAnalytics2/>
       },
       {
