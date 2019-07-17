@@ -15,6 +15,7 @@ class Weather extends Component {
       {
         'name': 'Dashboard',
         'component': <WeatherAnalytics2/>
+
       },
       {
         'name': 'Live Feed',
