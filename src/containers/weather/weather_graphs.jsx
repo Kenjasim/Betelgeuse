@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import { Line } from 'react-chartjs-2';
 import moment from 'moment';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 class WeatherGraphs extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class WeatherGraphs extends Component {
     this.state = {
       startDate: new Date(new Date().getFullYear(), new Date().getMonth() , new Date().getDate()),
       current_tab: "Temperature",
+      dropdownOpen: false,
       graph_data: {
         labels: [],
         datasets: [
@@ -22,9 +24,17 @@ class WeatherGraphs extends Component {
       }
 
 
+
     };
+    this.toggle = this.toggle.bind(this);
     this.handleClick = this.handleClick.bind(this);
     // this.selectIndex = this.selectIndex.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
   }
 
   handleChange = (date) => {
@@ -59,7 +69,21 @@ class WeatherGraphs extends Component {
 
   fetchData = () => {
     const url = "http://bobeyes.siriusinsight.io:3333/?psqlQuery="
-    const query = `SELECT "TimeLocal", "${this.state.current_tab}" FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59' AND "ID" %2530 = 0 ORDER BY "TimeLocal" desc`
+    const query_map = {
+      "Temperature": ["Temperature", true],
+      "Wind Speed": ["WindSpeed", true],
+      "Air Pressure": ["AirPressure", true],
+      "Humidity": ["Humidity", true],
+      "Heading": ["Heading", false],
+      "Roll": ["Roll", false],
+      "Pitch": ["Pitch", false]
+    }
+    const query_word = query_map[this.state.current_tab][0]
+    const query_pointer = query_map[this.state.current_tab][1]
+    let query = ""
+    query_pointer ?
+      query = `SELECT "TimeLocal", "${query_word}" FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59' AND "ID" %2530 = 0 ORDER BY "TimeLocal" desc`
+      : query = `SELECT "TimeLocal", "${query_word}" FROM "GPS" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59' AND "ID" %2530 = 0 ORDER BY "TimeLocal" desc`
     console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
@@ -80,7 +104,7 @@ class WeatherGraphs extends Component {
           case 'Temperature':
             console.log(this.state.current_tab)
             break
-          case 'WindSpeed':
+          case 'Wind Speed':
             color1 = '#5198F4'
             color2 = '#E7F1FC'
             title = 'Wind Speed m/s'
@@ -90,7 +114,7 @@ class WeatherGraphs extends Component {
             color2 = 'rgba(217,217,217, 0.3)'
             title = 'Humidity %'
             break
-          case 'AirPressure':
+          case 'Air Pressure':
             color1 = '#E15554'
             color2 = 'rgba(225, 85, 84, 0.3)'
             title = 'Air Pressure Pa'
@@ -132,8 +156,22 @@ class WeatherGraphs extends Component {
             className="weather-datepicker"
           />
           <div className="weather-graph-options">
+            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="weather-dropdown">
+              <DropdownToggle caret>
+                {this.state.current_tab}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={this.switchDataTab}>Temperature</DropdownItem>
+                <DropdownItem onClick={this.switchDataTab}>Wind Speed</DropdownItem>
+                <DropdownItem onClick={this.switchDataTab}>Air Pressure</DropdownItem>
+                <DropdownItem onClick={this.switchDataTab}>Humidity</DropdownItem>
+                <DropdownItem onClick={this.switchDataTab}>Heading</DropdownItem>
+                <DropdownItem onClick={this.switchDataTab}>Roll</DropdownItem>
+                <DropdownItem onClick={this.switchDataTab}>Pitch</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
             {
-              ["Temperature", "WindSpeed", "AirPressure", "Humidity"].map((tab) => {
+              ["Temperature", "Wind Speed", "Air Pressure", "Humidity", "Heading", 'Roll', "Pitch"].map((tab) => {
                 let classes = "weather-option-btn2"
                 if (this.state.current_tab == tab) {
                   classes += " weather-selected"

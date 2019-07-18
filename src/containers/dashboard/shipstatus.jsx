@@ -123,6 +123,7 @@ class ShipStatus extends Component {
         const message = data.message.payload
         const result = message.split(",")
         let data_packet = this.mruParseData(result)
+        console.log(data_packet[0])
         this.rollData(data_packet[0]['Roll'])
         this.pitchData(data_packet[0]['Pitch'])
         this.headingData(data_packet[0]['Yaw'])
