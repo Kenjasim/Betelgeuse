@@ -37,10 +37,12 @@
 .systems-container {
   flex-grow: 1;
 }
+
 @media (max-width: 970px){
 
   .power-doughnut-section {
     transform: scale(0.7);
+    font-size: 0%;
   }
 }
 
