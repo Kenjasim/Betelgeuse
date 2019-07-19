@@ -28,6 +28,7 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "@nivo/sunburst": "^0.59.1",
     "acorn": "^6.1.1",
     "babel": "^6.23.0",
     "babel-preset-env": "^1.7.0",
@@ -36,15 +37,18 @@
     "get-video-duration": "^1.0.3",
     "history": "^4.9.0",
     "jsmpeg-player": "^2.2.1",
+    "lodash": "^4.17.14",
     "mapbox-gl": "^1.0.0",
     "moment": "^2.24.0",
     "promises": "^0.2.5",
+    "prop-types": "^15.7.2",
     "q": "^1.5.1",
     "react": "16.8",
     "react-animate-on-change": "^2.2.0",
     "react-burger-menu": "^2.6.10",
     "react-chartjs-2": "^2.7.6",
     "react-csv": "^1.1.1",
+    "react-d3": "^0.4.0",
     "react-datepicker": "^2.7.0",
     "react-dom": "16.8",
     "react-icons": "^3.7.0",
@@ -58,6 +62,7 @@
     "react-select": "^3.0.4",
     "react-table": "^6.10.0",
     "react-tabs": "^3.0.0",
+    "react-vis": "^1.11.7",
     "reactstrap": "^8.0.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
@@ -66,7 +71,9 @@
     "ssh2": "^0.8.4",
     "ssh2-sftp-client": "^2.5.0",
     "stream": "^0.0.2",
-    "typicons.font": "^2.0.9"
+    "typicons.font": "^2.0.9",
+    "victory": "^32.3.3",
+    "victory-core": "^32.3.2"
   },
   "scripts": {
     "start": "webpack-dev-server --mode development",

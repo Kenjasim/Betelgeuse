@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { logger } from 'redux-logger';
 
-
 import '../assets/stylesheets/application.scss';
 
 import Router from './containers/router'

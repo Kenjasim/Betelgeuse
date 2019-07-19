@@ -11,7 +11,7 @@ const systems = [
   <SystemBox name="GPS" key="GPS" endpoint='bobeyes.siriusinsight.io:3003' link='/' />,
   <SystemBox name="Radar Data" key="Radar Data" link='/radar' disabled={true}/>,
   <RadarImagesStatus name="Radar Images" key="Radar Images" link='/radar'/>,
-  <SystemBox name="WiFi Pinger" key="WiFi Pinger" link='/wifi_pinger' disabled={true}/>,
+  <SystemBox name="WiFi Pinger" key="WiFi Pinger" endpoint='bobeyes.siriusinsight.io:3007' link='/wifi_pinger'/>,
   <SystemBox name="Direction Finder" key="Direction Finder" link='direction_finder' disabled={true}/>,
 
   // <CameraStatus name="Camera 1" link='/cameras'/>,
