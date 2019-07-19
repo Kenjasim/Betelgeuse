@@ -10,7 +10,7 @@ class PowerLiveFeed extends Component {
     this.parseData = this.parseData.bind(this);
     this.state = {
       response: false,
-      endpoint: 'bobeyes.siriusinsight.io:3001',
+      endpoint: 'https://bobeyes.siriusinsight.io:3111',
       state_data: [],
     };
     this.socket = io.connect(this.state.endpoint)
