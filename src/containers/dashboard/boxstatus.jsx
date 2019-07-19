@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Line, Doughnut } from 'react-chartjs-2';
 import io from "socket.io-client";
 import moment from 'moment';
@@ -43,11 +45,11 @@ class BoxStatus extends Component {
   }
 
   statusIndicator = () => {
-    if (this.state.status == 'Connecting') {
+    if (this.props.connected == 'Connecting') {
       return (
         <div className="status-indicator status-connecting">Connecting...</div>
       )
-    } else if (this.state.status == 'Connected') {
+    } else if (this.props.connected == 'Connected') {
       return (
         <div className="status-indicator status-connected">Connected</div>
       )
@@ -120,13 +122,13 @@ class BoxStatus extends Component {
         now.getMonth(),
         now.getDate(),
         0,0,0),
-    //calculates difference from midnight to now 
+    //calculates difference from midnight to now
     diff = now.getTime() - then.getTime()
 
     return (diff/3600000);
   }
 
-  //Rounds a number to a certain precision  
+  //Rounds a number to a certain precision
   round(value, precision) {
     var multiplier = Math.pow(10, precision || 0);
     return Math.round(value * multiplier) / multiplier;
@@ -169,7 +171,10 @@ class BoxStatus extends Component {
       this.socket.on('update',  (data) => {
         const message = data.message.payload
         const result = message.split(",")
-        this.powerData(result[2])
+        if (result[2] > 0) {
+          this.powerData(result[2])
+
+        }
 
     });
   }
@@ -289,4 +294,10 @@ class BoxStatus extends Component {
   }
 }
 
-export default BoxStatus;
+function mapStateToProps(reduxState) {
+  return {
+    connected: reduxState.connected
+  };
+}
+
+export default connect(mapStateToProps, null)(BoxStatus);

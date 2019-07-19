@@ -22,3 +22,12 @@ export function setBST() {
   }
 }
 
+
+export function emitConnected() {
+
+  return {
+    type: 'EMIT_CONNECTED',
+    payload: "Connected"
+  }
+}
+

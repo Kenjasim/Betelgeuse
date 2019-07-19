@@ -6,12 +6,14 @@ import RadarImagesStatus from './radar_images_status'
 import CameraStatus from './camera_status'
 
 const systems = [
-  <SystemBox name="AIS" endpoint='bobeyes.siriusinsight.io:3002' link='/ais' />,
-  <SystemBox name="GPS" endpoint='bobeyes.siriusinsight.io:3003' link='/' />,
-  <SystemBox name="Radar Data" link='/radar' disabled={true}/>,
-  <RadarImagesStatus name="Radar Images" link='/radar'/>,
-  <SystemBox name="WiFi Pinger" endpoint='bobeyes.siriusinsight.io:3007' link='/wifi_pinger'/>,
-  <SystemBox name="Direction Finder" link='direction_finder' disabled={true}/>,
+
+  <SystemBox name="AIS" key="AIS" endpoint='bobeyes.siriusinsight.io:3002' link='/ais' />,
+  <SystemBox name="GPS" key="GPS" endpoint='bobeyes.siriusinsight.io:3003' link='/' />,
+  <SystemBox name="Radar Data" key="Radar Data" link='/radar' disabled={true}/>,
+  <RadarImagesStatus name="Radar Images" key="Radar Images" link='/radar'/>,
+  <SystemBox name="WiFi Pinger" key="WiFi Pinger" link='/wifi_pinger' disabled={true}/>,
+  <SystemBox name="Direction Finder" key="Direction Finder" link='direction_finder' disabled={true}/>,
+
   // <CameraStatus name="Camera 1" link='/cameras'/>,
   // <CameraStatus name="Camera 2" link='/cameras'/>,
   // <CameraStatus name="Camera 3" link='/cameras'/>,

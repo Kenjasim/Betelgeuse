@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import ReactMapboxGl, {Marker, Layer, Feature } from "react-mapbox-gl";
 
-import ShipMarker from './map_marker'
+
+import ShipMarker from '../dashboard/map_marker'
+
 
 class WindMap extends Component {
   constructor(props) {
