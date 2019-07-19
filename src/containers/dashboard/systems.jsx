@@ -18,9 +18,9 @@ const systems = [
   // <CameraStatus name="Camera 2" link='/cameras'/>,
   // <CameraStatus name="Camera 3" link='/cameras'/>,
   // <CameraStatus name="Camera 4" link='/cameras' />,
-  <SystemBox name="Power" key="Power" endpoint='bobeyes.siriusinsight.io:3001' link='/power' />,
-  <SystemBox name="MRU" key="MRU" endpoint='bobeyes.siriusinsight.io:3004' link='/mru' />,
-  <SystemBox name="Weather" key="Weather" endpoint='bobeyes.siriusinsight.io:3000'link='/weather' />
+  <SystemBox name="Power" endpoint='bobeyes.siriusinsight.io:3111' link='/power' />,
+  <SystemBox name="MRU" endpoint='bobeyes.siriusinsight.io:3004' link='/mru' />,
+  <SystemBox name="Weather" endpoint='bobeyes.siriusinsight.io:3000'link='/weather' />
 ];
 
 class Systems extends Component {

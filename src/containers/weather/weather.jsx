@@ -6,14 +6,16 @@ import DashTabs from '../dash_tabs'
 import WeatherLiveFeed from './weather_live_feed'
 import WeatherRaw from './weather_raw'
 import WeatherAnalytics from './weather_analytics'
+import WeatherAnalytics2 from './weather_analytics2'
 
 class Weather extends Component {
 
   render() {
     const tabs = [
       {
-        'name': 'Analytics',
-        'component': <WeatherAnalytics/>
+        'name': 'Dashboard',
+        'component': <WeatherAnalytics2/>
+
       },
       {
         'name': 'Live Feed',
