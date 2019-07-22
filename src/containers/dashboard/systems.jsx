@@ -7,7 +7,7 @@ import CameraStatus from './camera_status'
 
 const systems = [
 
-  <SystemBox name="AIS" key="AIS" endpoint='bobeyes.siriusinsight.io:3002' link='/ais' />,
+  <SystemBox name="AIS" key="AIS" endpoint='bobeyes.siriusinsight.io:3112' link='/ais' />,
   <SystemBox name="GPS" key="GPS" endpoint='bobeyes.siriusinsight.io:3003' link='/' />,
   <SystemBox name="Radar Data" key="Radar Data" link='/radar' disabled={true}/>,
   <RadarImagesStatus name="Radar Images" key="Radar Images" link='/radar'/>,
