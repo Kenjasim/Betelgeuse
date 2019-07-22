@@ -83,7 +83,7 @@ class WeatherGraphs extends Component {
     let query = ""
     query_pointer ?
       query = `SELECT "TimeLocal", "${query_word}" FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59' AND "ID" %2530 = 0 ORDER BY "TimeLocal" desc`
-      : query = `SELECT "TimeLocal", "${query_word}" FROM "GPS" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59' AND "ID" %2530 = 0 ORDER BY "TimeLocal" desc`
+      : query = `SELECT "TimeLocal", "${query_word}" FROM "MPU" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59' AND "ID" %2530 = 0 ORDER BY "TimeLocal" desc`
     console.log(query)
     const request = fetch(url+query)
       .then(response=> response.json())
@@ -118,6 +118,22 @@ class WeatherGraphs extends Component {
             color1 = '#E15554'
             color2 = 'rgba(225, 85, 84, 0.3)'
             title = 'Air Pressure Pa'
+            break
+          case 'Heading':
+            color1 = 'rgb(241,227,243)'
+            color2 = 'rgba(241,227,243, 0.3)'
+            title = 'Heading °'
+            break
+          case 'Pitch':
+            color1 = 'rgb(194,187,240)'
+            color2 = 'rgba(194,187,240, 0.3)'
+            title = 'Pitch °'
+            break
+          case 'Roll':
+            color1 = 'rgb(143,184,237)'
+            color2 = 'rgba(143,184,237, 0.3)'
+            title = 'Roll °'
+            break
         }
 
 

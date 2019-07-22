@@ -37,12 +37,13 @@ class MapMarker extends Component {
         const message = data.message.payload
         const result = message.split(",")
         let data_packet = this.mruParseData(result)
-        const offset = 126
-        const bias = 149
-        let heading = offset + bias - data_packet[0]['Yaw']
-        heading = heading % 360
+        // const offset = 126
+        // const bias = 149
+        // let heading = offset + bias - data_packet[0]['Yaw']
+        // heading = heading % 360
         this.setState({
-          heading: heading.toFixed(2)
+          // heading: heading.toFixed(2)
+          heading: data_packet[0]['ShipHeading']
         })
 
     });
