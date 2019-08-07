@@ -92,7 +92,7 @@ class PowerRaw extends Component {
   }
 
   render() {
-      const columns = [{
+    const columns = [{
       Header: 'Time Local',
       accessor: 'TimeLocal',
       width: 200

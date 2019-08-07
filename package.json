@@ -28,6 +28,7 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "@material-ui/core": "^4.3.1",
     "acorn": "^6.1.1",
     "babel": "^6.23.0",
     "babel-preset-env": "^1.7.0",
@@ -43,6 +44,7 @@
     "q": "^1.5.1",
     "react": "16.8",
     "react-animate-on-change": "^2.2.0",
+    "react-bootstrap-slider": "^2.2.2",
     "react-burger-menu": "^2.6.10",
     "react-chartjs-2": "^2.7.6",
     "react-csv": "^1.1.1",

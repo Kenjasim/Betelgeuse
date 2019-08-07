@@ -7,6 +7,7 @@ import { logger } from 'redux-logger';
 
 import '../assets/stylesheets/application.scss';
 
+
 import Router from './containers/router'
 
 import bstReducer from './reducers/bst_reducer'
