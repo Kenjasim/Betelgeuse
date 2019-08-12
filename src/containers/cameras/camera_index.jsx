@@ -34,12 +34,14 @@ class CameraIndex extends Component {
   fetchData() {
     console.log(this.convertDate(this.state.startDate))
     //Passes the query which is just the date and time into the API
+    const temp_url = "http://10.0.0.43:6003/"
     const url = "https://bobeyes.siriusinsight.io:3006/"
     const query = this.props.id + '/' + this.convertDate(this.state.startDate) + '/';
     console.log(url+query)
-    const request = fetch(url+query)
+    const request = fetch(temp_url+query)
       .then(response=> response.json())
       .then((data) => {
+        console.log(data)
         this.setState({ data: data}, () => {
           this.props.setFiles(this.state.data)
         })
@@ -49,8 +51,13 @@ class CameraIndex extends Component {
       })
   }
 
+  componentDidMount() {
+    this.fetchData()
+  }
+
 
   render () {
+
     return (
       <div className="camera-index">
         <div className="camera-datepicker-container">
@@ -62,6 +69,8 @@ class CameraIndex extends Component {
         <div className="camera-list-container of-scroll">
           {this.state.data.map((camera_card, index) => {
             let style = index%2 == 0 ? "camera-image-card card-odd" : "camera-image-card"
+            const url = 'https://bobeyes.siriusinsight.io:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card
+            const temp_url = 'http://10.0.0.43:6003/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card
             return (
               <CameraDataCard
                 key={camera_card}
@@ -69,8 +78,8 @@ class CameraIndex extends Component {
                 index={index}
                 timestamp={camera_card.slice(12,25)}
                 type={camera_card.slice(27,30)}
-                filepath={'https://bobeyes.siriusinsight.io:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card}
-                filename={camera_card}
+                filepath={temp_url}
+                filename={temp_url}
                 duration={camera_card.slice(27,30)}
                 switchFile={this.props.switchFile}
                 index={index}

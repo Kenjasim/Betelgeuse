@@ -56,11 +56,11 @@ class AssetList extends Component {
     const columns = [{
         Header: 'SID',
         accessor: 'sid',
-        width: 90
+        width: 89
       },{
         Header: 'MMSI',
         accessor: 'mmsi',
-        width: 90
+        width: 89
       },{
         Header: '',
         accessor: 'track'

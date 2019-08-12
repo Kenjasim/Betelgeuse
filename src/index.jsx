@@ -12,10 +12,12 @@ import Router from './containers/router'
 
 import bstReducer from './reducers/bst_reducer'
 import connectedReducer from './reducers/connected_reducer'
+import timeReducer from './reducers/time_reducer'
 
 const reducers = combineReducers({
   bst: bstReducer,
-  connected: connectedReducer
+  connected: connectedReducer,
+  time_window: timeReducer
 });
 
 const middlewares = applyMiddleware(logger);

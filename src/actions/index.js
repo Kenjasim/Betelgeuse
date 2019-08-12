@@ -31,3 +31,9 @@ export function emitConnected() {
   }
 }
 
+export function setTime(start, end) {
+  return {
+    type: 'POST_TIME',
+    payload: [start, end]
+  }
+}

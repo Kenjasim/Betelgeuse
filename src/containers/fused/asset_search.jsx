@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import Select from 'react-select';
 import moment from 'moment'
+
+import { setTime } from '../../actions'
 
 
 class AssetSearch extends Component {
@@ -29,7 +33,7 @@ class AssetSearch extends Component {
     this.setState({
       startDate: date
     }, () => {
-        console.log("Date received")
+        console.log(date)
     });
 
   }
@@ -38,7 +42,7 @@ class AssetSearch extends Component {
     this.setState({
       endDate: date
     }, () => {
-        console.log("Date received")
+        console.log(date)
     });
 
   }
@@ -59,6 +63,15 @@ class AssetSearch extends Component {
     this.setState({
       selectedAssetType: typeString
     });
+  }
+
+  convertDate(date) {
+    const d = moment(date).format()
+    return d.slice(0, 19).replace('T', ' ');
+  }
+
+  componentDidMount() {
+    this.props.setTime(this.convertDate(this.state.startDate), this.convertDate(this.state.endDate))
   }
 
 
@@ -146,4 +159,26 @@ class AssetSearch extends Component {
   }
 }
 
-export default AssetSearch;
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {setTime: setTime},
+    dispatch
+  );
+}
+
+export default connect(null, mapDispatchToProps)(AssetSearch);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
