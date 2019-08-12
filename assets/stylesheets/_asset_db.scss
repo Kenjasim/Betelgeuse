@@ -168,11 +168,25 @@
   font-style: italic;
   padding: 8px;
 }
-
-
-
-
-
+.asset-popup {
+  background-color: white;
+  // padding: 3px;
+}
+.popup-flex {
+  display: flex;
+  // justify-content: space-between;
+}
+.popup-date {
+  font-style: italic;
+  opacity: 0.8;
+}
+.popup-title {
+  font-weight: bold;
+  margin-right: 6px;
+}
+.marg-l-6 {
+  margin-left: 6px;
+}
 
 
 

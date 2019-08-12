@@ -7,6 +7,7 @@ import FusedMap from './fused_map'
 import AISAnalytics from './ais_analytics'
 import WeatherFused from './weather_fused';
 import AssetDB from './asset_db';
+import Reports from './reports';
 
 class Fused extends Component {
 
@@ -15,6 +16,10 @@ class Fused extends Component {
       {
         'name': 'AssetDB',
         'component': <AssetDB/>
+      },
+      {
+        'name': 'Reports',
+        'component': <Reports/>
       },
       {
         'name': 'Map',
