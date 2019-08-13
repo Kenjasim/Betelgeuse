@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import ReactMapboxGl, { Marker, Layer, Feature, Popup, ScaleControl, Overlay } from "react-mapbox-gl";
 import { GeoJSONLayer } from "react-mapbox-gl";
 import * as MapboxGL from 'mapbox-gl';
 import { Pie } from 'react-chartjs-2';
 
-
+import {setDataObj} from '../../actions'
 
 class AssetTrack extends Component {
   constructor(props) {
@@ -63,12 +65,13 @@ class AssetTrack extends Component {
   }
 
   selectDataPoint = (e) => {
-    console.log(e.features[0].properties)
+    // console.log(e.features[0].properties)
+    this.props.setDataObj({'type': 'data_point', 'id': e.features[0].properties[1]})
 
   }
 
   openPopup = (e) => {
-    console.log(e)
+    // console.log(e)
     this.setState({
       showPopup: true,
       coords: [e.features[0].properties[10], e.features[0].properties[9]],
@@ -82,13 +85,13 @@ class AssetTrack extends Component {
     this.setState({
       showPopup: false
     })
-    console.log(this.setSegments())
+    // console.log(this.setSegments())
   }
 
   setSegments = () => {
     // data point nulls come through as strings for some reason, needs to be fixed somewhere along the pipeline
     const sensors = Object.values(this.state.datapoint).slice(2, 7)
-    const segments = ['orange', 'green', 'blue', 'red', 'yellow'].map((segment, index) => {
+    const segments = ['green', 'orange', 'red', 'blue', 'yellow'].map((segment, index) => {
       if (sensors[index] == "null") {
         return "white"
       } else {
@@ -106,7 +109,6 @@ class AssetTrack extends Component {
   }
 
   render() {
-    console.log(this.props.asset_group)
 
 
     return (
@@ -121,7 +123,8 @@ class AssetTrack extends Component {
           id={`${this.props.asset_group[0][1]}`}
           layout={{ "icon-image": "harbor-15" }}
           minZoom={8}
-          icon-allow-overlap={true}
+
+
 
         >
 
@@ -137,6 +140,7 @@ class AssetTrack extends Component {
                 onMouseEnter={this.openPopup}
                 onMouseLeave={this.closePopup}
 
+
               >
               </Feature>
 
@@ -148,7 +152,7 @@ class AssetTrack extends Component {
           <Popup coordinates={this.state.coords} >
             <div className="asset-popup">
               <div className="popup-flex">
-                <div className="popup-title">Asset:</div>
+                {/*<div className="popup-title">Asset:</div>*/}
                 <div className="popup-date">{this.state.datapoint[7]}</div>
               </div>
               <div className="popup-flex">
@@ -165,11 +169,11 @@ class AssetTrack extends Component {
                 <Pie
 
                   data={{
-                    labels: ['AIS', 'Radar', 'DF', 'WiFi', 'Cameras'],
+                    labels: ['Radar', 'AIS', 'WiFi', 'DF', 'Cameras'],
                     datasets: [{
                       data: [1,1,1,1,1],
                       backgroundColor: this.setSegments(),
-                      borderColor: ['orange', 'green', 'blue', 'red', 'yellow']
+                      borderColor: ['green', 'orange', 'red', 'blue', 'yellow']
                     }]
                   }}
 
@@ -187,5 +191,13 @@ class AssetTrack extends Component {
   }
 }
 
-export default AssetTrack
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {setDataObj: setDataObj},
+    dispatch
+  );
+}
+
+export default connect(null, mapDispatchToProps)(AssetTrack);
+
 

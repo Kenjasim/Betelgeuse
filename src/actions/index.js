@@ -37,3 +37,10 @@ export function setTime(start, end) {
     payload: [start, end]
   }
 }
+
+export function setDataObj(dataObj) {
+  return {
+    type: 'SET_DATA',
+    payload: dataObj
+  }
+}

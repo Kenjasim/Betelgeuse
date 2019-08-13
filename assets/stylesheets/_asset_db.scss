@@ -188,7 +188,26 @@
   margin-left: 6px;
 }
 
-
+.asset-profile {
+  height: 100%;
+  width: 100%;
+  border: 1px dashed rgba(97,97,97,0.4);
+  color: rgba(97,97,97, 01);
+  // font-style: italic;
+  padding: 8px;
+  position: relative;
+}
+.asset-profile-x {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  opacity: 0.7;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+}
 
 
 

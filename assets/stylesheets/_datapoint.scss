@@ -1,0 +1,48 @@
+.bold-underline {
+  font-weight: bold;
+  font-style: underline;
+}
+.disp-flex-justify {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+.disp-flex {
+  display: flex;
+  align-items: center;
+
+}
+.flex-pair {
+  display: flex
+}
+.bold {
+  font-size: 13px;
+  font-weight: bold;
+  margin-right: 5px;
+
+}
+.dp-title-right {
+  margin-left: 20px;
+}
+.datapoint-asset-section {
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0,0,0,0.7);
+  margin-bottom: 5px;
+
+}
+.lineh-15 {
+  line-height: 1.5;
+}
+.marg-right {
+  margin-right: 10px;
+}
+.dp-sensors-wrapper {
+  overflow: scroll
+}
+.sensor-title-bar {
+  display: flex;
+}
+.dp-sensor {
+  min-height: 50px;
+}

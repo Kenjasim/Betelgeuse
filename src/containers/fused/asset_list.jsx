@@ -1,46 +1,37 @@
 import React, { Component } from 'react'
 import ReactTable from 'react-table';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
+import {setDataObj} from '../../actions'
 
 const data = [
   {
     'sid': 1111,
-    'mmsi': 2389102,
-    'track': <button className="asset-table-btn">track</button>,
-    'profile': <button className="asset-table-btn">profile</button>
+    'mmsi': 2389102
   },{
-    'sid': 1111,
-    'mmsi': 2389102,
-    'track': <button className="asset-table-btn">track</button>,
-    'profile': <button className="asset-table-btn">profile</button>
+    'sid': 3422,
+    'mmsi': 2389102
   },{
-    'sid': 1111,
-    'mmsi': 2389102,
-    'track': <button className="asset-table-btn">track</button>,
-    'profile': <button className="asset-table-btn">profile</button>
+    'sid': 6785,
+    'mmsi': 2389102
   },{
-    'sid': 1111,
-    'mmsi': 2389102,
-    'track': <button className="asset-table-btn">track</button>,
-    'profile': <button className="asset-table-btn">profile</button>
+    'sid': 1235,
+    'mmsi': 2389102
   },{
-    'sid': 1111,
-    'mmsi': 2389102,
-    'track': <button className="asset-table-btn">track</button>,
-    'profile': <button className="asset-table-btn">profile</button>
+    'sid': 6879,
+    'mmsi': 2389102
   },{
-    'sid': 1111,
-    'mmsi': 2389102,
-    'track': <button className="asset-table-btn">track</button>,
-    'profile': <button className="asset-table-btn">profile</button>
+    'sid': 9247,
+    'mmsi': 2389102
   },{
-    'sid': 1111,
-    'mmsi': 2389102,
-    'track': <button className="asset-table-btn">track</button>,
-    'profile': <button className="asset-table-btn">profile</button>
+    'sid': 9635,
+    'mmsi': 2389102
   }
 
 ]
+
+
 
 class AssetList extends Component {
 
@@ -52,7 +43,19 @@ class AssetList extends Component {
 
   }
 
+  track = (sid, mmsi) => {
+    console.log(sid)
+    console.log(mmsi)
+  }
+
+  profile = (sid, mmsi) => {
+    console.log(sid)
+    console.log(mmsi)
+    this.props.setDataObj({'type': 'profile', 'id': sid})
+  }
+
   render() {
+
     const columns = [{
         Header: 'SID',
         accessor: 'sid',
@@ -61,13 +64,18 @@ class AssetList extends Component {
         Header: 'MMSI',
         accessor: 'mmsi',
         width: 89
-      },{
-        Header: '',
-        accessor: 'track'
       },
       {
         Header: '',
-        accessor: 'profile'
+        accessor: 'track',
+
+        Cell: ({ row }) => (<button className="asset-table-btn" onClick={(e) => this.track(row.sid, row.mmsi)}>Track</button>)
+      },
+      {
+        Header: '',
+        accessor: 'track',
+
+        Cell: ({ row }) => (<button className="asset-table-btn" onClick={(e) => this.profile(row.sid, row.mmsi)}>Profile</button>)
       }
     ]
 
@@ -96,4 +104,14 @@ class AssetList extends Component {
   }
 }
 
-export default AssetList
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {setDataObj: setDataObj},
+    dispatch
+  );
+}
+
+export default connect(null, mapDispatchToProps)(AssetList);
+
+
