@@ -42,7 +42,27 @@
 }
 .sensor-title-bar {
   display: flex;
+  align-items: center;
 }
 .dp-sensor {
   min-height: 50px;
+}
+.dp-icon {
+  font-size: 16px;
+  color: rgb(97,97,97);
+  opacity: 0.6;
+  margin-left: 3px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+  }
+}
+.icon-flex {
+  display:flex;
+}
+.tbl-height {
+  font-size: 10px;
+}
+.sensor-dp-table td {
+  font-size: 10px;
 }
