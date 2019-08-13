@@ -69,8 +69,10 @@ class CameraIndex extends Component {
         <div className="camera-list-container of-scroll">
           {this.state.data.map((camera_card, index) => {
             let style = index%2 == 0 ? "camera-image-card card-odd" : "camera-image-card"
-            const url = 'https://bobeyes.siriusinsight.io:3006/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card
-            const temp_url = 'http://10.0.0.43:6003/'+ this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card
+            const url = 'https://bobeyes.siriusinsight.io:3006/'
+            const temp_url = 'http://10.0.0.43:6003/'
+            const url_suffix =  this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card
+
             return (
               <CameraDataCard
                 key={camera_card}
@@ -78,8 +80,8 @@ class CameraIndex extends Component {
                 index={index}
                 timestamp={camera_card.slice(12,25)}
                 type={camera_card.slice(27,30)}
-                filepath={temp_url}
-                filename={temp_url}
+                filepath={temp_url + url_suffix}
+                filename={camera_card}
                 duration={camera_card.slice(27,30)}
                 switchFile={this.props.switchFile}
                 index={index}

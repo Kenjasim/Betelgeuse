@@ -76,6 +76,9 @@ class CameraBox extends Component {
 
   imagePrev = () => {
     console.log(`previous image ${this.props.name}`)
+    console.log(this.state.file_list)
+    console.log(this.state.filename)
+    // console.log(this.state.file_list.indexOf(this.state.filename))
 
     const index = this.state.file_list.indexOf(this.state.filename)
 
@@ -95,6 +98,7 @@ class CameraBox extends Component {
 
   imageNext = () => {
     console.log("next image")
+
 
     const index = this.state.file_list.indexOf(this.state.filename)
 
