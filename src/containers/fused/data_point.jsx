@@ -4,7 +4,8 @@ import { TiArrowForwardOutline } from "react-icons/ti";
 import { TiWorldOutline } from "react-icons/ti";
 import { TiCameraOutline } from "react-icons/ti";
 import { Table } from 'reactstrap';
-
+import Lightbox from 'lightbox-react';
+import 'lightbox-react/style.css';
 
 
 // [id, assetID (SID), Radar, AIS, WiFi, DF, timeSeen, Cameras, timeRowLastModified, Latitude, Longitude, Bearing]
@@ -16,12 +17,13 @@ class DataPoint extends Component {
     super(props)
     this.state = {
       sensorPointers: [],
-      ais: []
+      isOpen: false,
+      imgUrl: "x"
     }
   }
 
   fetchDataPoint() {
-    const assetDBRow = [1, 1, 34, 123, 345, 341, 785, '2019-08-08 15:00:04', '2019-08-08 15:00:04', 50.9861, 1.29239, null]
+    const assetDBRow = [1, 12, 234, 234, 6574, 341, 785, '2019-08-08 15:00:04', '2019-08-08 15:00:04', 50.9861, 1.29239, null]
     const dataObj = {'radar': assetDBRow[2], 'ais': assetDBRow[3], 'wifi': assetDBRow[4], 'df': assetDBRow[5], 'cameras': assetDBRow[6]}
     this.setState({
 
@@ -31,20 +33,71 @@ class DataPoint extends Component {
 
   getAIS() {
     const ais_packet = ['2019-08-13 07:11:27', 351400000, "COTE DES FLANDRES", 0, 51.0213, 1.61939, 7.2, 38.2, "CALAIS DOVER", 0, 0, 1]
-    const aisObj = {'timeLocal': ais_packet[0], 'mmsi': ais_packet[1], 'name': ais_packet[2], 'type': ais_packet[3], 'lat': ais_packet[4], 'lng': ais_packet[5], 'sog': ais_packet[6], 'cog': ais_packet[7], 'destination': ais_packet[8], 'length': ais_packet[9], 'beam': ais_packet[10], 'msg_type': ais_packet[11],}
+    const aisObj = {'timeLocal': ais_packet[0], 'mmsi': ais_packet[1], 'name': ais_packet[2], 'type': ais_packet[3], 'lat': ais_packet[4], 'lng': ais_packet[5], 'sog': ais_packet[6], 'cog': ais_packet[7], 'destination': ais_packet[8], 'length': ais_packet[9], 'beam': ais_packet[10], 'msg_type': ais_packet[11]}
     this.setState({
       ais: aisObj
     })
   }
 
+  getRadar() {
+    const radar_packet = ['2019-08-13 07:11:27', 42069, 51.02, 1.619, 156, 260, 7.2, 38.2, 7.2, 68.2, 3]
+    const radarObj = {'timeLocal': radar_packet[0], 'target_no': radar_packet[1], 'lat': radar_packet[2], 'lng': radar_packet[3], 'distance': radar_packet[4], 'bearing_t': radar_packet[5], 'speed_t': radar_packet[6], 'course_t': radar_packet[7], 'speed_r': radar_packet[8], 'course_r': radar_packet[9], 'count': radar_packet[10]}
+    this.setState({
+      radar: radarObj
+    })
+  }
+
+  getDF() {
+    const df_packet = ['2019-08-13 07:11:27', 3.884, 67, 167, "id"]
+    const dfObj = {'time_seen': df_packet[0], 'power': df_packet[1], 'bearing_r': df_packet[2], 'bearing_t': df_packet[3]}
+    this.setState({
+      df: dfObj
+    })
+  }
+
+  getWifi() {
+    const wifi_packet = ['68:72:51:3e:ce:80', "2019-08-13 07:11:27", -89, 'HTC Portable Hotspot 6B50', 'Access Point', 5, 'id', 135]
+    const wifiObj = {'bssid': wifi_packet[0], 'time_seen': wifi_packet[1], 'power': wifi_packet[2], 'essid': wifi_packet[3], 'type': wifi_packet[4], 'antenna': wifi_packet[5], 'bearing': wifi_packet[7]}
+    this.setState({
+      wifi: wifiObj
+    })
+  }
+
+  getCameras() {
+    // const camera_packet = [Time, Camera, Bearing (R), Bearing (T)]
+    const camera_packet = ["2019-08-13 07:11:27", 2, 45, 125]
+    const cameraObj = {'time_local': camera_packet[0], 'camera': camera_packet[1], 'bearing_r': camera_packet[2], 'bearing_t': camera_packet[3]}
+    this.setState({
+      cameras: cameraObj
+    })
+  }
+
+  openModal = (e) => {
+    console.log(e.currentTarget.dataset.url)
+    this.setState({
+      imgUrl: e.currentTarget.dataset.url
+    }, () => {
+      this.setState({isOpen: true})
+    })
+  }
+
+  handleClick = (e) => {
+    console.log(e.target.dataset.url)
+  }
+
   componentDidMount() {
     this.fetchDataPoint()
     this.getAIS()
+    this.getRadar()
+    this.getDF()
+    this.getWifi()
+    this.getCameras()
+
   }
 
 
   render() {
-    console.log(this.state.sensorPointers.ais)
+    console.log(this.state.imgUrl)
 
     return (
       <div className="asset-profile">
@@ -78,47 +131,47 @@ class DataPoint extends Component {
                   <TiArrowForwardOutline className="dp-icon"/>
                   <TiWorldOutline className="dp-icon"/>
                 </div> :
-                <div className="">N/A</div>
+                null
               }
             </div>
             {this.state.sensorPointers.ais ? (
               <div className="sensor-content">
-                <Table className="sensor-dp-table">
+                <Table className="sensor-dp-table" size="sm">
                   <thead>
                     <tr>
                       <td className="tbl-title">Time Local</td>
                       <td className="tbl-title">MMSI</td>
+                      <td className="tbl-title">S type</td>
                       <td className="tbl-title">Vessel Name</td>
                       {/*<td className="tbl-title">Ship Type</td>*/}
                       <td className="tbl-title">Latitude</td>
                       <td className="tbl-title">Longitude</td>
-                      <td className="tbl-title">SOG</td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>{this.state.ais.timeLocal}</td>
                       <td>{this.state.ais.mmsi}</td>
+                      <td>{this.state.ais.type}</td>
                       <td>{this.state.ais.name}</td>
                       {/*<td>{this.state.ais.type}</td>*/}
                       <td>{this.state.ais.lat}</td>
                       <td>{this.state.ais.lng}</td>
-                      <td>{this.state.ais.sog}</td>
                     </tr>
                   </tbody>
                   <thead>
                     <tr>
-
+                      <td className="tbl-title">SOG</td>
                       <td className="tbl-title">COG</td>
                       <td className="tbl-title">Destination</td>
                       <td className="tbl-title">Length</td>
                       <td className="tbl-title">Beam</td>
-                      <td className="tbl-title">Type</td>
+                      <td className="tbl-title">M Type</td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-
+                      <td>{this.state.ais.sog}</td>
                       <td>{this.state.ais.cog}</td>
                       <td>{this.state.ais.destination}</td>
                       <td>{this.state.ais.length}</td>
@@ -129,65 +182,214 @@ class DataPoint extends Component {
 
                 </Table>
               </div>
-            ) : null}
+            ) : <div className="">N/A</div>}
           </div>
 
-          <div className="dp-sensor">
+          <div className="dp-sensor margin-reduce">
             <div className="sensor-title-bar">
               <div className="bold">Radar:</div>
               {this.state.sensorPointers.radar ?
                 <div className="icon-flex">
                   <TiEyeOutline className="dp-icon"/>
-                  <TiCameraOutline className="dp-icon"/>
+                  <TiCameraOutline onClick={this.openModal} data-url={"https://siriusdashboard.s3.eu-west-2.amazonaws.com/radarImage.bmp"} className="dp-icon"/>
                   <TiArrowForwardOutline className="dp-icon"/>
                 </div> :
-                <div className="">N/A</div>
+                null
               }
             </div>
-
+            {this.state.sensorPointers.radar ? (
+              <div className="sensor-content">
+                <Table className="sensor-dp-table">
+                  <thead>
+                    <tr>
+                      <td className="tbl-title">Time Local</td>
+                      <td className="tbl-title">TargetNo</td>
+                      <td className="tbl-title">Latitude</td>
+                      <td className="tbl-title">Longitude</td>
+                      {/*<td className="tbl-title">Ship Type</td>*/}
+                      <td className="tbl-title">Distance</td>
+                      <td className="tbl-title">Bearing</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{this.state.radar.timeLocal}</td>
+                      <td>{this.state.radar.target_no}</td>
+                      <td>{this.state.radar.lat}</td>
+                      <td>{this.state.radar.lng}</td>
+                      <td>{this.state.radar.distance}</td>
+                      <td>{this.state.radar.bearing_t}</td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td className="tbl-title">Speed(T)</td>
+                      <td className="tbl-title">Course(T)</td>
+                      <td className="tbl-title">Speed(R)</td>
+                      <td className="tbl-title">Course(R)</td>
+                      <td className="tbl-title">Count</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{this.state.radar.speed_r}</td>
+                      <td>{this.state.radar.course_r}</td>
+                      <td>{this.state.radar.speed_t}</td>
+                      <td>{this.state.radar.course_t}</td>
+                      <td>{this.state.radar.count}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+            ) : <div className="">N/A</div>}
           </div>
 
           <div className="dp-sensor">
             <div className="sensor-title-bar">
               <div className="bold">Cameras:</div>
-              {this.state.sensorPointers.radar ?
+              {this.state.sensorPointers.cameras ?
                 <div className="icon-flex">
                   <TiEyeOutline className="dp-icon"/>
-                  <TiCameraOutline className="dp-icon"/>
+                  <TiCameraOutline onClick={this.openModal} data-url="https://siriusdashboard.s3.eu-west-2.amazonaws.com/labelled_img.png" className="dp-icon"/>
                   <TiArrowForwardOutline className="dp-icon"/>
                 </div> :
-                <div className="">N/A</div>
+                null
               }
             </div>
+            {this.state.sensorPointers.cameras ? (
+              <div className="sensor-content disp-flex">
+                <div className="sensorhalf">
+                  <Table className="sensor-dp-table">
+                    <thead>
+                      <tr>
+                        <td className="tbl-title">Time Local</td>
+                        <td className="tbl-title">Camera</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{this.state.cameras.time_local}</td>
+                        <td>{this.state.cameras.camera}</td>
+                      </tr>
+                    </tbody>
+                    <thead>
+                      <tr>
+                        <td className="tbl-title">Bearing (R)</td>
+                        <td className="tbl-title">Bearing (T)</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{this.state.cameras.bearing_r}</td>
+                        <td>{this.state.cameras.bearing_t}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+                <div className="sensorhalf">
+                  <div className="camera-dp-img">
+                    <img src="https://siriusdashboard.s3.eu-west-2.amazonaws.com/labelled_img.png" alt=""/>
+                  </div>
+                </div>
+              </div>
+            ) : <div className="">N/A</div>}
           </div>
 
           <div className="dp-sensor">
             <div className="sensor-title-bar">
               <div className="bold">Direction Finder:</div>
-              {this.state.sensorPointers.radar ?
+              {this.state.sensorPointers.df ?
                 <div className="icon-flex">
                   <TiEyeOutline className="dp-icon"/>
                   <TiArrowForwardOutline className="dp-icon"/>
                 </div> :
-                <div className="">N/A</div>
+                null
               }
             </div>
+              {this.state.sensorPointers.df ? (
+              <div className="sensor-content">
+                <Table className="sensor-dp-table">
+                  <thead>
+                    <tr>
+                      <td className="tbl-title">Time Last Seen</td>
+                      <td className="tbl-title">Power</td>
+                      <td className="tbl-title">Bearing (R)</td>
+                      <td className="tbl-title">Bearing (T)</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{this.state.df.time_seen}</td>
+                      <td>{this.state.df.power}</td>
+                      <td>{this.state.df.bearing_r}</td>
+                      <td>{this.state.df.bearing_t}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+            ) : <div className="">N/A</div>}
           </div>
 
           <div className="dp-sensor">
             <div className="sensor-title-bar">
               <div className="bold">WiFi Pinger:</div>
-              {this.state.sensorPointers.radar ?
+              {this.state.sensorPointers.wifi ?
                 <div className="icon-flex">
                   <TiEyeOutline className="dp-icon"/>
                   <TiArrowForwardOutline className="dp-icon"/>
                 </div> :
-                <div className="">N/A</div>
+                null
               }
             </div>
+            {this.state.sensorPointers.wifi ? (
+              <div className="sensor-content">
+                <Table className="sensor-dp-table">
+                  <thead>
+                    <tr>
+                      <td className="tbl-title">Time Seen</td>
+                      <td className="tbl-title">BSSID</td>
+                      <td className="tbl-title">ESSID</td>
+                      <td className="tbl-title">Power</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{this.state.wifi.time_seen}</td>
+                      <td>{this.state.wifi.bssid}</td>
+                      <td>{this.state.wifi.essid}</td>
+                      <td>{this.state.wifi.power}</td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td className="tbl-title">Type</td>
+                      <td className="tbl-title">Antenna</td>
+                      <td className="tbl-title">Bearing (C.L)</td>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{this.state.wifi.type}</td>
+                      <td>{this.state.wifi.antenna}</td>
+                      <td>{this.state.wifi.bearing}</td>
+
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+            ) : <div className="">N/A</div>}
           </div>
 
         </div>
+
+        {this.state.isOpen && (
+          <Lightbox
+            mainSrc={this.state.imgUrl}
+            onCloseRequest={() => this.setState({ isOpen: false})}
+            className="dp-modal"
+          />
+        )}
 
       </div>
     )

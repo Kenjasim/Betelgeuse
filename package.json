@@ -39,6 +39,7 @@
     "get-video-duration": "^1.0.3",
     "history": "^4.9.0",
     "jsmpeg-player": "^2.2.1",
+    "lightbox-react": "^0.3.7",
     "mapbox-gl": "^1.0.0",
     "moment": "^2.24.0",
     "promises": "^0.2.5",

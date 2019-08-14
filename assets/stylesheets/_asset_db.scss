@@ -2,9 +2,10 @@
   width: 100%;
   height: 100%;
   display: flex;
+
 }
 .height-100 {
-  height: 100%;
+  height: 100% !important;
 }
 .asset-left {
   flex-grow: 1;
@@ -14,6 +15,7 @@
 }
 .asset-right {
   width: 35%;
+  max-height: 809px;
   display: flex;
   flex-flow: column;
 
@@ -30,9 +32,10 @@
 }
 
 .asset-data-container {
-  flex-grow: 1;
-  height: 55%;
+  // flex-grow: 1;
+  max-height: 57%;
   padding: 4px 0px 0px 8px;
+
   // background-color: red;
 }
 .asset-search-section {
@@ -119,6 +122,7 @@
 .asset-data {
   width: 100%;
   height: 100%;
+
   // border: 1px solid #616161;
 }
 
@@ -194,6 +198,7 @@
   border: 1px dashed rgba(97,97,97,0.4);
   color: rgba(97,97,97, 01);
   // font-style: italic;
+  overflow: scroll;
   padding: 8px;
   position: relative;
 }
