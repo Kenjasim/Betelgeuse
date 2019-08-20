@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import ReactMapboxGl, { Marker, Layer, Feature, Popup, ScaleControl, Overlay } from "react-mapbox-gl";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { GeoJSONLayer } from "react-mapbox-gl";
 import * as MapboxGL from 'mapbox-gl';
 
@@ -12,6 +14,21 @@ class AssetMap extends Component {
 
   constructor(props) {
     super(props)
+
+  }
+
+
+
+  componentDidMount() {
+    console.log(this.props.time_window)
+    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const query = `SELECT * FROM "Asset" ORDER BY "ID" DESC LIMIT 100`
+    const request = fetch(url+query)
+      .then(response => response.json())
+        .then((data) => {
+          console.log(data)
+        })
+
 
   }
 
@@ -44,4 +61,10 @@ class AssetMap extends Component {
   }
 }
 
-export default AssetMap
+function mapStateToProps(reduxState) {
+  return {
+    time_window: reduxState.time_window
+  };
+}
+
+export default connect(mapStateToProps, null)(AssetMap)
