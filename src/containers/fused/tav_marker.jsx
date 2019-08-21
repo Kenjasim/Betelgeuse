@@ -20,12 +20,12 @@ class TAVMarker extends Component {
   }
 
   fetchTAVHeading = () => {
-    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
     const query = `SELECT AVG("Heading") FROM "MPU" WHERE "TimeLocal" BETWEEN '${this.props.time_window[0]}' AND '${this.props.time_window[1]}'`
     const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
-        console.log(data[0].avg);
+        // console.log(data[0].avg);
         this.setState({
           heading: data[0].avg
         })

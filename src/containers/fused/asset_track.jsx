@@ -15,7 +15,8 @@ class AssetTrack extends Component {
       showPopup: false,
       coords: [0, 0],
       datapoint: null,
-      lineColor: "#061322"
+      lineColor: "#061322",
+      mmsi: 'N/A'
     }
   }
 
@@ -51,7 +52,7 @@ class AssetTrack extends Component {
                   },
                   'geometry': {
                     'type': 'LineString',
-                    'coordinates': this.props.asset_group.map((asset_point) =>  [asset_point[10], asset_point[9]] )
+                    'coordinates': this.props.asset_group.map((asset_point) =>  [asset_point.Longitude, asset_point.Latitude] )
 
                   }
                 }
@@ -66,17 +67,19 @@ class AssetTrack extends Component {
 
   selectDataPoint = (e) => {
     // console.log(e.features[0].properties)
-    this.props.setDataObj({'type': 'data_point', 'id': e.features[0].properties[1]})
+    this.props.setDataObj({'type': 'data_point', 'id': e.features[0].properties.ID, 'asset_id': e.features[0].properties.AssetID})
 
   }
 
   openPopup = (e) => {
+    // console.log(e.feature.properties)
     // console.log(e)
     this.setState({
       showPopup: true,
-      coords: [e.features[0].properties[10], e.features[0].properties[9]],
-      datapoint: e.features[0].properties
+      coords: [e.feature.properties.Longitude, e.feature.properties.Latitude],
+      datapoint: e.feature.properties
     })
+    this.getMMSI()
 
 
   }
@@ -92,7 +95,7 @@ class AssetTrack extends Component {
     // data point nulls come through as strings for some reason, needs to be fixed somewhere along the pipeline
     const sensors = Object.values(this.state.datapoint).slice(2, 7)
     const segments = ['green', 'orange', 'red', 'blue', 'yellow'].map((segment, index) => {
-      if (sensors[index] == "null") {
+      if (sensors[index] == 0) {
         return "white"
       } else {
         return segment
@@ -101,14 +104,30 @@ class AssetTrack extends Component {
     return segments
   }
 
+  getMMSI = () => {
+
+    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
+    const query = `SELECT "MMSI" FROM "Ais" WHERE "ID" = ${this.state.datapoint.AIS}`
+
+    const output = fetch(url + query)
+      .then(response => response.json())
+        .then((data) => {
+           this.setState({mmsi: data[0].MMSI})
+        })
+
+
+    // return "0807087"
+  }
+
 
   componentDidMount() {
     this.setState({
-      lineColor: this.getRandomColor()
+      lineColor: this.getRandomColor(),
     })
   }
 
   render() {
+    // console.log(this.props.asset_group[0].AssetID)
 
 
     return (
@@ -120,9 +139,10 @@ class AssetTrack extends Component {
         />
         <Layer
           type="symbol"
-          id={`${this.props.asset_group[0][1]}`}
+          id={`${this.props.asset_group[0].AssetID}`}
           layout={{ "icon-image": "harbor-15" }}
-          minZoom={8}
+          minZoom={10}
+          icon-size={0.5}
 
 
 
@@ -133,8 +153,8 @@ class AssetTrack extends Component {
 
             return (
               <Feature
-                key={asset_point[0]}
-                coordinates={[asset_point[10], asset_point[9]]}
+                key={asset_point.ID}
+                coordinates={[asset_point.Longitude, asset_point.Latitude]}
                 properties={asset_point}
                 onClick={this.selectDataPoint}
                 onMouseEnter={this.openPopup}
@@ -153,16 +173,16 @@ class AssetTrack extends Component {
             <div className="asset-popup">
               <div className="popup-flex">
                 {/*<div className="popup-title">Asset:</div>*/}
-                <div className="popup-date">{this.state.datapoint[7]}</div>
+                <div className="popup-date">{this.state.datapoint.TimeSeen}</div>
               </div>
               <div className="popup-flex">
                 <div className="popup-flex">
                   <div className="popup-title">SID:</div>
-                  <div className="">{this.state.datapoint[1]}</div>
+                  <div className="">{this.state.datapoint.AssetID}</div>
                 </div>
                 <div className="popup-flex">
                   <div className="popup-title marg-l-6">MMSI:</div>
-                  <div className="">{9925768}</div>
+                  <div className="">{this.state.mmsi}</div>
                 </div>
               </div>
               <div className="popup-graph-wrapper">

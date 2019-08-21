@@ -33,7 +33,7 @@ constructor(props) {
   }
 
   fetchData() {
-    const url = "http://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const url = "http://pulsar.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "WifiPinger" WHERE "Last time seen" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "Last time seen" desc`
     console.log(query)

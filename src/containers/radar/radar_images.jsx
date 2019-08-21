@@ -14,7 +14,7 @@ class RadarImages extends Component {
       startDate: new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate()),
       selectedIndex: 0,
       data: [{ TimeLocal: 'NaN',
-      Range: 15, 
+      Range: 15,
      FilePath: ""}]
     };
     this.handleClick = this.handleClick.bind(this);
@@ -74,7 +74,7 @@ class RadarImages extends Component {
   //executes a query to the database from the server
   fetchData() {
     console.log(this.convertDate(this.state.endDate))
-    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     let d = new Date()
     //The SQL query which gets all the Radar Data froma certain time which is defined by the timw picker

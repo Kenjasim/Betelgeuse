@@ -13,17 +13,20 @@ class AssetInfo extends Component {
 
   }
 
+
+
   pickComponent = () => {
     if (this.props.dataObj.type == 'none') {
       return <div className="asset-none">click an asset or data point for further information</div>
     } else if (this.props.dataObj.type == 'profile') {
       return <AssetProfile id={this.props.dataObj.id}/>
     } else if (this.props.dataObj.type == 'data_point') {
-      return <DataPoint id={this.props.dataObj.id}/>
+      return <DataPoint id={this.props.dataObj.id} asset_id={this.props.dataObj.asset_id}/>
     }
   }
 
   render() {
+    // console.log("here")
 
     return (
       <div className="asset-data">

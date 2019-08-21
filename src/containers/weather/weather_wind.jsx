@@ -23,8 +23,8 @@ class WeatherWind extends Component {
         ],
       },
       response: false,
-      mru_endpoint: 'http://bobeyes.siriusinsight.io:3004',
-      weather_endpoint: 'http://bobeyes.siriusinsight.io:3000'
+      mru_endpoint: 'http://pulsar.siriusinsight.io:3004',
+      weather_endpoint: 'http://pulsar.siriusinsight.io:3000'
     }
     this.socket_one = io.connect(this.state.mru_endpoint)
     this.socket_two = io.connect(this.state.weather_endpoint)
