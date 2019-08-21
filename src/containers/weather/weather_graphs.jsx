@@ -68,7 +68,7 @@ class WeatherGraphs extends Component {
   }
 
   fetchData = () => {
-    const url = "http://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const url = "http://pulsar.siriusinsight.io:3333/?psqlQuery="
     const query_map = {
       "Temperature": ["Temperature", true],
       "Wind Speed": ["WindSpeed", true],

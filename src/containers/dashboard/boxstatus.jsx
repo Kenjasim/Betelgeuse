@@ -38,7 +38,7 @@ class BoxStatus extends Component {
       percentpower: '',
       status: "Connected",
       response: false,
-      power_endpoint: 'http://bobeyes.siriusinsight.io:3111'
+      power_endpoint: 'http://pulsar.siriusinsight.io:3111'
     }
     this.socket = io.connect(this.state.power_endpoint)
     this.donut = this.donut.bind(this)
@@ -75,7 +75,7 @@ class BoxStatus extends Component {
 
   //Creates the query ewhich gets the power used on that day
   donut = () => {
-    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
     //const temp_url = "//10.0.0.43:3333/?psqlQuery="
     let d = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
     let cd = new Date();

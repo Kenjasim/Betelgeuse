@@ -24,6 +24,10 @@ class Weather extends Component {
       {
         'name': 'Raw Data',
         'component': <WeatherRaw/>
+      },
+      {
+        'name': 'Kenan',
+        'component': <WeatherAnalytics/>
       }
     ]
     return (

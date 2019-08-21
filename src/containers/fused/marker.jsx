@@ -6,12 +6,12 @@ class MapMarker extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      lat:  51.0209, 
+      lat:  51.0209,
       long: 1.39887,
       heading: 0,
       response: false,
-      mru_endpoint: 'http://bobeyes.siriusinsight.io:3004',
-      gps_endpoint: 'http://bobeyes.siriusinsight.io:3003'
+      mru_endpoint: 'http://pulsar.siriusinsight.io:3004',
+      gps_endpoint: 'http://pulsar.siriusinsight.io:3003'
     },
     this.socket_one = io.connect(this.state.mru_endpoint)
     this.socket_two = io.connect(this.state.gps_endpoint)
