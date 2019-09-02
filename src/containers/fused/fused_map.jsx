@@ -176,15 +176,17 @@ class FusedMap extends Component {
 
     let tempData = []
 
-    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
-    const temp_url = "http://10.0.0.43:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/aisquery?"
+    const temp_url = "http://10.0.0.43:3333/aisquery?"
     const query = `SELECT "TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "Longitude" > 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
     const query_mmsi = `SELECT DISTINCT "MMSI" FROM "Ais" WHERE "Longitude" > 0 AND "MMSI" <> 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const tempquery = `columnname="TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude"&parameters="Longitude" > 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const tempquery_mmsi = `columnname=DISTINCT "MMSI"&parameters="Longitude" > 0 AND "MMSI" <> 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
 
     console.log(this.convertDate(this.state.startDate));
     console.log(this.convertDate(this.state.endDate));
 
-    const request = fetch(url+query)
+    const request = fetch(url+tempquery)
       .then(response=> response.json())
       .then((data) => {
         console.log(data);
@@ -195,7 +197,7 @@ class FusedMap extends Component {
         })
       })
      
-      const request2 = fetch(url+query_mmsi)
+      const request2 = fetch(url+tempquery_mmsi)
       .then(response=> response.json())
       .then((data2) => {
         console.log(data2);
@@ -226,10 +228,11 @@ class FusedMap extends Component {
     }
     
 
-    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
-    const temp_url = "http://10.0.0.43:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/aisquery?"
+    const temp_url = "http://10.0.0.43:3333/aisquery?"
     const query_mmsi = `SELECT "TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "Longitude" > 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
-    const query = query_mmsi + query_check
+    const tempquery_mmsi = `columnname="TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude"&parameters="Longitude" > 0 AND "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const query = tempquery_mmsi + query_check
     console.log(query);
 
     const request = fetch(url+query)
