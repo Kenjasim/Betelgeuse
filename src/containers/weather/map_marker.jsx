@@ -82,7 +82,7 @@ class MapMarker extends Component {
     return (
       <Marker
         coordinates={[this.state.long, this.state.lat]}
-        anchor="center"
+        anchor="bottom"
 
         >
         <img style={markerRotate} className="ship-marker" src={markerUrl}/>

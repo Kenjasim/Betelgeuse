@@ -1,43 +1,46 @@
 @import "~react-tabs/style/react-tabs.css";
 // @import "react-datepicker/dist/react-datepicker.css";
 
-.map-wrapper {
-  overflow: scroll;
-}
 
-.date-filter-wrapper {
-  width: 100%;
-  height: 65px;
-  margin-bottom: 7px;
+
+.fused-dates {
   display: flex;
   justify-content: space-between;
-  // align-items: right;
 }
-.date-filter-section {
-  display: flex;
+
+.fused-date-filter-wrapper {
+    width: 100%;
+    height: 35px;
+    margin-bottom: 7px;
+    display: flex;
+    justify-content: left;
+    // align-items: center;
 
 }
-.date-to {
-  margin: 0px 10px;
-  font-size: 16px;
+.fused-map-buttons {
+  margin-bottom: 10px;
 }
-.csv-btn-wrapper {
-  text-align: right;
+.mmsiSelect {
+
+  display: flex;
 }
-.csv-btn {
-  outline: none;
+.fused-selection {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.css-2b097c-container {
+  width: 300px;
+}
+.fused-button {
+  margin-left: 5px;
+  border-radius: 3px;
   font-size: 12px;
-  padding: 4px 8px;
-  margin-bottom: 5px;
-  // background-color: rgba(0,0,0, 0.05);
-  border-color: rgba(0,0,0, 0.4);
   &:hover {
-    background-color: rgba(39, 169, 224, 0.2);
-    border-color: rgba(39, 169, 224, 0.4);
+    background-color: #f2f2f2;
 
   }
 }
-
 #menu {
   background: #fff;
   position: absolute;
@@ -83,4 +86,9 @@
 .fused-dates {
   display: flex;
   justify-content: space-between;
+#fused-datepicking {
+  height: 28px;
 }
+#fused-selection {
+  height: 28px;
+

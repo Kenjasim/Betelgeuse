@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import DashTabs from '../dash_tabs'
-import AISRaw from './ais_raw'
 import FusedMap from './fused_map'
 import AISAnalytics from './ais_analytics'
+import WeatherFused from './weather_fused';
 
 class Fused extends Component {
 
@@ -17,7 +17,7 @@ class Fused extends Component {
       },
       {
         'name': 'Rap',
-        'component': <AISRaw/>
+        'component': <WeatherFused/>
       },
       {
         'name': 'Sap',

@@ -107,7 +107,7 @@ class FusedMap extends Component {
 
   }
 
-  
+
   drawDataSelected() {
     this.setState({
       datePickerDisabled: true,
@@ -117,7 +117,7 @@ class FusedMap extends Component {
       console.log("1")
     });
   }
-  
+
   fetchMMSIData() {
     this.setState({
       datePickerDisabled: true,
@@ -130,17 +130,17 @@ class FusedMap extends Component {
 
 /*Continued at line 182
 
-  Change changeQuery() so that it checks whether the mmsiAdd from the select field is null. 
-  If it is not, map mmsiAdd and form a query extension from it called mmsiData and equate queryString to it. 
-  If it is, make queryString equal to an empty string “”. 
-  
+  Change changeQuery() so that it checks whether the mmsiAdd from the select field is null.
+  If it is not, map mmsiAdd and form a query extension from it called mmsiData and equate queryString to it.
+  If it is, make queryString equal to an empty string “”.
+
 */
 
   changeQuery(mmsiAdd) {
     let mmsiData = "AND ("
     if(mmsiAdd != null || "") {
       mmsiAdd.map((point, i) => (mmsiData = mmsiData + ' "MMSI"=' + point.value+ " OR"));
-    
+
     this.setState({
       queryString: mmsiData,
     }, () =>
@@ -155,7 +155,7 @@ class FusedMap extends Component {
       {
         console.log(this.state.queryString);
       });}
-    
+
   }
 
   changeVisibility() {
@@ -212,11 +212,11 @@ class FusedMap extends Component {
   }
 
   /*Comment starts at line 109
-    
-    In turn, in fetchData2, the queryString’s ending will be compared to “ OR”. 
-    If it is equal to it (i.e. the string does include MMSI data that ends with “ OR”), that ending will be removed 
-    and closed bracket “)” will be concatenated to form the end query extension. 
-    If the ending of queryString is not equal to “ OR”, it means that no MMSI’s are selected 
+
+    In turn, in fetchData2, the queryString’s ending will be compared to “ OR”.
+    If it is equal to it (i.e. the string does include MMSI data that ends with “ OR”), that ending will be removed
+    and closed bracket “)” will be concatenated to form the end query extension.
+    If the ending of queryString is not equal to “ OR”, it means that no MMSI’s are selected
     and thus the empty extension will be added to the root query (i.e. nothing changes) and all data is displayed.
 
   */
@@ -224,9 +224,9 @@ class FusedMap extends Component {
   fetchData2() {
     let query_check = ""
     if (this.state.queryString.substring(this.state.queryString.length-3, this.state.queryString.length) == " OR"){
-      query_check = this.state.queryString.substring(0,this.state.queryString.length-3) + ")" 
+      query_check = this.state.queryString.substring(0,this.state.queryString.length-3) + ")"
     }
-    
+
 
     const url = "https://pulsar.siriusinsight.io:3333/aisquery?"
     const temp_url = "http://10.0.0.43:3333/aisquery?"
@@ -245,8 +245,8 @@ class FusedMap extends Component {
           loading: false
         })
       })
-    
-  
+
+
   }
 
   fetchData3() {
@@ -267,7 +267,7 @@ class FusedMap extends Component {
           loading: false
         })
       })
-  
+
   }
 
   componentWillMount() {
@@ -548,7 +548,7 @@ class FusedMap extends Component {
     
     return (
       <div className="map-wrapper">
-          <div className="date-filter-wrapper">
+          <div className="fused-date-filter-wrapper">
 
 
             <DatePicker
@@ -589,8 +589,10 @@ class FusedMap extends Component {
               minTime={this.state.startDate.getDate() === this.state.endDate.getDate() ? this.state.startDate : (new Date(new Date().setHours(0, 0, 0, 0)))}
             />
 
+            <button id="fused-datepicking" className="fused-button" onClick={this.drawDataSelected}>
+              1: Draw all data
+            </button>
           </div>
-
           <button onClick={this.drawDataSelected}>
             1: Draw all data
           </button>
@@ -622,7 +624,7 @@ class FusedMap extends Component {
               height: "100%",
               width: "100%"
               }}
-              
+
               center = {[1.23917630,51.01271940]}
               zoom = {[5]}
               bearing = {[0]}
@@ -643,18 +645,18 @@ class FusedMap extends Component {
               >
 
 
-              {this.state.map_data.map((point, i) => 
-                <Feature 
-                  key={i} 
+              {this.state.map_data.map((point, i) =>
+                <Feature
+                  key={i}
                   coordinates={[point.Longitude, point.Latitude]}
-                  style={{transform: `rotate(${point.Cog}deg)`}} 
-                  onClick={() => 
+                  style={{transform: `rotate(${point.Cog}deg)`}}
+                  onClick={() =>
                     console.log("////////////////////////////////////"  + '\n' +
-                                "Local Time: " + point.TimeLocal + '\n' + 
-                                "MMSI: " + point.MMSI + '\n' + 
-                                "Longitude: " + point.Longitude + '\n' + 
-                                "Latitude: " + point.Latitude + '\n' + 
-                                "Speed over ground: " + point.Sog + '\n' + 
+                                "Local Time: " + point.TimeLocal + '\n' +
+                                "MMSI: " + point.MMSI + '\n' +
+                                "Longitude: " + point.Longitude + '\n' +
+                                "Latitude: " + point.Latitude + '\n' +
+                                "Speed over ground: " + point.Sog + '\n' +
                                 "Course over ground: " + point.Cog)}
                 />)}
 
@@ -669,12 +671,12 @@ class FusedMap extends Component {
               layout={{"visibility": this.state.visibility}}
               >
 
-              {this.state.map_data.map((point, i) => 
-                <Feature 
-                  key={i} 
-                  coordinates={[point.Longitude, point.Latitude]} 
+              {this.state.map_data.map((point, i) =>
+                <Feature
+                  key={i}
+                  coordinates={[point.Longitude, point.Latitude]}
                 />)}
-            
+
 
             </Layer>
 
