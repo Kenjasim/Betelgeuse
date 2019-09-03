@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Line, Doughnut } from 'react-chartjs-2';
 import io from "socket.io-client";
 //import WeatherIcon from 'react-icons-weather';
-//Optional include of the default css styles 
+//Optional include of the default css styles
 //import 'react-open-weather/lib/css/ReactWeather.css';
 import moment from 'moment';
 import ReactInterval from 'react-interval';
@@ -21,7 +21,7 @@ class TempStatus extends Component {
       weather_status: '',
       status: "Connected",
       response: false,
-      weather_endpoint: 'http://bobeyes.siriusinsight.io:3000'
+      weather_endpoint: 'http://pulsar.siriusinsight.io:3000'
     }
     this.socket = io.connect(this.state.weather_endpoint)
   }
@@ -85,8 +85,8 @@ class TempStatus extends Component {
           <div className="temp-text-container">
             {this.state.curr_temp}°C
           </div>
-          
-          
+
+
         </div>
         <div className="weather-box-bottom">
           <div className="weather-text">

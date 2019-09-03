@@ -39,6 +39,7 @@ class BoxStatus extends Component {
       status: "Connected",
       response: false,
       //power_endpoint: 'http://bobeyes.siriusinsight.io:3111'
+
     }
     this.socket = io.connect(this.state.power_endpoint)
     this.donut = this.donut.bind(this)

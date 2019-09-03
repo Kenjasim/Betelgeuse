@@ -33,7 +33,7 @@ class MRURaw extends Component {
 
   fetchData() {
 
-    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "MPU" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "TimeLocal" desc`
     const request = fetch(url+query)

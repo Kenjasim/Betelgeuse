@@ -28,7 +28,7 @@ class WeatherFused extends Component {
 
   fetchData() {
 
-    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "Ais" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
     const request = fetch(url+query)

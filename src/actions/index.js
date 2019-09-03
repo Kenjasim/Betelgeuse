@@ -31,3 +31,16 @@ export function emitConnected() {
   }
 }
 
+export function setTime(start, end) {
+  return {
+    type: 'POST_TIME',
+    payload: [start, end]
+  }
+}
+
+export function setDataObj(dataObj) {
+  return {
+    type: 'SET_DATA',
+    payload: dataObj
+  }
+}

@@ -14,7 +14,7 @@ class WindStatus extends Component {
       wind_dir: 0,
       wind_speed: 0,
       wind_data: {
-        labels: [], 
+        labels: [],
         datasets: [
           {
             label: 'Wind Speed (m/s)',
@@ -27,7 +27,7 @@ class WindStatus extends Component {
       percentpower: '',
       status: "Connected",
       response: false,
-      weather_endpoint: 'https://bobeyes.siriusinsight.io:3000'
+      weather_endpoint: 'https://pulsar.siriusinsight.io:3000'
     }
     this.socket = io.connect(this.state.weather_endpoint)
   }
@@ -171,7 +171,7 @@ class WindStatus extends Component {
                 {this.state.wind_speed} m/s
               </div>
           </div>
-          
+
         </div>
         <div className="box-box-right">
           <div className="power-doughnut-section">

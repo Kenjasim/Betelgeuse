@@ -10,7 +10,7 @@ class RadarImageSection extends Component {
     let Range = ""
     try{
       let style = {
-        backgroundImage: `url(${"https://bobeyes.siriusinsight.io:3005/" + this.props.radar_image.FilePath})`
+        backgroundImage: `url(${"https://pulsar.siriusinsight.io:3005/" + this.props.radar_image.FilePath})`
       }
       FilePath = this.props.radar_image.FilePath
       TimeLocal = this.props.radar_image.TimeLocal
@@ -24,7 +24,7 @@ class RadarImageSection extends Component {
 
       <div className="radar-image-section">
         <div className="radar-image" >
-          <img className="radar-img" src={"https://bobeyes.siriusinsight.io:3005/" + FilePath} ></img>
+          <img className="radar-img" src={"https://pulsar.siriusinsight.io:3005/" + FilePath} ></img>
         </div>
         <div className="image-footer">
           <button className={prev_style} onClick={this.props.togglePrev}>

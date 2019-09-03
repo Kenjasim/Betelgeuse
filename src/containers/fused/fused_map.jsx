@@ -20,7 +20,7 @@ class FusedMap extends Component {
     d2.setMinutes(d1.getMinutes() - 10);
     this.state = {
       response: false,
-      endpoint: 'bobeyes.siriusinsight.io:3002',
+      endpoint: 'pulsar.siriusinsight.io:3002',
       startDate: d2,
       endDate: d1,
       map_data: [],
@@ -250,7 +250,7 @@ class FusedMap extends Component {
   }
 
   fetchData3() {
-    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query_draw = `SELECT "TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
 

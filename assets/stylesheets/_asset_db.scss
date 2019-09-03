@@ -1,0 +1,220 @@
+.asset-db-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+}
+.height-100 {
+  height: 100% !important;
+}
+.asset-left {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column;
+  // background-color: green;
+}
+.asset-right {
+  width: 35%;
+  max-height: 809px;
+  display: flex;
+  flex-flow: column;
+
+  // background-color: red;
+}
+.width-100 {
+  width: 100%;
+}
+.asset-list-container {
+  // flex-grow: 1;
+  // height: 45%;
+  padding: 0px 0px 4px 8px;
+  // background-color: blue;
+}
+
+.asset-data-container {
+  // flex-grow: 1;
+  max-height: 57%;
+  padding: 4px 0px 0px 8px;
+
+  // background-color: red;
+}
+.asset-search-section {
+
+}
+.asset-map {
+  flex-grow: 1;
+  padding: 8px 0px;
+}
+.asset-play-section {
+  display: flex;
+  align-items: center;
+
+}
+.asset-play-btn {
+  font-size: 35px;
+  margin-right: 8px;
+  color: #26AAE2;
+  cursor: pointer;
+}
+.asset-all {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  border: 1px solid #616161;
+  height: 30px;
+  width: 78px;
+  cursor: pointer;
+  opacity: 0.3;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+}
+.all-selected {
+  opacity: 1;
+}
+.asset-search-section {
+  display: flex;
+  margin-top: 8px;
+  align-items: center;
+
+}
+.checkbox-group {
+  display: flex;
+}
+.radio-pair {
+  display: flex;
+  margin-right: 8px;
+}
+.radio-text {
+  margin-left: 5px;
+}
+.asset-search-btn {
+  margin-left: 8px;
+  height: 38px;
+  width: 78px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #26AAE2;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #26AAE2;
+  color: white;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+}
+.asset-map-container {
+  height: 100%;
+  width: 100%;
+}
+.asset-list {
+  width: 100%;
+  height: 100%;
+
+  // border: 1px solid #616161;
+}
+.asset-data {
+  width: 100%;
+  height: 100%;
+
+  // border: 1px solid #616161;
+}
+
+.asset-list-title-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.asset-list-title {
+  font-weight: bold;
+  color: rgba(97,97,97, 1);
+  font-size: 15px;
+}
+.asset-list-time {
+  color: rgba(97,97,97, 0.6);
+  font-style: italic;
+  margin-left: 8px;
+}
+
+.ReactTable .rt-thead {
+  overflow-y: scroll;
+}
+.asset-table-btn {
+  font-size: 10px;
+  height: 26px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #26AAE2;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #26AAE2;
+  color: white;
+  opacity: 0.6;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.asset-none {
+  height: 100%;
+  width: 100%;
+  border: 1px dashed rgba(97,97,97,0.4);
+  color: rgba(97,97,97, 0.8);
+  font-style: italic;
+  padding: 8px;
+}
+.asset-popup {
+  background-color: white;
+  // padding: 3px;
+}
+.popup-flex {
+  display: flex;
+  // justify-content: space-between;
+}
+.popup-date {
+  font-style: italic;
+  opacity: 0.8;
+}
+.popup-title {
+  font-weight: bold;
+  margin-right: 6px;
+}
+.marg-l-6 {
+  margin-left: 6px;
+}
+
+.asset-profile {
+  height: 100%;
+  width: 100%;
+  border: 1px dashed rgba(97,97,97,0.4);
+  color: rgba(97,97,97, 01);
+  // font-style: italic;
+  overflow: scroll;
+  padding: 8px;
+  position: relative;
+}
+.asset-profile-x {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  opacity: 0.7;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+}
+
+
+
+
+

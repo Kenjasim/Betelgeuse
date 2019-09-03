@@ -1,0 +1,105 @@
+.bold-underline {
+  font-weight: bold;
+  font-style: underline;
+}
+.disp-flex-justify {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+.disp-flex {
+  display: flex;
+  align-items: center;
+
+}
+.flex-pair {
+  display: flex
+}
+.bold {
+  font-size: 13px;
+  font-weight: bold;
+  margin-right: 5px;
+
+}
+.dp-title-right {
+  margin-left: 20px;
+}
+.datapoint-asset-section {
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0,0,0,0.7);
+  margin-bottom: 5px;
+
+}
+.lineh-15 {
+  line-height: 1.5;
+}
+.marg-right {
+  margin-right: 10px;
+}
+.dp-sensors-wrapper {
+  overflow: scroll
+}
+.sensor-title-bar {
+  display: flex;
+  align-items: center;
+}
+.dp-sensor {
+  min-height: 50px;
+}
+.dp-icon {
+  font-size: 16px;
+  color: rgb(97,97,97);
+  opacity: 0.6;
+  margin-left: 3px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+  }
+}
+.icon-flex {
+  display:flex;
+}
+.tbl-height {
+  font-size: 10px;
+}
+.sensor-dp-table td {
+  font-size: 10px;
+
+}
+.sensor-dp-table > td {
+  line-height: 1.5;
+}
+.sensor-dp-table thead {
+  font-weight: bold;
+  font-size: 10px;
+  background-color: rgba(97,97,97,0.1)
+}
+
+.sensorhalf {
+  width: 50%;
+
+}
+.camera-dp-img {
+  height: 100%;
+  width: 100%;
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+}
+.dp-modal {
+  height: 60%;
+  width: 60%;
+  object-fit: contain;
+}
+.ril__image {
+  height: 60%;
+  width: 60%;
+  object-fit: contain;
+}
+.margin-reduce {
+  // margin-top: -20px;
+}

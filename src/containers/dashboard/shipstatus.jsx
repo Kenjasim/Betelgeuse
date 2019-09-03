@@ -35,8 +35,8 @@ class ShipStatus extends Component {
         ],
       },
       response: false,
-      mru_endpoint: 'http://bobeyes.siriusinsight.io:3004',
-      gps_endpoint: 'http://bobeyes.siriusinsight.io:3003'
+      mru_endpoint: 'http://pulsar.siriusinsight.io:3004',
+      gps_endpoint: 'http://pulsar.siriusinsight.io:3003'
     }
     this.socket_one = io.connect(this.state.mru_endpoint)
     this.socket_two = io.connect(this.state.gps_endpoint)
@@ -105,13 +105,19 @@ class ShipStatus extends Component {
     });
   }
 
-  headingData = (yaw) => {
-    const offset = 126
-    const bias = 149
-    let heading = offset + bias - yaw
-    heading = heading % 360
+  // headingData = (yaw) => {
+  //   const offset = 126
+  //   const bias = 149
+  //   let heading = offset + bias - yaw
+  //   heading = heading % 360
+  //   this.setState({
+  //     heading: heading.toFixed(2)
+  //   })
+  // }
+
+  headingData = (heading) => {
     this.setState({
-      heading: heading.toFixed(2)
+      heading: heading
     })
   }
 
@@ -123,9 +129,11 @@ class ShipStatus extends Component {
         const message = data.message.payload
         const result = message.split(",")
         let data_packet = this.mruParseData(result)
+        console.log(data_packet[0])
         this.rollData(data_packet[0]['Roll'])
         this.pitchData(data_packet[0]['Pitch'])
-        this.headingData(data_packet[0]['Yaw'])
+        // this.headingData(data_packet[0]['Yaw'])
+        this.headingData(data_packet[0]['ShipHeading'])
     });
   }
 

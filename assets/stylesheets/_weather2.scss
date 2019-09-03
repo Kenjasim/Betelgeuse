@@ -191,7 +191,18 @@
 }
 
 
+.weather-dropdown {
+  display: none;
+  margin-left: 10px;
+}
+
 @media (max-width: 1000px) {
+  .weather-dropdown {
+    display: block;
+  }
+  .weather-option-btn2 {
+    display: none;
+  }
   .weather-title {
     font-size: 14px !important;
   }

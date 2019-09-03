@@ -6,23 +6,26 @@ import DashTabs from '../dash_tabs'
 import FusedMap from './fused_map'
 import AISAnalytics from './ais_analytics'
 import WeatherFused from './weather_fused';
+import AssetDB from './asset_db';
+import Reports from './reports';
 
 class Fused extends Component {
 
   render() {
     const tabs = [
       {
+        'name': 'AssetDB',
+        'component': <AssetDB/>
+      },
+      {
+        'name': 'Reports',
+        'component': <Reports/>
+      },
+      {
         'name': 'Map',
         'component': <FusedMap/>
-      },
-      {
-        'name': 'Rap',
-        'component': <WeatherFused/>
-      },
-      {
-        'name': 'Sap',
-        'component': <AISAnalytics/>
       }
+
     ]
     return (
       <DashTabs tabs={tabs} page="Fused"/>
