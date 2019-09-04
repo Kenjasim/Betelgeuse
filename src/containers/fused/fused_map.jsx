@@ -20,7 +20,7 @@ class FusedMap extends Component {
     d2.setMinutes(d1.getMinutes() - 10);
     this.state = {
       response: false,
-      endpoint: 'pulsar.siriusinsight.io:3002',
+      endpoint: 'bobeyes.siriusinsight.io:3002',
       startDate: d2,
       endDate: d1,
       map_data: [],
@@ -45,7 +45,11 @@ class FusedMap extends Component {
         ],
 
         drawn: false,
-        visibility: "visible", 
+        visibility: "visible",
+        layerSet: [{ value: "bathometry", label: "Bathometry", visibility: "none" },
+                   { value: "heatmap", label: "Heat map", visibility: "none" },
+                   { value: "waters", label: "Waters", visibility: "none" },
+                   { value: "radar", label: "Radar", visibility: "none"}] 
     };
     this.socket = io.connect(this.state.endpoint)
     this.handleStartChange = this.handleStartChange.bind(this);
@@ -53,7 +57,7 @@ class FusedMap extends Component {
     this.drawDataSelected = this.drawDataSelected.bind(this);
     this.fetchMMSIData = this.fetchMMSIData.bind(this);
     this.changeQuery = this.changeQuery.bind(this);
-    this.changeVisibility = this.changeVisibility.bind(this);
+    this.changeLayer = this.changeLayer.bind(this);
     this.calculateCoordinates = this.calculateCoordinates.bind(this);
   }
 
@@ -158,13 +162,19 @@ class FusedMap extends Component {
 
   }
 
-  changeVisibility() {
-    if (this.state.visibility === "visible") {
-      this.state.visibility = "none";
-    } 
-    else {
-      this.state.visibility = "visible";
-    }
+  changeLayer(layerChange) {
+    console.log(layerChange)
+    this.state.layerSet.map((point, i) => (point.visibility = "none"));
+    if(layerChange != null || "") {
+      layerChange.map((point, i) => (point.visibility = "visible"));
+    
+    this.setState({
+      
+    }, () =>
+    {
+      //console.log(this.state.layerSet);
+    });}
+
   }
 
   convertDate(date) {
@@ -250,7 +260,7 @@ class FusedMap extends Component {
   }
 
   fetchData3() {
-    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
+    const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query_draw = `SELECT "TimeLocal", "Sog", "Cog", "MMSI", "Longitude", "Latitude" FROM "Ais" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
 
@@ -371,14 +381,14 @@ class FusedMap extends Component {
           "source-layer": "water",
           "type": "fill",
           "paint": {"fill-color": "#a5d2f3"},
-          "layout": {"visibility": "none"},
+          "layout": {"visibility": this.state.layerSet[2].visibility},
         },
         {
           "id": "10m-bathymetry-81bsvj",
           "type": "fill",
           "source": "10m-bathymetry-81bsvj",
           "source-layer": "10m-bathymetry-81bsvj",
-          "layout": {"visibility": "none"},
+          "layout": {"visibility": this.state.layerSet[0].visibility},
           "paint": {
             "fill-outline-color": "hsla(337, 82%, 62%, 0)",
             // cubic bezier is a four point curve for smooth and precise styling
@@ -408,7 +418,7 @@ class FusedMap extends Component {
         "source": "overlay",
         "type": "raster",
         "paint": {"raster-opacity": 0.85},
-        "layout": {"visibility": this.state.visibility},
+        "layout": {"visibility": this.state.layerSet[3].visibility},
         },
         {
         "id": "cities",
@@ -599,21 +609,29 @@ class FusedMap extends Component {
 
           <button onClick={this.fetchMMSIData}>
             2: Draw specified MMSI
-          </button>
-
-          <button onClick={this.changeVisibility}>
-            3: Toggle layers
-          </button>      
-
-          <div className="mmsiSelect" style={{width: '300px'}}>
-            <Select
-              defaultValue = {[]}
-              isMulti
-              options = {this.state.mmsi_data}
-              classNamePrefix = "select"
-              placeholder = "Search for MMSI..." 
-              onChange = {this.changeQuery}
-            />
+          </button>     
+          <div className="select">
+            <div className="block" style={{width: '300px'}}>
+              <Select
+                defaultValue = {[]}
+                isMulti
+                options = {this.state.mmsi_data}
+                classNamePrefix = "select"
+                placeholder = "Search for MMSI..." 
+                onChange = {this.changeQuery}
+              />
+            </div>
+            <div className="block" style={{width: '300px'}}>
+              <Select
+                defaultValue = {[]}
+                isMulti
+                options = {this.state.layerSet}
+                classNamePrefix = "select"
+                placeholder = "Select layers..." 
+                onChange = {this.changeLayer}
+                closeMenuOnSelect={false}
+              />
+            </div>
           </div>
           <nav id="menu" ref="menu"></nav>
           <Map
@@ -668,7 +686,7 @@ class FusedMap extends Component {
               minZoom={5}
               maxZoom={15}
               paint={layerPaint}
-              layout={{"visibility": this.state.visibility}}
+              layout={{"visibility": this.state.layerSet[1].visibility}}
               >
 
               {this.state.map_data.map((point, i) =>
