@@ -13,9 +13,8 @@ class RadarImages extends Component {
     this.state = {
       startDate: new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate()),
       selectedIndex: 0,
-      data: [{ TimeLocal: 'NaN',
-      Range: 15,
-     FilePath: ""}]
+      data: [],
+      selectedDate: ''
     };
     this.handleClick = this.handleClick.bind(this);
     // this.selectIndex = this.selectIndex.bind(this);
@@ -46,7 +45,7 @@ class RadarImages extends Component {
   selectNext = () => {
     if (this.state.selectedIndex > 0) {
       this.setState({
-        selectedIndex: this.state.selectedIndex-1
+        selectedIndex: this.state.selectedIndex+1
       })
     }
   }
@@ -54,7 +53,7 @@ class RadarImages extends Component {
   selectPrev = () => {
     if (this.state.selectedIndex < this.state.data.length - 1) {
       this.setState({
-        selectedIndex: this.state.selectedIndex+1
+        selectedIndex: this.state.selectedIndex-1
       })
     }
   }
@@ -69,16 +68,18 @@ class RadarImages extends Component {
   }
   convertDate(date) {
     const d = moment(date).format()
-    return d.slice(0, 10).replace('T', ' ');
+    var date =  d.slice(0, 10).replace('T', ' ')
+    var date = date.split('-').join('/')
+    this.state.selectedDate = date
   }
   //executes a query to the database from the server
   fetchData() {
     console.log(this.convertDate(this.state.endDate))
-    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
-    const temp_url = "http://10.0.0.43:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/radar?"
+    //const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     let d = new Date()
-    //The SQL query which gets all the Radar Data froma certain time which is defined by the timw picker
-    const query = `SELECT * FROM "RadarImage" WHERE "TimeLocal" > '${this.convertDate(this.state.startDate)}' AND "TimeLocal" < '${this.convertDate(d.setDate(this.state.startDate.getDate() + 1))}'`
+    this.convertDate(this.state.startDate)
+    let query = 'date=' + this.state.selectedDate
     const request = fetch(url+query)
     //console.log(url)
       .then(response=> response.json())
@@ -112,6 +113,7 @@ class RadarImages extends Component {
               //imageFile={}
               selectedIndex={this.state.selectedIndex}
               radar_image={this.state.data[this.state.selectedIndex]}
+              date = {this.state.selectedDate}
               toggleNext={this.selectNext}
               togglePrev={this.selectPrev}
               max={this.state.data.length}
@@ -135,10 +137,10 @@ class RadarImages extends Component {
                   }
                   return (
                     <ImageCard
-                      key={radar_image.TimeLocal}
+                      key={radar_image}
                       style={style} index={index}
-                      time_local={radar_image.TimeLocal}
-                      scale={radar_image.Range}
+                      time_local={radar_image}
+                      scale={'24'}
                       toggleIndex={this.selectIndex}
                     />
                   )

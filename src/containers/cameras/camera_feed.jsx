@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import JSMpeg from 'jsmpeg-player';
 import Iframe from 'react-iframe'
+import ReactPlayer from 'react-player'
 
 class CameraFeed extends Component {
   componentDidMount() {
@@ -16,14 +17,15 @@ class CameraFeed extends Component {
   render() {
     return (
       //Calls and Iframe and adds the url of the cameras
-      <div className="camera-feed">
-        <Iframe url="https://camelabobeyera.ddns.net:8000"
+      <div className="video-playback">
+        <ReactPlayer
+          className='react-player '
+          url={this.props.livevideo}
+          controls = "true"
+          height="80%"
           width="100%"
-          height="100%"
-          id={this.props.id}
-          className="camera-frame"
-          display="initial"
-          position="relative"/>
+          playing
+        />
       </div>
     )
   }

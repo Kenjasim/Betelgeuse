@@ -58,7 +58,7 @@ class CameraBox extends Component {
 
   pickComponent = () => {
     if (this.state.mode == 'Feed') {
-      return <CameraFeed id = {this.props.id}/>
+      return <CameraFeed id = {this.props.id} livevideo = {this.props.livevideo}/>
     } else if (this.state.mode == 'Index') {
       return <CameraIndex switchFile={this.switchFile} id = {this.props.id} setFiles={this.setFiles}/>
     } else if (this.state.mode == 'Playback') {
@@ -75,19 +75,14 @@ class CameraBox extends Component {
 
 
   imagePrev = () => {
-    console.log(`previous image ${this.props.name}`)
-    console.log(this.state.file_list)
-    console.log(this.state.filename)
-    // console.log(this.state.file_list.indexOf(this.state.filename))
-
     const index = this.state.file_list.indexOf(this.state.filename)
 
     if (index < this.state.file_list.length - 1) {
-      const filepath_array = this.state.filepath.split("/")
+      const filepath_array = this.state.filepath.split("&")
       filepath_array.pop()
       const new_image = this.state.file_list[index+1]
-      filepath_array.push(new_image)
-      const filepath = filepath_array.join('/')
+      filepath_array.push('image='+new_image)
+      const filepath = filepath_array.join('&')
       const filetype = new_image.split(".").slice(-1)[0]
 
       this.switchFile(filepath, filetype, new_image)
@@ -103,13 +98,12 @@ class CameraBox extends Component {
     const index = this.state.file_list.indexOf(this.state.filename)
 
     if (index > 0) {
-      const filepath_array = this.state.filepath.split("/")
+      const filepath_array = this.state.filepath.split("&")
       filepath_array.pop()
       const new_image = this.state.file_list[index-1]
-      filepath_array.push(new_image)
-      const filepath = filepath_array.join('/')
+      filepath_array.push('image=' + new_image)
+      const filepath = filepath_array.join('&')
       const filetype = new_image.split(".").slice(-1)[0]
-
       this.switchFile(filepath, filetype, new_image)
     }
   }
