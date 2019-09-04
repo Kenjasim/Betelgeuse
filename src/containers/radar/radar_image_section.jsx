@@ -5,16 +5,14 @@ class RadarImageSection extends Component {
   render() {
     let prev_style = this.props.selectedIndex == this.props.max -1 ? "radar-image-btn radar-btn-disabled" : "radar-image-btn radar-image-hover"
     let next_style = this.props.selectedIndex == 0 ? "radar-image-btn radar-btn-disabled" : "radar-image-btn radar-image-hover"
-    let FilePath = ""
+    let Date = this.props.date
+    console.log(Date)
     let TimeLocal = ""
     let Range = ""
     try{
       let style = {
-        backgroundImage: `url(${"https://pulsar.siriusinsight.io:3005/" + this.props.radar_image.FilePath})`
+        backgroundImage: `url(${"https://pulsar.siriusinsight.io:3333/radar?" +'date=' + this.props.date + '&image='  + this.props.radar_image})`
       }
-      FilePath = this.props.radar_image.FilePath
-      TimeLocal = this.props.radar_image.TimeLocal
-      Range = this.props.radar_image.Range
     }catch
     {
 
@@ -24,7 +22,7 @@ class RadarImageSection extends Component {
 
       <div className="radar-image-section">
         <div className="radar-image" >
-          <img className="radar-img" src={"https://pulsar.siriusinsight.io:3005/" + FilePath} ></img>
+          <img className="radar-img" src={"https://pulsar.siriusinsight.io:3333/radar?" +'date=' + this.props.date + '&image='  + this.props.radar_image} ></img>
         </div>
         <div className="image-footer">
           <button className={prev_style} onClick={this.props.togglePrev}>
