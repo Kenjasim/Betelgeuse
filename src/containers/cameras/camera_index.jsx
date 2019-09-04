@@ -34,11 +34,11 @@ class CameraIndex extends Component {
   fetchData() {
     console.log(this.convertDate(this.state.startDate))
     //Passes the query which is just the date and time into the API
-    const temp_url = "http://10.0.0.43:6003/"
-    const url = "https://pulsar.siriusinsight.io:3006/"
-    const query = this.props.id + '/' + this.convertDate(this.state.startDate) + '/';
+    //const temp_url = "http://10.0.0.43:6003/"
+    const url = "https://pulsar.siriusinsight.io:3333/camera?"
+    const query = 'camera=' + this.props.id + '&date=' + this.convertDate(this.state.startDate) + '/';
     console.log(url+query)
-    const request = fetch(temp_url+query)
+    const request = fetch(url+query)
       .then(response=> response.json())
       .then((data) => {
         console.log(data)
@@ -69,9 +69,9 @@ class CameraIndex extends Component {
         <div className="camera-list-container of-scroll">
           {this.state.data.map((camera_card, index) => {
             let style = index%2 == 0 ? "camera-image-card card-odd" : "camera-image-card"
-            const url = 'https://pulsar.siriusinsight.io:3006/'
+            const url = 'https://pulsar.siriusinsight.io:3333/camera?'
             const temp_url = 'http://10.0.0.43:6003/'
-            const url_suffix =  this.props.id + '/' + this.convertDate(this.state.startDate) + '/' + camera_card
+            const url_suffix = 'camera=' + this.props.id + '&date=' + this.convertDate(this.state.startDate) + '&image=' + camera_card;
 
             return (
               <CameraDataCard
@@ -80,7 +80,7 @@ class CameraIndex extends Component {
                 index={index}
                 timestamp={camera_card.slice(12,25)}
                 type={camera_card.slice(27,30)}
-                filepath={temp_url + url_suffix}
+                filepath={url + url_suffix}
                 filename={camera_card}
                 duration={camera_card.slice(27,30)}
                 switchFile={this.props.switchFile}

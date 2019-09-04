@@ -31,10 +31,12 @@ class AISRaw extends Component {
 
   fetchData() {
 
-    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
-    const temp_url = "http://10.0.0.43:3333/?psqlQuery="
-    const query = `SELECT * FROM "Ais" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "TimeLocal" desc`
-    const request = fetch(url+query)
+    const url = "https://pulsar.siriusinsight.io:3333/aisquery?"
+    const columns = '*'
+    const params = `"TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
+    const limits = `"TimeLocal" desc`
+    const query = url + 'columnname=' + columns + '&parameters=' + params + '&limits=' + limits
+    const request = fetch(query)
       .then(response=> response.json())
       .then((data) => {
 

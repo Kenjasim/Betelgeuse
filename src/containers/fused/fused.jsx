@@ -18,12 +18,12 @@ class Fused extends Component {
         'component': <AssetDB/>
       },
       {
-        'name': 'Reports',
-        'component': <Reports/>
+        'name': 'AisMap',
+        'component': <FusedMap/>
       },
       {
-        'name': 'Map',
-        'component': <FusedMap/>
+        'name': 'AISAnalytics',
+        'component': <AISAnalytics/>
       }
 
     ]
