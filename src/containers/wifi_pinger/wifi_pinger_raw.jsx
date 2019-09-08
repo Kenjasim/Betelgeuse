@@ -33,21 +33,12 @@ constructor(props) {
   }
 
   fetchData() {
-<<<<<<< HEAD
-    const url = ""
-    const temp_url = "https://pulsar.siriusinsight.io:3333/wifiquery?columnname=*&parameters=\"Last%20time%20seen\"%20BETWEEN%20%272019-08-21%2012:20%27%20AND%20%272019-08-21%2012:30%27&limits=\"Last%20time%20seen\"%20DESC"
-    const query = `SELECT * FROM "WifiPinger" WHERE "Last time seen" BETWEEN '2019-08-21 12:20' AND '2019-08-21 12:30' ORDER BY "Last time seen" desc`
-
-    console.log(temp_url)
-    const request = fetch(temp_url)
-=======
     const url = "https://pulsar.siriusinsight.io:3333/wifiquery?"
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "WifiPinger" WHERE "Last time seen" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "Last time seen" desc`
     const newQuery = `columnname=* &parameters= "Last time seen" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' &limit= "Last time seen" desc`
 
     const request = fetch(url+newQuery)
->>>>>>> 6059bbc82ea2d478b303012e624013e0db5b209a
       .then(response=> response.json())
       .then((data) => {
 
