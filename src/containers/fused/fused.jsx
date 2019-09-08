@@ -20,11 +20,11 @@ class Fused extends Component {
       {
         'name': 'AisMap',
         'component': <FusedMap/>
-      },
-      {
-        'name': 'AISAnalytics',
-        'component': <AISAnalytics/>
       }
+      // {
+      //   'name': 'AISAnalytics',
+      //   'component': <AISAnalytics/>
+      // }
 
     ]
     return (

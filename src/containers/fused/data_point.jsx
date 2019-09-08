@@ -26,9 +26,11 @@ class DataPoint extends Component {
   }
 
   fetchData() {
-    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/assetquery?"
     const query = `SELECT * FROM "Asset" WHERE "ID" = ${this.props.id}`
-    const dpRow = fetch(url + query)
+    const newQuery = `columnname=* &parameters= "ID" = ${this.props.id}`
+
+    const dpRow = fetch(url + newQuery)
       .then(response => response.json())
         .then((data) => {
             // console.log(data)
@@ -48,9 +50,11 @@ class DataPoint extends Component {
 
   getAIS() {
     if (this.state.sensorPointers.ais) {
-        const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
+        const url = "https://pulsar.siriusinsight.io:3333/aisquery?"
         const query = `SELECT * FROM "Ais" WHERE "ID" = ${this.state.sensorPointers.ais}`
-        const output = fetch(url + query)
+        const newQuery = `columnname=* &parameters= "ID" = ${this.state.sensorPointers.ais}`
+
+        const output = fetch(url + newQuery)
           .then(response => response.json())
             .then((data) => {
               return data
@@ -114,8 +118,9 @@ class DataPoint extends Component {
 
   getMMSI = () => {
 
-    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
+    const url = "https://pulsar.siriusinsight.io:3333/aisquery?"
     const query = `SELECT "Ais"."MMSI" FROM "Ais", "Asset" WHERE "Ais"."ID" = "Asset"."AIS" AND "Asset"."ID" = ${this.props.id}`
+    const newQuery = `columnname= "Ais"."MMSI" &parameters= "Ais"."ID" = "Asset"."AIS" AND "Asset"."ID" = ${this.props.id}`
 
     const output = fetch(url + query)
       .then(response => response.json())
