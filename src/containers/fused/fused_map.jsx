@@ -163,17 +163,18 @@ class FusedMap extends Component {
   }
 
   changeLayer(layerChange) {
-    console.log(layerChange)
+    console.log(this.state.layerSet)
     this.state.layerSet.map((point, i) => (point.visibility = "none"));
+    console.log(this.state.layerSet)
     if(layerChange != null || "") {
       layerChange.map((point, i) => (point.visibility = "visible"));
-    
+    }
     this.setState({
       
     }, () =>
     {
       //console.log(this.state.layerSet);
-    });}
+    });
 
   }
 

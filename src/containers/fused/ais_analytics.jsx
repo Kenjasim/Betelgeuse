@@ -42,10 +42,10 @@ class AISAnalytics extends Component {
         [1.5230175, 50.9208333],
         [1.274722222222222, 50.9208333 ]
         ],
-       
-       
-       
-       
+
+
+
+
     };
     this.socket = io.connect(this.state.endpoint)
     this.handleStartChange = this.handleStartChange.bind(this);
@@ -102,7 +102,7 @@ class AISAnalytics extends Component {
     });
 
   }
-  
+
   drawDataSelected() {
     this.setState({
       datePickerDisabled: true,
@@ -112,7 +112,7 @@ class AISAnalytics extends Component {
       console.log("1")
     });
   }
-  
+
   fetchMMSIData() {
     this.setState({
       datePickerDisabled: true,
@@ -125,17 +125,17 @@ class AISAnalytics extends Component {
 
 /*Continued at line 182
 
-  Change changeQuery() so that it checks whether the mmsiAdd from the select field is null. 
-  If it is not, map mmsiAdd and form a query extension from it called mmsiData and equate queryString to it. 
-  If it is, make queryString equal to an empty string “”. 
-  
+  Change changeQuery() so that it checks whether the mmsiAdd from the select field is null.
+  If it is not, map mmsiAdd and form a query extension from it called mmsiData and equate queryString to it.
+  If it is, make queryString equal to an empty string “”.
+
 */
 
   changeQuery(mmsiAdd) {
     let mmsiData = "AND ("
     if(mmsiAdd != null || "") {
       mmsiAdd.map((point, i) => (mmsiData = mmsiData + ' "MMSI"=' + point.value+ " OR"));
-    
+
     this.setState({
       queryString: mmsiData,
     }, () =>
@@ -150,7 +150,7 @@ class AISAnalytics extends Component {
       {
         console.log(this.state.queryString);
       });}
-    
+
   }
 
   convertDate(date) {
@@ -179,7 +179,7 @@ class AISAnalytics extends Component {
           loading: false
         })
       })
-     
+
       const request2 = fetch(url+query_mmsi)
       .then(response=> response.json())
       .then((data2) => {
@@ -195,11 +195,11 @@ class AISAnalytics extends Component {
   }
 
   /*Comment starts at line 109
-    
-    In turn, in fetchData2, the queryString’s ending will be compared to “ OR”. 
-    If it is equal to it (i.e. the string does include MMSI data that ends with “ OR”), that ending will be removed 
-    and closed bracket “)” will be concatenated to form the end query extension. 
-    If the ending of queryString is not equal to “ OR”, it means that no MMSI’s are selected 
+
+    In turn, in fetchData2, the queryString’s ending will be compared to “ OR”.
+    If it is equal to it (i.e. the string does include MMSI data that ends with “ OR”), that ending will be removed
+    and closed bracket “)” will be concatenated to form the end query extension.
+    If the ending of queryString is not equal to “ OR”, it means that no MMSI’s are selected
     and thus the empty extension will be added to the root query (i.e. nothing changes) and all data is displayed.
 
   */
@@ -207,9 +207,9 @@ class AISAnalytics extends Component {
   fetchData2() {
     let query_check = ""
     if (this.state.queryString.substring(this.state.queryString.length-3, this.state.queryString.length) == " OR"){
-      query_check = this.state.queryString.substring(0,this.state.queryString.length-3) + ")" 
+      query_check = this.state.queryString.substring(0,this.state.queryString.length-3) + ")"
     }
-    
+
 
     const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
     const temp_url = "http://10.0.0.43:3333/?psqlQuery="
@@ -226,8 +226,8 @@ class AISAnalytics extends Component {
           loading: false
         })
       })
-    
-  
+
+
   }
 
   fetchData3() {
@@ -248,7 +248,7 @@ class AISAnalytics extends Component {
           loading: false
         })
       })
-  
+
   }
 
   componentWillMount() {
@@ -268,7 +268,7 @@ class AISAnalytics extends Component {
     const Map = ReactMapboxGl({
       accessToken: "pk.eyJ1IjoiaGFjaGFsbCIsImEiOiJjangwbGc4NzcwMGF0NDJvN3NxZ2QxOTlzIn0.15ElYDfKXCSogk87TVE-GA"
     })
-    
+
     const mapStyle = {
       "version": 8,
       "name": "Dark",
@@ -408,7 +408,7 @@ class AISAnalytics extends Component {
       },
     };
     const today = new Date()
-    
+
     return (
       <div className="map-wrapper">
           <div className="date-filter-wrapper">
@@ -422,7 +422,7 @@ class AISAnalytics extends Component {
               timeCaption="time"
               disabled={this.state.datePickerDisabled}
               popperPlacement="bottom-end"
-              
+
 
               maxDate={this.state.endDate}
               minDate={1}
@@ -442,7 +442,7 @@ class AISAnalytics extends Component {
               timeCaption="time"
               disabled={this.state.datePickerDisabled}
               popperPlacement="bottom-end"
-              
+
 
               maxDate={new Date()}
               minDate={this.state.startDate}
@@ -461,7 +461,7 @@ class AISAnalytics extends Component {
 
           <button onClick={() => {console.log("You dirty dog")}}>
             3: Overthrow the Queen
-          </button>      
+          </button>
 
           <div className="mmsiSelect" style={{width: '300px'}}>
             <Select
@@ -469,11 +469,11 @@ class AISAnalytics extends Component {
               isMulti
               options = {this.state.mmsi_data}
               classNamePrefix = "select"
-              placeholder = "Search for MMSI..." 
+              placeholder = "Search for MMSI..."
               onChange = {this.changeQuery}
             />
           </div>
-          
+
           <Map
             style={mapStyle}
             //onViewportChange={this._onViewportChange}
@@ -482,12 +482,12 @@ class AISAnalytics extends Component {
               height: "100%",
               width: "100%"
               }}
-              
+
               center = {[1.23917630,51.01271940]}
               zoom = {[5]}
               bearing = {[0]}
               pitch = {[0]}>
-            
+
             {/* <Overlay
               type="image"
               url="http://217.138.134.182:3005//home/keith/Documents/Radar/17062019/radarImage1560803671.bmp"
@@ -515,18 +515,18 @@ class AISAnalytics extends Component {
               minZoom={14}>
 
 
-              {this.state.map_data.map((point, i) => 
-                <Feature 
-                  key={i} 
+              {this.state.map_data.map((point, i) =>
+                <Feature
+                  key={i}
                   coordinates={[point.Longitude, point.Latitude]}
-                  style={{transform: `rotate(${point.Cog}deg)`}} 
-                  onClick={() => 
+                  style={{transform: `rotate(${point.Cog}deg)`}}
+                  onClick={() =>
                     console.log("////////////////////////////////////"  + '\n' +
-                                "Local Time: " + point.TimeLocal + '\n' + 
-                                "MMSI: " + point.MMSI + '\n' + 
-                                "Longitude: " + point.Longitude + '\n' + 
-                                "Latitude: " + point.Latitude + '\n' + 
-                                "Speed over ground: " + point.Sog + '\n' + 
+                                "Local Time: " + point.TimeLocal + '\n' +
+                                "MMSI: " + point.MMSI + '\n' +
+                                "Longitude: " + point.Longitude + '\n' +
+                                "Latitude: " + point.Latitude + '\n' +
+                                "Speed over ground: " + point.Sog + '\n' +
                                 "Course over ground: " + point.Cog)}
                 />)}
             </Layer>
@@ -539,15 +539,15 @@ class AISAnalytics extends Component {
               paint={layerPaint}
               >
 
-              {this.state.map_data.map((point, i) => 
-                <Feature 
-                  key={i} 
-                  coordinates={[point.Longitude, point.Latitude]} 
+              {this.state.map_data.map((point, i) =>
+                <Feature
+                  key={i}
+                  coordinates={[point.Longitude, point.Latitude]}
                 />)}
-            
+
             </Layer>
 
-            <ShipMarker /> 
+            <ShipMarker />
           </Map>
       </div>);
 
