@@ -81,7 +81,7 @@
     "ssh2-sftp-client": "^2.5.0",
     "stream": "^0.0.2",
     "typicons.font": "^2.0.9",
-    "webpack-merge": "^4.2.1"
+    "webpack-merge": "^4.2.1",
     "victory": "^32.3.3",
     "victory-core": "^32.3.2"
   },
