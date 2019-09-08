@@ -21,13 +21,13 @@ class DFAnalytic extends Component {
 	updateData = () => {
 		const divider = 4.5;
 		const PI = Math.PI;
-		const myData = [...new Array(9)].map((row, index) => {
+		const myData = [...new Array(360)].map((row, index) => {
 			return {
 				
-				radius0: index <= 26 && index > 17 ? 500 : (index <= 17 && index > 8 ?  300 : 100),
-				radius: index <= 26 && index > 17 ? 700 : (index <= 17 && index > 8 ?  500 : 300),
-				angle0: (index * PI) / divider,
-				angle: (index + 1) * (PI / divider),
+				radius0: 300,
+				radius: 700,
+				angle0: (index * PI) / 180,
+				angle: (index + 1) * (PI / 180),
 				padAngle: 100,
 				id: index
 				
