@@ -10,8 +10,8 @@ class MapMarker extends Component {
       long: 1.23917630,
       heading: 0,
       response: false,
-      mru_endpoint: 'http://pulsar.siriusinsight.io:3004',
-      gps_endpoint: 'http://pulsar.siriusinsight.io:3003'
+      mru_endpoint: 'http://pulsar.siriusinsight.io:5555/mru',
+      gps_endpoint: 'http://pulsar.siriusinsight.io:5555/gps'
     },
     this.socket_one = io.connect(this.state.mru_endpoint)
     this.socket_two = io.connect(this.state.gps_endpoint)
