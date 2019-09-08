@@ -76,43 +76,43 @@ class BoxStatus extends Component {
 
   //Creates the query ewhich gets the power used on that day
   donut = () => {
-    // const url = "https://bobeyes.siriusinsight.io:3333/?psqlQuery="
-    // //const temp_url = "//10.0.0.43:3333/?psqlQuery="
-    // let d = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
-    // let cd = new Date();
-    // //The SQL Query to get the average current used throughout the day
-    // const query = `SELECT AVG("Current") FROM "Power" WHERE "TimeLocal" > '${this.convertDate(d)}' AND "TimeLocal" < '${this.convertDate(cd.setDate(d.getDate() + 1))}' AND "Current" < 6 AND "Current" > 0`
-    // console.log(url+query)
-    // const request = fetch(url+query)
-    //   .then(response=> response.json())
-    //   .then((data) => {
-    //     //Gets the actual number from the object and multiply it by the hours that have passsed this day
-    //     let poweruse = data[0].avg * 24 * (this.percentday())
-    //     console.log(poweruse)
-    //     //Create the percentage and round to 1.d.p
-    //     let ps = this.round((poweruse/1500)*100, 1)
-    //     console.log(ps)
-    //     let powerstring = ps.toString() + '%'
-    //     //Add the data into a form which can be shown by the donut
-    //     let up_dont_data = {
-    //       labels: [],
-    //       datasets: [
-    //         {
-    //           label: ['Power Budget Used', 'Unused'],
-    //           data: [poweruse, 1500 - poweruse],
-    //           fill: true,
-    //           backgroundColor: ['#26AAE2', 'white']      // Don't fill area under the line // Line color
-    //         }
+    const url = "https://pulsar.siriusinsight.io:3333/powerquery?"
+    //const temp_url = "//10.0.0.43:3333/?psqlQuery="
+    let d = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
+    let cd = new Date();
+    //The SQL Query to get the average current used throughout the day
+    let columnname = 'AVG("Current")'
+    let parameters = `"TimeLocal" > '${this.convertDate(d)}' AND "TimeLocal" < '${this.convertDate(cd.setDate(d.getDate() + 1))}' AND "Current" < 6 AND "Current" > 0`
+    const request = fetch(url+ 'columnname=' + columnname + '&parameters=' + parameters)
+      .then(response=> response.json())
+      .then((data) => {
+        //Gets the actual number from the object and multiply it by the hours that have passsed this day
+        let poweruse = data[0].avg * 24 * (this.percentday())
+        console.log(poweruse)
+        //Create the percentage and round to 1.d.p
+        let ps = this.round((poweruse/1500)*100, 1)
+        console.log(ps)
+        let powerstring = ps.toString() + '%'
+        //Add the data into a form which can be shown by the donut
+        let up_dont_data = {
+          labels: [],
+          datasets: [
+            {
+              label: ['Power Budget Used', 'Unused'],
+              data: [poweruse, 1500 - poweruse],
+              fill: true,
+              backgroundColor: ['#26AAE2', 'white']      // Don't fill area under the line // Line color
+            }
 
-    //       ]
-    //     }
-    //     this.setState({
-    //       //set the data
-    //       donut_data: up_dont_data,
+          ]
+        }
+        this.setState({
+          //set the data
+          donut_data: up_dont_data,
 
-    //       percentpower: powerstring,
-    //     })
-    //   })
+          percentpower: powerstring,
+        })
+      })
   }
 
   //Calculate the percentage of the day whcih has passed

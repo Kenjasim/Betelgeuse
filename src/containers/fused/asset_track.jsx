@@ -106,8 +106,8 @@ class AssetTrack extends Component {
 
   getMMSI = () => {
 
-    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
-    const query = `SELECT "MMSI" FROM "Ais" WHERE "ID" = ${this.state.datapoint.AIS}`
+    const url = "https://pulsar.siriusinsight.io:3333/aisquery?"
+    const query = `columnname= "MMSI" &parameters= "ID" = ${this.state.datapoint.AIS}`
 
     const output = fetch(url + query)
       .then(response => response.json())

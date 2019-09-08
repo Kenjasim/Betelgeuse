@@ -10,7 +10,7 @@ class AISLiveFeed extends Component {
     this.parseData = this.parseData.bind(this);
     this.state = {
       response: false,
-      endpoint: 'pulsar.siriusinsight.io:3112',
+      endpoint: 'pulsar.siriusinsight.io:5555/ais',
       state_data: [],
     };
     this.socket = io.connect(this.state.endpoint)

@@ -18,7 +18,7 @@ class WeatherGeneral extends Component {
       status: "Connected",
       response: false,
       current_tab: "Temp (°C)",
-      weather_endpoint: 'http://pulsar.siriusinsight.io:3000',
+      weather_endpoint: 'http://pulsar.siriusinsight.io:5555/weather',
       historical_array: [{}]
     }
     this.socket = io.connect(this.state.weather_endpoint)
@@ -40,9 +40,11 @@ class WeatherGeneral extends Component {
   }
 
   fetchGPS() {
-    const url = "http://pulsar.siriusinsight.io:3333/?psqlQuery="
-    const query = 'SELECT * FROM "GPS" ORDER BY "ID" desc LIMIT 1'
-    const request = fetch(url+query)
+    const url = "http://pulsar.siriusinsight.io:3333/gpsquery?"
+    let columnname = '*'
+    let limits = '"ID" desc LIMIT 1'
+    let query = url + 'columnname=' + columnname + '&limits=' + limits
+    const request = fetch(query)
       .then(response=> response.json())
       .then((data) => {
         console.log(data)
@@ -77,14 +79,14 @@ class WeatherGeneral extends Component {
       d.setDate(d.getDate() - day)
       return(this.convertDate(d))
     })
-    const url = "http://pulsar.siriusinsight.io:3333/?psqlQuery="
+    const url = "http://pulsar.siriusinsight.io:3333/weatherdashboard?"
     let queries = []
     date_array.forEach((date) => {
-      queries.push(`(SELECT ROUND(AVG("${query_word}")::numeric,0), MAX("${query_word}"), MIN("${query_word}") FROM "Weather" WHERE "TimeLocal" BETWEEN '${date} 00:00:01' AND '${date} 23:59:59')`)
+      queries.push(`SELECT ROUND(AVG("${query_word}")::numeric,0), MAX("${query_word}"), MIN("${query_word}") FROM "Weather" WHERE "TimeLocal" BETWEEN '${date} 00:00:01' AND '${date} 23:59:59'`)
     })
     const query = queries.join(" UNION ALL ")
 
-    const request = fetch(url+query)
+    const request = fetch(url+'query='+query)
       .then(response=> response.json())
       .then((data) => {
         console.log(data)
