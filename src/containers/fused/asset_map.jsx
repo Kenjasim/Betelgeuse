@@ -61,7 +61,7 @@ class AssetMap extends Component {
     const query = `SELECT "AssetID" FROM "Asset" WHERE "TimeSeen" BETWEEN '2019-08-20 8:20:04' AND '2019-08-20 14:00:04' GROUP BY "AssetID"  `
     const newQuery = `columnname=* &parameters="TimeSeen" BETWEEN '2019-08-20 8:20:04' AND '2019-08-20 14:00:04' GROUP BY "AssetID"`
 
-    const request = fetch(url+query)
+    const request = fetch(url+newQuery)
       .then(response => response.json())
         .then((data) => {
 

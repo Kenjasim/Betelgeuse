@@ -20,7 +20,7 @@ class AISAnalytics extends Component {
     d2.setMinutes(d1.getMinutes() - 10);
     this.state = {
       response: false,
-      endpoint: 'bobeyes.siriusinsight.io:3002',
+      endpoint: 'pulsar.siriusinsight.io:5555/ais',
       startDate: d2,
       endDate: d1,
       map_data: [],

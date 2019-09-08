@@ -51,7 +51,7 @@ class FusedMap extends Component {
                    { value: "waters", label: "Waters", visibility: "none" },
                    { value: "radar", label: "Radar", visibility: "none"}] 
     };
-    this.socket = io.connect(this.state.endpoint)
+    //this.socket = io.connect(this.state.endpoint)
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
     this.drawDataSelected = this.drawDataSelected.bind(this);
@@ -64,21 +64,21 @@ class FusedMap extends Component {
 
   componentDidMount = () => {
 
-    this.socket.on('connected', (data) => {
-      this.socket.emit('ready for data', {})
-    });
-    this.socket.on('update', (data) => {
-      const message = data.message.payload
-      const result = message.split(",")
-      console.log(result)
-      let data_packet = this.parseData(result)
+    // this.socket.on('connected', (data) => {
+    //   this.socket.emit('ready for data', {})
+    // });
+    // this.socket.on('update', (data) => {
+    //   const message = data.message.payload
+    //   const result = message.split(",")
+    //   console.log(result)
+    //   let data_packet = this.parseData(result)
 
-      this.setState((state, props) => {
-        const updated = data_packet.concat(state.state_data)
-        return { state_data: updated };
-      });
+    //   this.setState((state, props) => {
+    //     const updated = data_packet.concat(state.state_data)
+    //     return { state_data: updated };
+    //   });
 
-    });
+    // });
 
 
   }
@@ -159,6 +159,7 @@ class FusedMap extends Component {
       {
         console.log(this.state.queryString);
       });}
+    this.fetchMMSIData()  
 
   }
 
@@ -286,7 +287,7 @@ class FusedMap extends Component {
   }
 
   componentWillUnmount() {
-    this.socket.disconnect()
+    //this.socket.disconnect()
   }
 
   //_onViewportChange = viewport => this.setState({viewport});
@@ -604,13 +605,7 @@ class FusedMap extends Component {
               1: Draw all data
             </button>
           </div>
-          <button onClick={this.drawDataSelected}>
-            1: Draw all data
-          </button>
-
-          <button onClick={this.fetchMMSIData}>
-            2: Draw specified MMSI
-          </button>     
+          
           <div className="select">
             <div className="block" style={{width: '300px'}}>
               <Select
