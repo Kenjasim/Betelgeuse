@@ -79,14 +79,14 @@ class WeatherGeneral extends Component {
       d.setDate(d.getDate() - day)
       return(this.convertDate(d))
     })
-    const url = "http://pulsar.siriusinsight.io:3333/weatherquery?"
+    const url = "http://pulsar.siriusinsight.io:3333/weatherdashboard?"
     let queries = []
     date_array.forEach((date) => {
-      queries.push(`(SELECT ROUND(AVG("${query_word}")::numeric,0), MAX("${query_word}"), MIN("${query_word}") FROM "Weather" WHERE "TimeLocal" BETWEEN '${date} 00:00:01' AND '${date} 23:59:59')`)
+      queries.push(`SELECT ROUND(AVG("${query_word}")::numeric,0), MAX("${query_word}"), MIN("${query_word}") FROM "Weather" WHERE "TimeLocal" BETWEEN '${date} 00:00:01' AND '${date} 23:59:59'`)
     })
     const query = queries.join(" UNION ALL ")
 
-    const request = fetch(url+query)
+    const request = fetch(url+'query='+query)
       .then(response=> response.json())
       .then((data) => {
         console.log(data)
