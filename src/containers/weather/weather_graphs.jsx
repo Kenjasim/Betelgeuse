@@ -68,7 +68,6 @@ class WeatherGraphs extends Component {
   }
 
   fetchData = () => {
-    const url = "http://pulsar.siriusinsight.io:3333/?psqlQuery="
     const query_map = {
       "Temperature": ["Temperature", true],
       "Wind Speed": ["WindSpeed", true],
@@ -82,10 +81,10 @@ class WeatherGraphs extends Component {
     const query_pointer = query_map[this.state.current_tab][1]
     let query = ""
     query_pointer ?
-      query = `SELECT "TimeLocal", "${query_word}" FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59' AND "ID" %2530 = 0 ORDER BY "TimeLocal" desc`
-      : query = `SELECT "TimeLocal", "${query_word}" FROM "MPU" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59' AND "ID" %2530 = 0 ORDER BY "TimeLocal" desc`
-    console.log(query)
-    const request = fetch(url+query)
+      query = `https://pulsar.siriusinsight.io:3333/weatherquery?columnname= "TimeLocal", "${query_word}"&parameters= "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59'&limits="TimeLocal" desc`
+      : query = `https://pulsar.siriusinsight.io:3333/mruquery?columnname= "TimeLocal", "${query_word}"&parameters="TimeLocal" BETWEEN '${this.convertDate(this.state.startDate).slice(0,10)} 00:00:01' AND '${this.convertDate(this.state.startDate).slice(0,10)} 23:59:59'&limits="TimeLocal" desc`
+      console.log(query)
+    const request = fetch(query)
       .then(response=> response.json())
       .then((data) => {
         const n = data.length;
