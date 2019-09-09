@@ -33,8 +33,8 @@ class WeatherRaw extends Component {
   }
 
   fetchData() {
-    const url = "https://pulsar.siriusinsight.io:3333/weatherquery?"
-    const temp_url = "http://10.0.0.43:3333/?psqlQuery="
+    const url = "https://pulsarapi.siriusinsight.io/weatherquery?"
+    //const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     const query = `SELECT * FROM "Weather" WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' ORDER BY "TimeLocal" desc`
     const newQuery = `columnname=* &parameters=WHERE "TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}' &limit= "TimeLocal" desc`
 

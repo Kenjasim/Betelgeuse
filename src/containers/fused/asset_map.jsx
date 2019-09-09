@@ -39,7 +39,7 @@ class AssetMap extends Component {
   getIndividual = (id) => {
     let output
 
-    const url = "https://pulsar.siriusinsight.io:3333/assetquery?"
+    const url = "https://pulsarapi.siriusinsight.io/assetquery?"
     const query = `SELECT * FROM "Asset" WHERE "TimeSeen" BETWEEN '2019-08-20 8:20:04' AND '2019-08-20 14:00:04' AND "AssetID" = ${id}`
     const newQuery = `columnname=* &parameters="TimeSeen" BETWEEN '2019-08-20 8:20:04' AND '2019-08-20 14:00:04' AND "AssetID" = ${id}`
 
@@ -57,10 +57,10 @@ class AssetMap extends Component {
 
 
   getBlockedArray() {
-    const url = "https://pulsar.siriusinsight.io:3333/assetquery?"
-    const query = `SELECT "AssetID" FROM "Asset" WHERE "TimeSeen" BETWEEN '2019-08-20 8:20:04' AND '2019-08-20 14:00:04' GROUP BY "AssetID"  `
-    const newQuery = `columnname=* &parameters="TimeSeen" BETWEEN '2019-08-20 8:20:04' AND '2019-08-20 14:00:04' GROUP BY "AssetID"`
-
+    const url = "https://pulsarapi.siriusinsight.io/assetquery?"
+    //const query = `SELECT "AssetID" FROM "Asset" WHERE "TimeSeen" BETWEEN '2019-08-20 8:20:04' AND '2019-08-20 14:00:04' GROUP BY "AssetID"  `
+    const newQuery = `columnname="AssetID" &parameters="TimeSeen" BETWEEN '2019-08-20 8:20:04' AND '2019-08-20 14:00:04'&group="AssetID"`
+    console.log(url + newQuery)
     const request = fetch(url+newQuery)
       .then(response => response.json())
         .then((data) => {

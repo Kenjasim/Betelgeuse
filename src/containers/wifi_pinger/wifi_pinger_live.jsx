@@ -10,7 +10,7 @@ class WifiLiveFeed extends Component {
     this.parseData = this.parseData.bind(this);
     this.state = {
       response: false,
-      endpoint: 'pulsar.siriusinsight.io:3007',
+      endpoint: 'https://sockets.siriusinsight.io/wifi',
       state_data: [],
     };
     this.socket = io.connect(this.state.endpoint)

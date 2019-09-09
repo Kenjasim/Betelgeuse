@@ -18,10 +18,6 @@ class AIS extends Component {
       {
         'name': 'Raw Data',
         'component': <AISRaw/>
-      },
-      {
-        'name': 'Analytics',
-        'component': <AISAnalytics/>
       }
     ]
     return (

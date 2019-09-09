@@ -118,11 +118,8 @@ class DataPoint extends Component {
 
   getMMSI = () => {
 
-    const url = "https://pulsar.siriusinsight.io:3333/aisquery?"
-    const query = `SELECT "Ais"."MMSI" FROM "Ais", "Asset" WHERE "Ais"."ID" = "Asset"."AIS" AND "Asset"."ID" = ${this.props.id}`
-    const newQuery = `columnname= "Ais"."MMSI" &parameters= "Ais"."ID" = "Asset"."AIS" AND "Asset"."ID" = ${this.props.id}`
-
-    const output = fetch(url + query)
+    const url = "https://pulsar.siriusinsight.io:3333/asset/" + this.props.id
+    const output = fetch(url)
       .then(response => response.json())
         .then((data) => {
           // console.log(data[0].MMSI)

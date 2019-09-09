@@ -18,7 +18,7 @@ class WeatherGeneral extends Component {
       status: "Connected",
       response: false,
       current_tab: "Temp (°C)",
-      weather_endpoint: 'http://pulsar.siriusinsight.io:5555/weather',
+      weather_endpoint: 'https://scokets.siriusinsight.io/weather',
       historical_array: [{}]
     }
     this.socket = io.connect(this.state.weather_endpoint)
@@ -40,7 +40,7 @@ class WeatherGeneral extends Component {
   }
 
   fetchGPS() {
-    const url = "http://pulsar.siriusinsight.io:3333/gpsquery?"
+    const url = "https://pulsarapi.siriusinsight.io/gpsquery?"
     let columnname = '*'
     let limits = '"ID" desc LIMIT 1'
     let query = url + 'columnname=' + columnname + '&limits=' + limits
@@ -79,7 +79,7 @@ class WeatherGeneral extends Component {
       d.setDate(d.getDate() - day)
       return(this.convertDate(d))
     })
-    const url = "http://pulsar.siriusinsight.io:3333/weatherdashboard?"
+    const url = "http://pulsarapi.siriusinsight.io/weatherdashboard?"
     let queries = []
     date_array.forEach((date) => {
       queries.push(`SELECT ROUND(AVG("${query_word}")::numeric,0), MAX("${query_word}"), MIN("${query_word}") FROM "Weather" WHERE "TimeLocal" BETWEEN '${date} 00:00:01' AND '${date} 23:59:59'`)

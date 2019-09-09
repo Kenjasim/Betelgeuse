@@ -14,14 +14,6 @@ class Radar extends Component {
       {
         'name': 'Radar Images',
         'component': <RadarImages/>
-      },
-      {
-        'name': 'Raw Data',
-        'component': <RadarRaw/>
-      },
-      {
-        'name': 'Analytics',
-        'component': <RadarAnalytics/>
       }
     ]
     return (

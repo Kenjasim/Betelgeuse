@@ -35,7 +35,7 @@ class CameraIndex extends Component {
     console.log(this.convertDate(this.state.startDate))
     //Passes the query which is just the date and time into the API
     //const temp_url = "http://10.0.0.43:6003/"
-    const url = "https://pulsar.siriusinsight.io:3333/camera?"
+    const url = "https://pulsarapi.siriusinsight.io/camera?"
     const query = 'camera=' + this.props.id + '&date=' + this.convertDate(this.state.startDate) + '/';
     console.log(url+query)
     const request = fetch(url+query)
@@ -69,7 +69,7 @@ class CameraIndex extends Component {
         <div className="camera-list-container of-scroll">
           {this.state.data.map((camera_card, index) => {
             let style = index%2 == 0 ? "camera-image-card card-odd" : "camera-image-card"
-            const url = 'https://pulsar.siriusinsight.io:3333/camera?'
+            const url = 'https://pulsarapi.siriusinsight.io/camera?'
             const temp_url = 'http://10.0.0.43:6003/'
             const url_suffix = 'camera=' + this.props.id + '&date=' + this.convertDate(this.state.startDate) + '&image=' + camera_card;
 
