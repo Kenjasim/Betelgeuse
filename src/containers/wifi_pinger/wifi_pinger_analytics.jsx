@@ -167,6 +167,7 @@ export default class WiFiPingerAnalytics extends Component {
 <ul class="flex-container hbox">
  
 <XYPlot
+   
   xDomain={[-650, 750]}
   yDomain={[-1200, 1200]}
   width={500}
@@ -177,6 +178,7 @@ export default class WiFiPingerAnalytics extends Component {
   <ArcSeries
 	radiusDomain = {[0,700]}
 	radiusType = {'linear'}
+	
 	center={{x: 0, y: 0}}
 	positiion = {'relative'}
 	data={this.state.data.map(datapoint => {
