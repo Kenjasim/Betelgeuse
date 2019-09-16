@@ -69,17 +69,16 @@ class RadarImages extends Component {
   convertDate(date) {
     const d = moment(date).format()
     var date =  d.slice(0, 10).replace('T', ' ')
-    var date = date.split('-').join('/')
     this.state.selectedDate = date
   }
   //executes a query to the database from the server
   fetchData() {
     console.log(this.convertDate(this.state.endDate))
-    const url = "https://pulsar.siriusinsight.io:3333/radar?"
+    const url = "https://pulsarapi.siriusinsight.io/radar/"
     //const temp_url = "http://10.0.0.43:3333/?psqlQuery="
     let d = new Date()
     this.convertDate(this.state.startDate)
-    let query = 'date=' + this.state.selectedDate
+    let query = this.state.selectedDate
     const request = fetch(url+query)
     //console.log(url)
       .then(response=> response.json())

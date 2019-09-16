@@ -20,9 +20,12 @@ class TAVMarker extends Component {
   }
 
   fetchTAVHeading = () => {
-    const url = "https://pulsar.siriusinsight.io:3333/?psqlQuery="
-    const query = `SELECT AVG("Heading") FROM "MPU" WHERE "TimeLocal" BETWEEN '${this.props.time_window[0]}' AND '${this.props.time_window[1]}'`
-    const request = fetch(url+query)
+    const url = "https://pulsarapi.siriusinsight.io/mruquery?"
+    const columnname = 'AVG("Heading")'
+    const parameters = '"TimeLocal" BETWEEN ' +'\'' + this.props.time_window[0] + '\'' + 'AND' + '\'' + this.props.time_window[1] + '\''
+    const query = url + 'columnname=' + columnname + '&parameters=' + parameters
+    console.log(query)
+    const request = fetch(query)
       .then(response=> response.json())
       .then((data) => {
         // console.log(data[0].avg);
@@ -62,20 +65,3 @@ function mapStateToProps(reduxState) {
 
 
 export default connect(mapStateToProps, null)(TAVMarker);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

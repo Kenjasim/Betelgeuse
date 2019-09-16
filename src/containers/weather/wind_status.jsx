@@ -27,7 +27,7 @@ class WindStatus extends Component {
       percentpower: '',
       status: "Connected",
       response: false,
-      weather_endpoint: 'https://pulsar.siriusinsight.io:5555/weather'
+      weather_endpoint: 'https://sockets.siriusinsight.io/weather'
     }
     this.socket = io.connect(this.state.weather_endpoint)
   }

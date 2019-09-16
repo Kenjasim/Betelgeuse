@@ -21,7 +21,7 @@ class TempStatus extends Component {
       weather_status: '',
       status: "Connected",
       response: false,
-      weather_endpoint: 'http://pulsar.siriusinsight.io:5555/weather'
+      weather_endpoint: 'http://sockets.siriusinsight.io/weather'
     }
     this.socket = io.connect(this.state.weather_endpoint)
   }

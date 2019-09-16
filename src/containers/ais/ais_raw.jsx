@@ -31,7 +31,7 @@ class AISRaw extends Component {
 
   fetchData() {
 
-    const url = "https://pulsar.siriusinsight.io:3333/aisquery?"
+    const url = "https://pulsarapi.siriusinsight.io/aisquery?"
     const columns = '*'
     const params = `"TimeLocal" BETWEEN '${this.convertDate(this.state.startDate)}' AND '${this.convertDate(this.state.endDate)}'`
     const limits = `"TimeLocal" desc`
