@@ -26,25 +26,28 @@ class DFAnalytic extends Component {
 
 	updateData = () => {
 		const PI = Math.PI;
-		const myData = [...new Array(360)].map((row, index) => {
+		const myData = [...new Array(360)].map((row, index) => {			//creates an array of datapoints which correspond to a line for all 360 degrees around 
 			return {
 				
-				radius0: 200,
+				radius0: 200,												//each datapoint holds properties for radius, angle, opacity(default invis), and identifier int 
 				radius: 650,
 				angle0: (index * PI) / 180,
 				angle: (index + 1) * (PI / 180),
 				opacity: 0,
 				id: index
-				
 			};
 		});
-		for (var i=0; i<360; i++){
-			if ((this.state.state_data).filter(n => n.Heading == i).length > 0){
-				myData[i].opacity = 1
+		
+		let temp_ships = [];
+
+		for (var i=0; i<360; i++){												//for loop goes through heading integers 0 - 360 
+			temp_ships = (this.state.state_data).filter(n => n.Heading == i)	//filter returned query for heading i and see if length is greater than 0
+			if (temp_ships.length > 0){											//if true then make line visible and set length according to last Power seen
+				myData[i].opacity = 1											
+				myData[i].radius = temp_ships[temp_ships.length - 1].Power * 130   
 			}
 		}
 		this.setState({data: myData})
-
 	}
 
 	filterData() {
@@ -53,6 +56,7 @@ class DFAnalytic extends Component {
 		//if (direction) 
 		json_filtered = (this.state.state_data).filter(n => n.Heading == 258);
 		console.log(this.state.data[1])
+
 		if (typeof this.state.data[1] != 'undefined'){
 			this.state.data[1].opacity = this.setState({
 				opacity: 0
@@ -65,7 +69,7 @@ class DFAnalytic extends Component {
 	}
 
   componentDidMount() {
-	  	const query = "https://pulsarapi.siriusinsight.io:3333/dfquery?columnname=\"Heading\"&parameters=\"TimeLocal\"%20BETWEEN%20%272019-08-21%2015:13%27%20AND%20%272019-08-21%2015:19%27&limits=\"TimeLocal\"%20DESC"
+	  	const query = "https://pulsarapi.siriusinsight.io:3333/dfquery?columnname=*&parameters=\"TimeLocal\"%20BETWEEN%20%272019-08-21%2015:13%27%20AND%20%272019-08-21%2015:19%27&limits=\"TimeLocal\"%20DESC"
 		const temp_url = "https://pulsar.siriusinsight.io:3333/dfquery?columnname=*&parameters=\"TimeLocal\"%20BETWEEN%20%272019-08-21%2015:13%27%20AND%20%272019-08-21%2015:19%27&limits=\"TimeLocal\"%20DESC"
   
 		  fetch(query)
@@ -122,8 +126,9 @@ class DFAnalytic extends Component {
       <XYPlot
   xDomain={[-650, 750]}
   yDomain={[-1200, 1200]}
-  width={500}
-  height={800}
+  width={700}
+  height={900}
+  margin ={{right:40}}
   position = {'relative'}
   >
 	 
