@@ -38,7 +38,7 @@ class BoxStatus extends Component {
       percentpower: '',
       status: "Connected",
       response: false,
-      //power_endpoint: 'http://bobeyes.siriusinsight.io:3111'
+      power_endpoint: 'https://sockets.siriusinsight.io/power'
 
     }
     this.socket = io.connect(this.state.power_endpoint)
@@ -76,8 +76,7 @@ class BoxStatus extends Component {
 
   //Creates the query ewhich gets the power used on that day
   donut = () => {
-    const url = "https://pulsar.siriusinsight.io:3333/powerquery?"
-    //const temp_url = "//10.0.0.43:3333/?psqlQuery="
+    const url = "https://pulsarapi.siriusinsight.io/powerquery?"
     let d = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
     let cd = new Date();
     //The SQL Query to get the average current used throughout the day
