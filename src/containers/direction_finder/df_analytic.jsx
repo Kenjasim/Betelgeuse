@@ -39,15 +39,27 @@ class DFAnalytic extends Component {
 		});
 		
 		let temp_ships = [];
+		let ship_map = new Map();
+		let real_ships= [];
 
 		for (var i=0; i<360; i++){												//for loop goes through heading integers 0 - 360 
 			temp_ships = (this.state.state_data).filter(n => n.Heading == i)	//filter returned query for heading i and see if length is greater than 0
 			if (temp_ships.length > 0){											//if true then make line visible and set length according to last Power seen
 				myData[i].opacity = 1											
-				myData[i].radius = temp_ships[temp_ships.length - 1].Power * 130   
+				myData[i].radius = temp_ships[0].Power * 130   
+				ship_map.set(myData[i].id, temp_ships[0][ "id " ] )
+				real_ships.push(temp_ships[0])
 			}
+
+			
 		}
-		this.setState({data: myData})
+		console.log(ship_map.get(122))
+		console.log(ship_map)
+		console.log(real_ships)
+		this.setState({
+					   data: myData,
+					   table_data: real_ships
+					  })
 	}
 
 	filterData() {
@@ -68,6 +80,10 @@ class DFAnalytic extends Component {
 		//return json_filtered;
 	}
 
+	handleHover = (v) => {
+		this.setState({datapoint: v, value: v})
+	}
+
   componentDidMount() {
 	  	const query = "https://pulsarapi.siriusinsight.io:3333/dfquery?columnname=*&parameters=\"TimeLocal\"%20BETWEEN%20%272019-08-21%2015:13%27%20AND%20%272019-08-21%2015:19%27&limits=\"TimeLocal\"%20DESC"
 		const temp_url = "https://pulsar.siriusinsight.io:3333/dfquery?columnname=*&parameters=\"TimeLocal\"%20BETWEEN%20%272019-08-21%2015:13%27%20AND%20%272019-08-21%2015:19%27&limits=\"TimeLocal\"%20DESC"
@@ -85,14 +101,14 @@ class DFAnalytic extends Component {
 			this.updateData()
 		  })
 
-		  fetch(temp_url)
+		  /*fetch(temp_url)
 		  .then(res => res.json())
 		  .then((json) => {
 			this.setState({
 				table_data: json,
 				loading: false
 			})
-		  })
+		  })*/
 		}
 
 	
@@ -148,8 +164,8 @@ class DFAnalytic extends Component {
 	color="#34bdeb"
 	strokeType={'literal'}
 	stroke="#ffffff"
-	onValueClick={(datapoint) => {
-
+	onValueMouseOver={(datapoint) => {
+		this.handleHover(datapoint)
 		console.log(datapoint.id, datapoint.angle0, datapoint.angle, (Math.PI) / 4.5)
 	}}
 	//onSeriesMouseOut={() => this.setState({value: false})}
@@ -162,6 +178,36 @@ class DFAnalytic extends Component {
 <ReactTable	  
 	  data={this.state.table_data}
 	  columns={columns}
+	  className="-striped -highlight"
+      getTrProps={(state, rowInfo) => {
+		if (rowInfo && rowInfo.row) {
+		  return {
+			onClick: e => {
+			  console.log("inside");
+			  console.log(rowInfo);
+			  if (rowInfo.index != this.state.rowEdit) {
+				this.setState({
+				  rowEdit: rowInfo.index
+				});
+			  } else {
+				this.setState({
+				  rowEdit: null
+				});
+			  }
+			  console.log(rowInfo.index);
+			  console.log(this.state.rowEdit);
+			},
+			style: {
+			  background:
+				rowInfo.index === this.state.rowEdit ? "#00afec" : "white",
+			  color:
+				rowInfo.index === this.state.rowEdit ? "white" : "black"
+			}
+		  };
+		} else {
+		  return {};
+		}
+	  }}
 	  loading={this.state.loading}
 	  defaultPageSize={10}
 	  showPageSizeOptions={false}
